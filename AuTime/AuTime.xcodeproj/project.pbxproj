@@ -1,0 +1,354 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		574CD1E12695F0610033CFB4 /* AuTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574CD1E02695F0610033CFB4 /* AuTimeApp.swift */; };
+		574CD1E32695F0610033CFB4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574CD1E22695F0610033CFB4 /* ContentView.swift */; };
+		574CD1E52695F0630033CFB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 574CD1E42695F0630033CFB4 /* Assets.xcassets */; };
+		574CD1E82695F0630033CFB4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 574CD1E72695F0630033CFB4 /* Preview Assets.xcassets */; };
+		574CD1EA2695F0630033CFB4 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574CD1E92695F0630033CFB4 /* Persistence.swift */; };
+		574CD1ED2695F0630033CFB4 /* AuTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 574CD1EB2695F0630033CFB4 /* AuTime.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		574CD1DD2695F0610033CFB4 /* AuTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		574CD1E02695F0610033CFB4 /* AuTimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuTimeApp.swift; sourceTree = "<group>"; };
+		574CD1E22695F0610033CFB4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		574CD1E42695F0630033CFB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		574CD1E72695F0630033CFB4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		574CD1E92695F0630033CFB4 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		574CD1EC2695F0630033CFB4 /* AuTime.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AuTime.xcdatamodel; sourceTree = "<group>"; };
+		574CD1EE2695F0630033CFB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		574CD1DA2695F0610033CFB4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		574CD1D42695F0610033CFB4 = {
+			isa = PBXGroup;
+			children = (
+				574CD1DF2695F0610033CFB4 /* AuTime */,
+				574CD1DE2695F0610033CFB4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		574CD1DE2695F0610033CFB4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				574CD1DD2695F0610033CFB4 /* AuTime.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		574CD1DF2695F0610033CFB4 /* AuTime */ = {
+			isa = PBXGroup;
+			children = (
+				574CD1E02695F0610033CFB4 /* AuTimeApp.swift */,
+				574CD1E22695F0610033CFB4 /* ContentView.swift */,
+				574CD1E42695F0630033CFB4 /* Assets.xcassets */,
+				574CD1E92695F0630033CFB4 /* Persistence.swift */,
+				574CD1EE2695F0630033CFB4 /* Info.plist */,
+				574CD1EB2695F0630033CFB4 /* AuTime.xcdatamodeld */,
+				574CD1E62695F0630033CFB4 /* Preview Content */,
+			);
+			path = AuTime;
+			sourceTree = "<group>";
+		};
+		574CD1E62695F0630033CFB4 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				574CD1E72695F0630033CFB4 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		574CD1DC2695F0610033CFB4 /* AuTime */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 574CD1F12695F0630033CFB4 /* Build configuration list for PBXNativeTarget "AuTime" */;
+			buildPhases = (
+				574CD1D92695F0610033CFB4 /* Sources */,
+				574CD1DA2695F0610033CFB4 /* Frameworks */,
+				574CD1DB2695F0610033CFB4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AuTime;
+			productName = AuTime;
+			productReference = 574CD1DD2695F0610033CFB4 /* AuTime.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		574CD1D52695F0610033CFB4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					574CD1DC2695F0610033CFB4 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+				};
+			};
+			buildConfigurationList = 574CD1D82695F0610033CFB4 /* Build configuration list for PBXProject "AuTime" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 574CD1D42695F0610033CFB4;
+			productRefGroup = 574CD1DE2695F0610033CFB4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				574CD1DC2695F0610033CFB4 /* AuTime */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		574CD1DB2695F0610033CFB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				574CD1E82695F0630033CFB4 /* Preview Assets.xcassets in Resources */,
+				574CD1E52695F0630033CFB4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		574CD1D92695F0610033CFB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				574CD1ED2695F0630033CFB4 /* AuTime.xcdatamodeld in Sources */,
+				574CD1EA2695F0630033CFB4 /* Persistence.swift in Sources */,
+				574CD1E32695F0610033CFB4 /* ContentView.swift in Sources */,
+				574CD1E12695F0610033CFB4 /* AuTimeApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		574CD1EF2695F0630033CFB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		574CD1F02695F0630033CFB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		574CD1F22695F0630033CFB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"AuTime/Preview Content\"";
+				DEVELOPMENT_TEAM = VZ9BWS84AA;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = AuTime/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = academy.ufpe.br.AuTime;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		574CD1F32695F0630033CFB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"AuTime/Preview Content\"";
+				DEVELOPMENT_TEAM = VZ9BWS84AA;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = AuTime/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = academy.ufpe.br.AuTime;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		574CD1D82695F0610033CFB4 /* Build configuration list for PBXProject "AuTime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				574CD1EF2695F0630033CFB4 /* Debug */,
+				574CD1F02695F0630033CFB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		574CD1F12695F0630033CFB4 /* Build configuration list for PBXNativeTarget "AuTime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				574CD1F22695F0630033CFB4 /* Debug */,
+				574CD1F32695F0630033CFB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		574CD1EB2695F0630033CFB4 /* AuTime.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				574CD1EC2695F0630033CFB4 /* AuTime.xcdatamodel */,
+			);
+			currentVersion = 574CD1EC2695F0630033CFB4 /* AuTime.xcdatamodel */;
+			path = AuTime.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 574CD1D52695F0610033CFB4 /* Project object */;
+}
