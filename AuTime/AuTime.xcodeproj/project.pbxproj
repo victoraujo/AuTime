@@ -3,27 +3,38 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		324E912D496C2693AB4083B9 /* Pods_AuTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F799E0DFD49BC761124EEE93 /* Pods_AuTime.framework */; };
 		574CD1E12695F0610033CFB4 /* AuTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574CD1E02695F0610033CFB4 /* AuTimeApp.swift */; };
 		574CD1E32695F0610033CFB4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574CD1E22695F0610033CFB4 /* ContentView.swift */; };
 		574CD1E52695F0630033CFB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 574CD1E42695F0630033CFB4 /* Assets.xcassets */; };
 		574CD1E82695F0630033CFB4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 574CD1E72695F0630033CFB4 /* Preview Assets.xcassets */; };
-		574CD1EA2695F0630033CFB4 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574CD1E92695F0630033CFB4 /* Persistence.swift */; };
-		574CD1ED2695F0630033CFB4 /* AuTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 574CD1EB2695F0630033CFB4 /* AuTime.xcdatamodeld */; };
+		574DBC8C26A065A700F090BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 574DBC8B26A065A700F090BB /* GoogleService-Info.plist */; };
+		574DBC8E26A0699700F090BB /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574DBC8D26A0699700F090BB /* Activity.swift */; };
+		574DBC9026A06AC800F090BB /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574DBC8F26A06AC800F090BB /* ActivityViewModel.swift */; };
+		5769EC08269F3527009B071C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5769EC07269F3527009B071C /* CloudKit.framework */; };
+		5769EC0A269F364D009B071C /* CloudVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5769EC09269F364D009B071C /* CloudVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0488195C539A7088BF2F204F /* Pods-AuTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuTime.debug.xcconfig"; path = "Target Support Files/Pods-AuTime/Pods-AuTime.debug.xcconfig"; sourceTree = "<group>"; };
+		3927E09F5B3D599734D16BCE /* Pods-AuTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuTime.release.xcconfig"; path = "Target Support Files/Pods-AuTime/Pods-AuTime.release.xcconfig"; sourceTree = "<group>"; };
 		574CD1DD2695F0610033CFB4 /* AuTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		574CD1E02695F0610033CFB4 /* AuTimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuTimeApp.swift; sourceTree = "<group>"; };
 		574CD1E22695F0610033CFB4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		574CD1E42695F0630033CFB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		574CD1E72695F0630033CFB4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		574CD1E92695F0630033CFB4 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		574CD1EC2695F0630033CFB4 /* AuTime.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AuTime.xcdatamodel; sourceTree = "<group>"; };
 		574CD1EE2695F0630033CFB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		574DBC8B26A065A700F090BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		574DBC8D26A0699700F090BB /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		574DBC8F26A06AC800F090BB /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
+		5769EC05269F3520009B071C /* AuTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AuTime.entitlements; sourceTree = "<group>"; };
+		5769EC07269F3527009B071C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		5769EC09269F364D009B071C /* CloudVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudVM.swift; sourceTree = "<group>"; };
+		F799E0DFD49BC761124EEE93 /* Pods_AuTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AuTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5769EC08269F3527009B071C /* CloudKit.framework in Frameworks */,
+				324E912D496C2693AB4083B9 /* Pods_AuTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +55,8 @@
 			children = (
 				574CD1DF2695F0610033CFB4 /* AuTime */,
 				574CD1DE2695F0610033CFB4 /* Products */,
+				5769EC06269F3527009B071C /* Frameworks */,
+				B224F7F0B679F0EBB8891377 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,12 +71,15 @@
 		574CD1DF2695F0610033CFB4 /* AuTime */ = {
 			isa = PBXGroup;
 			children = (
+				574DBC9126A0789C00F090BB /* Model */,
+				574DBC9326A078D700F090BB /* View */,
+				574DBC9226A078AD00F090BB /* ViewModel */,
+				5769EC05269F3520009B071C /* AuTime.entitlements */,
 				574CD1E02695F0610033CFB4 /* AuTimeApp.swift */,
-				574CD1E22695F0610033CFB4 /* ContentView.swift */,
 				574CD1E42695F0630033CFB4 /* Assets.xcassets */,
-				574CD1E92695F0630033CFB4 /* Persistence.swift */,
+				5769EC09269F364D009B071C /* CloudVM.swift */,
 				574CD1EE2695F0630033CFB4 /* Info.plist */,
-				574CD1EB2695F0630033CFB4 /* AuTime.xcdatamodeld */,
+				574DBC8B26A065A700F090BB /* GoogleService-Info.plist */,
 				574CD1E62695F0630033CFB4 /* Preview Content */,
 			);
 			path = AuTime;
@@ -75,6 +93,48 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		574DBC9126A0789C00F090BB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				574DBC8D26A0699700F090BB /* Activity.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		574DBC9226A078AD00F090BB /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				574DBC8F26A06AC800F090BB /* ActivityViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		574DBC9326A078D700F090BB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				574CD1E22695F0610033CFB4 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5769EC06269F3527009B071C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5769EC07269F3527009B071C /* CloudKit.framework */,
+				F799E0DFD49BC761124EEE93 /* Pods_AuTime.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B224F7F0B679F0EBB8891377 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0488195C539A7088BF2F204F /* Pods-AuTime.debug.xcconfig */,
+				3927E09F5B3D599734D16BCE /* Pods-AuTime.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -82,9 +142,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 574CD1F12695F0630033CFB4 /* Build configuration list for PBXNativeTarget "AuTime" */;
 			buildPhases = (
+				5062DCF2FE3D1E2BCE30E3C3 /* [CP] Check Pods Manifest.lock */,
 				574CD1D92695F0610033CFB4 /* Sources */,
 				574CD1DA2695F0610033CFB4 /* Frameworks */,
 				574CD1DB2695F0610033CFB4 /* Resources */,
+				5311A827C39D04E5D48DB5F6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -134,20 +196,64 @@
 			files = (
 				574CD1E82695F0630033CFB4 /* Preview Assets.xcassets in Resources */,
 				574CD1E52695F0630033CFB4 /* Assets.xcassets in Resources */,
+				574DBC8C26A065A700F090BB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5062DCF2FE3D1E2BCE30E3C3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AuTime-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5311A827C39D04E5D48DB5F6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AuTime/Pods-AuTime-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AuTime/Pods-AuTime-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AuTime/Pods-AuTime-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		574CD1D92695F0610033CFB4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				574CD1ED2695F0630033CFB4 /* AuTime.xcdatamodeld in Sources */,
-				574CD1EA2695F0630033CFB4 /* Persistence.swift in Sources */,
+				574DBC9026A06AC800F090BB /* ActivityViewModel.swift in Sources */,
 				574CD1E32695F0610033CFB4 /* ContentView.swift in Sources */,
 				574CD1E12695F0610033CFB4 /* AuTimeApp.swift in Sources */,
+				574DBC8E26A0699700F090BB /* Activity.swift in Sources */,
+				5769EC0A269F364D009B071C /* CloudVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,9 +378,11 @@
 		};
 		574CD1F22695F0630033CFB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0488195C539A7088BF2F204F /* Pods-AuTime.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AuTime/AuTime.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AuTime/Preview Content\"";
 				DEVELOPMENT_TEAM = VZ9BWS84AA;
@@ -294,9 +402,11 @@
 		};
 		574CD1F32695F0630033CFB4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3927E09F5B3D599734D16BCE /* Pods-AuTime.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AuTime/AuTime.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AuTime/Preview Content\"";
 				DEVELOPMENT_TEAM = VZ9BWS84AA;
@@ -336,19 +446,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		574CD1EB2695F0630033CFB4 /* AuTime.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				574CD1EC2695F0630033CFB4 /* AuTime.xcdatamodel */,
-			);
-			currentVersion = 574CD1EC2695F0630033CFB4 /* AuTime.xcdatamodel */;
-			path = AuTime.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 574CD1D52695F0610033CFB4 /* Project object */;
 }

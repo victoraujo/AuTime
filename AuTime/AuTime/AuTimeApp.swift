@@ -6,15 +6,20 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct AuTimeApp: App {
-    let persistenceController = PersistenceController.shared
-
+    init(){
+        FirebaseApp.configure()
+        if Auth.auth().currentUser == nil {
+            Auth.auth().signInAnonymously(completion: {_,_ in })
+        }
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                
         }
     }
 }
