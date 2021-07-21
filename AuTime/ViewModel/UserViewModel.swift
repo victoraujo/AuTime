@@ -38,4 +38,12 @@ class UserViewModel: ObservableObject {
         }
     }
     
+    func signUp(email: String, password: String, handler: @escaping AuthDataResultCallback){
+        Auth.auth().createUser(withEmail: email, password: password, completion: handler)
+    }
+    
+    func signIn(email: String, password: String, handler: @escaping AuthDataResultCallback){
+        Auth.auth().signIn(withEmail: email, password: password, completion: handler)
+    }
+    
 }
