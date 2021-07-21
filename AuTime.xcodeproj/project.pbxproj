@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E3CFC4626A6F0C5007C2646 /* ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CFC4526A6F0C5007C2646 /* ChildView.swift */; };
+		3E3CFC4926A6F69A007C2646 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CFC4826A6F69A007C2646 /* ColorExtension.swift */; };
+		3E3CFC4B26A70000007C2646 /* CornerRadiusExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CFC4A26A70000007C2646 /* CornerRadiusExtension.swift */; };
+		3E3CFC4E26A714F7007C2646 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CFC4D26A714F7007C2646 /* ActivityView.swift */; };
 		57218E2126A5B25000D8F1E2 /* AuTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218E2026A5B25000D8F1E2 /* AuTimeApp.swift */; };
 		57218E2326A5B25000D8F1E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218E2226A5B25000D8F1E2 /* ContentView.swift */; };
 		57218E2526A5B25100D8F1E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57218E2426A5B25100D8F1E2 /* Assets.xcassets */; };
@@ -25,6 +29,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E3CFC4526A6F0C5007C2646 /* ChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildView.swift; sourceTree = "<group>"; };
+		3E3CFC4826A6F69A007C2646 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		3E3CFC4A26A70000007C2646 /* CornerRadiusExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadiusExtension.swift; sourceTree = "<group>"; };
+		3E3CFC4D26A714F7007C2646 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		57218E1D26A5B25000D8F1E2 /* AuTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57218E2026A5B25000D8F1E2 /* AuTimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuTimeApp.swift; sourceTree = "<group>"; };
 		57218E2226A5B25000D8F1E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,6 +74,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3E3CFC4726A6F682007C2646 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3E3CFC4826A6F69A007C2646 /* ColorExtension.swift */,
+				3E3CFC4A26A70000007C2646 /* CornerRadiusExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3E3CFC4C26A714E7007C2646 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				3E3CFC4D26A714F7007C2646 /* ActivityView.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
 		57218E1426A5B25000D8F1E2 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +117,7 @@
 				5779035026A5B4D800D856BD /* Model */,
 				5779035A26A5B52D00D856BD /* View */,
 				5779035526A5B4E300D856BD /* ViewModel */,
+				3E3CFC4726A6F682007C2646 /* Extensions */,
 				57218E2426A5B25100D8F1E2 /* Assets.xcassets */,
 				57218E2926A5B25100D8F1E2 /* Info.plist */,
 				57218E2626A5B25100D8F1E2 /* Preview Content */,
@@ -131,8 +157,10 @@
 		5779035A26A5B52D00D856BD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3E3CFC4C26A714E7007C2646 /* Subviews */,
 				57218E2226A5B25000D8F1E2 /* ContentView.swift */,
 				57A2F2FA26AAEF7B000A75AD /* SubActivitiesView.swift */,
+				3E3CFC4526A6F0C5007C2646 /* ChildView.swift */,
 				57FCA34626A85D3500A57732 /* SignUpView.swift */,
 			);
 			path = View;
@@ -266,12 +294,16 @@
 				57218E2126A5B25000D8F1E2 /* AuTimeApp.swift in Sources */,
 				5779035426A5B4D800D856BD /* Activity.swift in Sources */,
 				57A2F2F726AAEC12000A75AD /* SubActivity.swift in Sources */,
+				3E3CFC4E26A714F7007C2646 /* ActivityView.swift in Sources */,
+				3E3CFC4926A6F69A007C2646 /* ColorExtension.swift in Sources */,
 				57FCA34726A85D3500A57732 /* SignUpView.swift in Sources */,
 				5779035826A5B4E300D856BD /* UserViewModel.swift in Sources */,
 				5779035326A5B4D800D856BD /* User.swift in Sources */,
 				57A2F2FB26AAEF7B000A75AD /* SubActivitiesView.swift in Sources */,
 				57EA9D6926AEF75300439615 /* ImageViewModel.swift in Sources */,
+				3E3CFC4626A6F0C5007C2646 /* ChildView.swift in Sources */,
 				5779035926A5B4E300D856BD /* ActivityViewModel.swift in Sources */,
+				3E3CFC4B26A70000007C2646 /* CornerRadiusExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,7 +434,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AuTime/Preview Content\"";
-				DEVELOPMENT_TEAM = VZ9BWS84AA;
+				DEVELOPMENT_TEAM = FTH34SW9QV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = AuTime/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -425,7 +457,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AuTime/Preview Content\"";
-				DEVELOPMENT_TEAM = VZ9BWS84AA;
+				DEVELOPMENT_TEAM = FTH34SW9QV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = AuTime/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
