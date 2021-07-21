@@ -13,11 +13,13 @@ struct SignUpView: View {
     @State var email = ""
     @State var senha = ""
     @State var error = ""
+    
     var body: some View {
         VStack{
             Text("SignUp")
                 .fontWeight(.bold)
                 .font(.title)
+            
             Text(Auth.auth().currentUser?.email ?? "")
             Spacer()
             Text("email")
@@ -27,23 +29,38 @@ struct SignUpView: View {
             Spacer()
             Text(error)
                 .foregroundColor(.red)
-            Button(action: {
-                userVM.signIn(email: email, password: senha, handler: {(result, error) in
-                    if let error = error {
-                        self.error = error.localizedDescription
-                        print(error.localizedDescription)
-                    } else{
-                        self.error = ""
-                        print("Signed In!")}
+            
+            HStack{
+                Button(action: {
+                    userVM.signUp(email: email, password: senha)
+                }, label: {
+                    Text("Create")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
                     
                 })
-            }, label: {
-                Text("Create")
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
                 
-            })
+                Button(action: {
+                    userVM.signIn(email: email, password: senha)
+                }, label: {
+                    Text("Login")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                    
+                })
+                
+                Button(action: {
+                    userVM.signOut()
+                }, label: {
+                    Text("Logout")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                })
+                                
+            }
         }
     }
 }

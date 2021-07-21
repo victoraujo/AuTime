@@ -6,44 +6,24 @@
 //
 
 import Foundation
-import Firebase
+
 class UserViewModel: ObservableObject {
     @Published var users = [User]()
-    private var db = Firestore.firestore()
-    private var user = Auth.auth().currentUser
     
-    func createUser(){
-        if(user != nil){
-            db.collection("users").addDocument(data: [
-                "user": user?.uid
-            ])
-        }
-    }
-    func fetchUser(){
-        if(user != nil){
-            db.collection("users").whereField("user", isEqualTo: user?.uid).addSnapshotListener({(snapshot, error) in
-                guard let documents = snapshot?.documents else {
-                    print("No docs returnd")
-                    return
-                }
-                self.users = documents.map({docSnapshot -> User in
-                    let data = docSnapshot.data()
-                    let docId = docSnapshot.documentID
-                    let userName = data["user"] as? String ?? ""
-                    return User(id: docId, user: userName)
-                })
-                
-            })
-            
-        }
+    func fetchUser() {
+        self.users = FirebaseManager.fetchUser()
     }
     
-    func signUp(email: String, password: String, handler: @escaping AuthDataResultCallback){
-        Auth.auth().createUser(withEmail: email, password: password, completion: handler)
+    func signUp(email: String, password: String) {
+        FirebaseManager.signUp(email: email, password: password)
+    }
+
+    func signIn(email: String, password: String) {
+        FirebaseManager.signIn(email: email, password: password)
     }
     
-    func signIn(email: String, password: String, handler: @escaping AuthDataResultCallback){
-        Auth.auth().signIn(withEmail: email, password: password, completion: handler)
+    func signOut() {
+        FirebaseManager.signOut()
     }
     
 }
