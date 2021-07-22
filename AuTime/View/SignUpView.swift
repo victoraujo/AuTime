@@ -10,17 +10,26 @@ import Firebase
 
 struct SignUpView: View {
     @ObservedObject var userVM = UserViewModel()
+    @ObservedObject var session = FirebaseManager()
     @State var email = ""
     @State var senha = ""
     @State var error = ""
+    @State var showContentView = true
     
+    init(){
+        session.listen()
+    }
     var body: some View {
         VStack{
             Text("SignUp")
                 .fontWeight(.bold)
                 .font(.title)
-            
-            Text(Auth.auth().currentUser?.email ?? "")
+            if session.session?.email != nil{
+                Text((session.session?.email)!)
+                .fullScreenCover(isPresented: $showContentView) {
+                    ContentView()
+                }
+            }
             Spacer()
             Text("email")
             TextField("Digite aqui", text: $email)

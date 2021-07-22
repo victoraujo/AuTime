@@ -7,11 +7,26 @@
 
 import Foundation
 import Firebase
+import Combine
 
-class FirebaseManager {
+class FirebaseManager: ObservableObject {
     
     static var db = Firestore.firestore()
     static var user = Auth.auth().currentUser
+    var didChange = PassthroughSubject<FirebaseManager, Never>()
+    @Published var session: UserSession? {didSet {self.didChange.send(self)}}
+    var handle: AuthStateDidChangeListenerHandle?
+    
+    func listen(){
+        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
+            if let user = user {
+                self.session = UserSession(uid: user.uid, email: user.email)
+            }
+            else{
+                self.session = nil
+            }
+        })
+    }
     
     public init() {}
     
@@ -65,6 +80,16 @@ class FirebaseManager {
     
     class func isLogged() -> Bool {
         return (Auth.auth().currentUser?.isEmailVerified ?? false)
+    }
+    
+}
+struct UserSession{
+    var uid: String
+    var email: String?
+    
+    init(uid: String, email: String?){
+        self.uid = uid
+        self.email = email
     }
     
 }

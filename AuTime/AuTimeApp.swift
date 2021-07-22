@@ -17,9 +17,7 @@ struct AuTimeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if Auth.auth().currentUser != nil{
                 SignUpView()
-            }
         }
     }
 }
