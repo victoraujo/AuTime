@@ -7,12 +7,7 @@
 
 import Foundation
 
-struct User: Encodable, Identifiable {
-    var id: String
-    var user: String
-}
-
-struct UserSession{
+struct UserSession: Equatable {
     var uid: String
     var email: String?
     

@@ -16,7 +16,7 @@ struct SignUpView: View {
     @State var showContentView = false
     
     init() {
-        userVM.listen()
+        
         showContentView = userVM.isLogged()
     }
     

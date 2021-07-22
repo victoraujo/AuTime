@@ -40,7 +40,7 @@ struct ContentView: View {
             })
             .padding()
         }
-        .onChange(of: userVM.session?.email, perform: { _ in
+        .onChange(of: userVM.session, perform: { _ in
             self.activitiesVM.fetchData()
         })
     }

@@ -14,12 +14,14 @@ class UserViewModel: ObservableObject {
     @Published var session: UserSession? {didSet {self.didChange.send(self)}}
     
     var db = Firestore.firestore()
-    var user = Auth.auth().currentUser
+    //var user = Auth.auth().currentUser
 
     var didChange = PassthroughSubject<UserViewModel, Never>()
     var handle: AuthStateDidChangeListenerHandle?
     
-    public init() {}
+    public init() {
+        self.listen()
+    }
     
     func listen(){
         handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
@@ -29,7 +31,9 @@ class UserViewModel: ObservableObject {
             else{
                 self.session = nil
             }
-        })        
+        })
+        
+        self.objectWillChange.send()
     }
         
 //    func fetchUser(){

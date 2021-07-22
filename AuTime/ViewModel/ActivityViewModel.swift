@@ -14,11 +14,7 @@ class ActivityViewModel: ObservableObject {
     
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
-    
-    public init() {
-        self.userManager.listen()
-    }
-    
+        
     func createActivity(category: String, complete: Date, star: Bool, name: String, days: [Bool], time: Date, handler: @escaping () -> Void?) {
         
         if let docId = userManager.session?.email {
