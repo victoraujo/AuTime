@@ -84,8 +84,8 @@ class UserViewModel: ObservableObject {
     func createUser() {
         
         if let session = self.session {
-            self.db.collection("users").addDocument(data: [
-                "user": session.email!
+            self.db.collection("users").document(session.email!).setData([
+                "emails": [session.email!]
             ])
         }
     }

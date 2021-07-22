@@ -13,10 +13,11 @@ struct SignUpView: View {
     @State var email = ""
     @State var senha = ""
     @State var error = ""
-    @State var showContentView = true
+    @State var showContentView = false
     
     init() {
         userVM.listen()
+        showContentView = userVM.isLogged()
     }
     
     var body: some View {
@@ -26,10 +27,6 @@ struct SignUpView: View {
                 .font(.title)
             
             Text((userVM.session?.email) ?? "Sem login")
-                .fullScreenCover(isPresented: $showContentView) {
-                    ContentView(show: $showContentView)
-                }
-            
             
             Spacer()
             Text("email")
@@ -71,6 +68,9 @@ struct SignUpView: View {
                 })
                 
             }
+        }
+        .fullScreenCover(isPresented: $showContentView) {
+                ContentView(show: $showContentView)
         }
         .onChange(of: userVM.session?.email, perform: { email in
             if email != nil {

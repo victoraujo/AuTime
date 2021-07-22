@@ -10,10 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var activitiesVM = ActivityViewModel()
     @ObservedObject var userVM = UserViewModel()
-    @Binding var show: Bool
+    @Binding var showContentView: Bool
     
     init(show: Binding<Bool>) {
-        self._show = show
+        self._showContentView = show
         self.userVM.fetchUser()
         self.activitiesVM.fetchData()
     }
@@ -32,6 +32,7 @@ struct ContentView: View {
             }
             
             Button(action: {
+                showContentView = false
                 userVM.signOut()
             }, label: {
                 Text("DESLOGAR")

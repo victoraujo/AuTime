@@ -7,12 +7,14 @@
 
 import Foundation
 import Firebase
+
 class ActivityViewModel: ObservableObject {
     @Published var activities = [Activity]()
     private var db = Firestore.firestore()
     private var user = Auth.auth().currentUser
     
-    func createActivity(name: String, time: Date, docId: String, handler: @escaping () -> Void?){
+    func createActivity(name: String, time: Date, docId: String, handler: @escaping () -> Void?) {
+        
         if(user != nil){
             let usersCollecttion = db.collection("users").document(docId).collection("activities").addDocument(data: [
                 "name": name,
