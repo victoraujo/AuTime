@@ -10,26 +10,27 @@ import Firebase
 
 struct SignUpView: View {
     @ObservedObject var userVM = UserViewModel()
-    @ObservedObject var session = FirebaseManager()
     @State var email = ""
     @State var senha = ""
     @State var error = ""
     @State var showContentView = true
     
-    init(){
-        session.listen()
+    init() {
+        userVM.listen()
     }
+    
     var body: some View {
         VStack{
             Text("SignUp")
                 .fontWeight(.bold)
                 .font(.title)
-            if session.session?.email != nil{
-                Text((session.session?.email)!)
+            
+            Text((userVM.session?.email) ?? "Sem login")
                 .fullScreenCover(isPresented: $showContentView) {
-                    ContentView()
+                    ContentView(show: $showContentView)
                 }
-            }
+            
+            
             Spacer()
             Text("email")
             TextField("Digite aqui", text: $email)
@@ -68,9 +69,17 @@ struct SignUpView: View {
                         .background(Color.blue)
                         .foregroundColor(.white)
                 })
-                                
+                
             }
         }
+        .onChange(of: userVM.session?.email, perform: { email in
+            if email != nil {
+                showContentView = true
+            } else {
+                showContentView = false
+            }
+            
+        })
     }
 }
 

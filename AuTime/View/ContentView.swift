@@ -10,33 +10,38 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var activitiesVM = ActivityViewModel()
     @ObservedObject var userVM = UserViewModel()
-    init() {
-        userVM.fetchUser()
-        activitiesVM.fetchData()
+    @Binding var show: Bool
+    
+    init(show: Binding<Bool>) {
+        self._show = show
+        self.userVM.fetchUser()
+        self.activitiesVM.fetchData()
     }
+    
     var body: some View {
         VStack{
             List(activitiesVM.activities){ activity in
                 Text(activity.name)
             }
-            if(userVM.users.count>0){
+            if(userVM.users.count > 0){
                 Button(action: {
                     activitiesVM.createActivity(name: "Zaga", time: Date(), docId: userVM.users[0].id, handler: {})
                 }, label: {
-                    /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
+                    Text("ADD")
                 })
             }
+            
+            Button(action: {
+                userVM.signOut()
+            }, label: {
+                Text("DESLOGAR")
+            })
         }
     }
-
-    
-
-   
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(show: .constant(true))
     }
 }
