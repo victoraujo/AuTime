@@ -14,8 +14,7 @@ struct ContentView: View {
     
     init(show: Binding<Bool>) {
         self._showContentView = show
-        self.userVM.fetchUser()
-        self.activitiesVM.fetchData()
+        activitiesVM.fetchData()
     }
     
     var body: some View {
@@ -23,21 +22,27 @@ struct ContentView: View {
             List(activitiesVM.activities){ activity in
                 Text(activity.name)
             }
-            if(userVM.users.count > 0){
-                Button(action: {
-                    activitiesVM.createActivity(name: "Zaga", time: Date(), docId: userVM.users[0].id, handler: {})
-                }, label: {
-                    Text("ADD")
-                })
-            }
+            
+            Button(action: {
+                activitiesVM.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [true, true, false, true, false, false, true], time: Date(), handler: {})
+            }, label: {
+                Text("ADD ACTIVITY")
+            })
+            .padding()
+            
             
             Button(action: {
                 showContentView = false
                 userVM.signOut()
             }, label: {
                 Text("DESLOGAR")
+                    .foregroundColor(.red)
             })
+            .padding()
         }
+        .onChange(of: userVM.session?.email, perform: { _ in
+            self.activitiesVM.fetchData()
+        })
     }
 }
 
