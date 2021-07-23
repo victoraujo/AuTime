@@ -9,15 +9,14 @@ import SwiftUI
 import Firebase
 
 struct SignUpView: View {
-    @ObservedObject var userVM = UserViewModel()
+    @ObservedObject var userManager = UserViewModel()
     @State var email = ""
     @State var senha = ""
     @State var error = ""
     @State var showContentView = false
     
     init() {
-        
-        showContentView = userVM.isLogged()
+        showContentView = userManager.isLogged()
     }
     
     var body: some View {
@@ -26,7 +25,7 @@ struct SignUpView: View {
                 .fontWeight(.bold)
                 .font(.title)
             
-            Text((userVM.session?.email) ?? "Sem login")
+            Text((userManager.session?.email) ?? "Sem login")
             
             Spacer()
             Text("email")
@@ -39,7 +38,7 @@ struct SignUpView: View {
             
             HStack{
                 Button(action: {
-                    userVM.signUp(email: email, password: senha)
+                    userManager.signUp(email: email, password: senha)
                 }, label: {
                     Text("Create")
                         .padding()
@@ -49,7 +48,7 @@ struct SignUpView: View {
                 })
                 
                 Button(action: {
-                    userVM.signIn(email: email, password: senha)
+                    userManager.signIn(email: email, password: senha)
                 }, label: {
                     Text("Login")
                         .padding()
@@ -59,7 +58,7 @@ struct SignUpView: View {
                 })
                 
                 Button(action: {
-                    userVM.signOut()
+                    userManager.signOut()
                 }, label: {
                     Text("Logout")
                         .padding()
@@ -70,9 +69,9 @@ struct SignUpView: View {
             }
         }
         .fullScreenCover(isPresented: $showContentView) {
-                ContentView(show: $showContentView)
+            ContentView(show: $showContentView, userManager: self.userManager)
         }
-        .onChange(of: userVM.session?.email, perform: { email in
+        .onChange(of: userManager.session?.email, perform: { email in
             if email != nil {
                 showContentView = true
             } else {

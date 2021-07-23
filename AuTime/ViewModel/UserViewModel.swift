@@ -10,12 +10,10 @@ import Firebase
 import Combine
 
 class UserViewModel: ObservableObject {
-    //@Published var users = [User]()
     public static var shared = UserViewModel()
     @Published var session: UserSession? {didSet {self.didChange.send(self)}}
     
     var db = Firestore.firestore()
-    //var user = Auth.auth().currentUser
 
     var didChange = PassthroughSubject<UserViewModel, Never>()
     var handle: AuthStateDidChangeListenerHandle?
@@ -39,25 +37,6 @@ class UserViewModel: ObservableObject {
         
         self.objectWillChange.send()
     }
-        
-//    func fetchUser(){
-//
-//        if let user = self.user {
-//            self.db.collection("users").whereField("user", isEqualTo: user.uid).addSnapshotListener({(snapshot, error) in
-//                guard let documents = snapshot?.documents else {
-//                    print("No docs returned")
-//                    return
-//                }
-//                self.users = documents.map({docSnapshot -> User in
-//                    let data = docSnapshot.data()
-//                    let docId = docSnapshot.documentID
-//                    let userName = data["user"] as? String ?? ""
-//                    return User(id: docId, user: userName)
-//                })
-//            })
-//        }
-//
-//    }
     
     func signUp(email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (result, error) in
