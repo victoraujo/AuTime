@@ -11,7 +11,6 @@ import Firebase
 class ActivityViewModel: ObservableObject {
     @Published var activities = [Activity]()
     @ObservedObject var userManager = UserViewModel()
-    
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
         

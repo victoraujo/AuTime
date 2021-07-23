@@ -11,6 +11,7 @@ import Combine
 
 class UserViewModel: ObservableObject {
     //@Published var users = [User]()
+    public static var shared = UserViewModel()
     @Published var session: UserSession? {didSet {self.didChange.send(self)}}
     
     var db = Firestore.firestore()
@@ -24,11 +25,14 @@ class UserViewModel: ObservableObject {
     }
     
     func listen(){
+        print("listening")
         handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
             if let user = user {
                 self.session = UserSession(uid: user.uid, email: user.email)
+                print("if")
             }
             else{
+                print("else")
                 self.session = nil
             }
         })

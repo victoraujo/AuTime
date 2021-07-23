@@ -11,6 +11,8 @@ struct ContentView: View {
     @ObservedObject var activitiesVM = ActivityViewModel()
     @ObservedObject var userVM = UserViewModel()
     @Binding var showContentView: Bool
+    @State var showSubActivitiesView = false
+    @State var activityId = ""
     
     init(show: Binding<Bool>) {
         self._showContentView = show
@@ -18,10 +20,20 @@ struct ContentView: View {
     }
     
     var body: some View {
+        NavigationView{
         VStack{
-            List(activitiesVM.activities){ activity in
-                Text(activity.name)
-            }
+            
+                List(activitiesVM.activities){ activity in
+                    NavigationLink(destination: SubActivitiesView(activityId: activity.id!)){
+                    Text(activity.name)
+//                            .onTapGesture {
+//                                activityId = activity.id!
+//                                showSubActivitiesView.toggle()
+//                            }
+                }
+                }
+                
+            
             
             Button(action: {
                 activitiesVM.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [true, true, false, true, false, false, true], time: Date(), handler: {})
@@ -39,11 +51,14 @@ struct ContentView: View {
                     .foregroundColor(.red)
             })
             .padding()
-        }
+            }
         .onChange(of: userVM.session, perform: { _ in
             self.activitiesVM.fetchData()
         })
-    }
+        .fullScreenCover(isPresented: $showSubActivitiesView){ SubActivitiesView(activityId: activityId)
+            
+        }
+        }}
 }
 
 struct ContentView_Previews: PreviewProvider {
