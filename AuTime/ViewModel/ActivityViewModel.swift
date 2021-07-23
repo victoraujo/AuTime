@@ -10,9 +10,15 @@ import Firebase
 
 class ActivityViewModel: ObservableObject {
     @Published var activities = [Activity]()
-    @ObservedObject var userManager = UserViewModel()
+    @ObservedObject var userManager: UserViewModel
+    
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
+    
+    init(userManager: UserViewModel) {
+        self.userManager = userManager
+        self.fetchData()
+    }
         
     func createActivity(category: String, complete: Date, star: Bool, name: String, days: [Bool], time: Date, handler: @escaping () -> Void?) {
         
@@ -32,7 +38,6 @@ class ActivityViewModel: ObservableObject {
                 else{
                     handler()
                 }
-                //usersCollecttion.
             }
         }
     }

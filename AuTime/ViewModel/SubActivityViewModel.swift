@@ -11,14 +11,20 @@ import SwiftUI
 
 class SubActivityViewModel: ObservableObject {
     @Published var subActivities = [SubActivity]()
-    @ObservedObject var userManager = UserViewModel()
+    @Published var activityReference: String?
+    @ObservedObject var userManager: UserViewModel
     
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
+    
+    
+    init(userManager: UserViewModel) {
+        self.userManager = userManager
+    }
         
-    func createSubActivity(activityId: String, complete: Date, name: String, handler: @escaping () -> Void?) {
+    func createSubActivity(complete: Date, name: String, handler: @escaping () -> Void?) {
         
-        if let docId = userManager.session?.email {
+        if let docId = userManager.session?.email, let activityId = self.activityReference {
             let usersCollecttion = db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addDocument(data: [
                 "complete": complete,
                 "name": name
@@ -31,14 +37,14 @@ class SubActivityViewModel: ObservableObject {
                     print("email: \(docId); id: \(activityId)")
                     handler()
                 }
-                //usersCollecttion.
             }
         }
     }
     
-    func fetchData(activityId: String) {
-        print(userManager.session?.email ?? "nada")
-        if let docId = userManager.session?.email {
+    func fetchData() {
+        print(userManager.session?.email ?? "Nenhum User")
+        
+        if let docId = userManager.session?.email, let activityId = self.activityReference {
             print("email: \(docId); id: \(activityId)")
             
             db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addSnapshotListener({(snapshot, error) in

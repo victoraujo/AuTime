@@ -8,35 +8,37 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var activitiesVM = ActivityViewModel()
-    @ObservedObject var userVM = UserViewModel()
-    @Binding var showContentView: Bool
-    @State var showSubActivitiesView = false
-    @State var activityId = ""
+    @ObservedObject var userManager: UserViewModel
+    @ObservedObject var activitiesManager: ActivityViewModel
+    @ObservedObject var subActivitiesManager: SubActivityViewModel
     
-    init(show: Binding<Bool>) {
+    @State var showSubActivitiesView = false
+    @Binding var showContentView: Bool
+    
+    init(show: Binding<Bool>, userManager: UserViewModel) {
         self._showContentView = show
-        activitiesVM.fetchData()
+        self.userManager = userManager
+        self.activitiesManager = ActivityViewModel(userManager: userManager)
+        self.subActivitiesManager = SubActivityViewModel(userManager: userManager)
     }
     
     var body: some View {
-        NavigationView{
         VStack{
             
-                List(activitiesVM.activities){ activity in
-                    NavigationLink(destination: SubActivitiesView(activityId: activity.id!)){
-                    Text(activity.name)
-//                            .onTapGesture {
-//                                activityId = activity.id!
-//                                showSubActivitiesView.toggle()
-//                            }
-                }
-                }
-                
+            List(activitiesManager.activities){ activity in
+                Text(activity.name)
+                    .onTapGesture {
+                        subActivitiesManager.activityReference = activity.id!
+                        
+                        print("ACTIVITY ID NA ACT: \(activity.id!)")
+                        showSubActivitiesView.toggle()
+                    }
+            }
+            
             
             
             Button(action: {
-                activitiesVM.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [true, true, false, true, false, false, true], time: Date(), handler: {})
+                activitiesManager.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [true, true, false, true, false, false, true], time: Date(), handler: {})
             }, label: {
                 Text("ADD ACTIVITY")
             })
@@ -45,24 +47,26 @@ struct ContentView: View {
             
             Button(action: {
                 showContentView = false
-                userVM.signOut()
+                userManager.signOut()
             }, label: {
                 Text("DESLOGAR")
                     .foregroundColor(.red)
             })
             .padding()
-            }
-        .onChange(of: userVM.session, perform: { _ in
-            self.activitiesVM.fetchData()
-        })
-        .fullScreenCover(isPresented: $showSubActivitiesView){ SubActivitiesView(activityId: activityId)
-            
         }
-        }}
+        
+        .onAppear(perform: {
+            self.activitiesManager.fetchData()
+        })
+        .fullScreenCover(isPresented: $showSubActivitiesView){ SubActivitiesView(userManager: self.userManager, subActivitiesManager: self.subActivitiesManager)
+        }
+        
+    }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(show: .constant(true))
+        ContentView(show: .constant(true), userManager: UserViewModel())
     }
 }

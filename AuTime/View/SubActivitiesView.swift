@@ -8,37 +8,35 @@
 import SwiftUI
 
 struct SubActivitiesView: View {
-    @ObservedObject var subActivitiesVM = SubActivityViewModel()
-    @ObservedObject var userVM = UserViewModel()
-    var activityId: String
+    @ObservedObject var subActivitiesManager: SubActivityViewModel
     
-    init(activityId: String){
-        self.activityId = activityId
-        subActivitiesVM.fetchData(activityId: activityId)
+    init(userManager: UserViewModel, subActivitiesManager: SubActivityViewModel){
+        print("ACTIVITY ID NO SUB: \(subActivitiesManager.activityReference!)")
+        self.subActivitiesManager = subActivitiesManager
     }
+    
     var body: some View {
         VStack{
-            List(subActivitiesVM.subActivities){ subActivity in
+            List(subActivitiesManager.subActivities){ subActivity in
                 Text(subActivity.name)
             }
-            Button(action: {
-                subActivitiesVM.createSubActivity(activityId: activityId, complete: Date(), name: "Comer", handler: {})
+            Button(action: {        
+                subActivitiesManager.createSubActivity(complete: Date(), name: "Comer", handler: {})
+                subActivitiesManager.fetchData()
             }, label: {
                 Text("Add SubActivity")
             })
             
         }
-//        .onChange(of: subActivitiesVM.userManager.session, perform: { value in
-//            subActivitiesVM.fetchData(activityId: self.activityId)
-//        })
-        .onAppear(){
-            subActivitiesVM.fetchData(activityId: self.activityId)
-        }
+        .onAppear(perform: {
+            subActivitiesManager.fetchData()
+        })
     }
 }
 
 struct SubActivitiesView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        SubActivitiesView(activityId: "")
+        SubActivitiesView(userManager: UserViewModel(), subActivitiesManager: SubActivityViewModel(userManager: UserViewModel()))
     }
 }
