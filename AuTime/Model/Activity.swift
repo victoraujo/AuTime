@@ -9,6 +9,10 @@ import Foundation
 
 struct Activity: Identifiable, Codable {
     var id: String?
+    var category: String
+    var complete: Date
+    var generateStar: Bool
     var name: String
+    var repeatDays: [Bool]
     var time: Date
 }

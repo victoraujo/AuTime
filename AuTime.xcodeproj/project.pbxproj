@@ -16,6 +16,7 @@
 		5779035826A5B4E300D856BD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5779035626A5B4E300D856BD /* UserViewModel.swift */; };
 		5779035926A5B4E300D856BD /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5779035726A5B4E300D856BD /* ActivityViewModel.swift */; };
 		5779035C26A5B6A200D856BD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5779035B26A5B6A200D856BD /* GoogleService-Info.plist */; };
+		57FCA34726A85D3500A57732 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FCA34626A85D3500A57732 /* SignUpView.swift */; };
 		B0B4ACDB67F730BBF623B69B /* Pods_AuTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B994875882FFECEE977B317 /* Pods_AuTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		5779035626A5B4E300D856BD /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		5779035726A5B4E300D856BD /* ActivityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
 		5779035B26A5B6A200D856BD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		57FCA34626A85D3500A57732 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		6B994875882FFECEE977B317 /* Pods_AuTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AuTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF1721293E595517E718A96 /* Pods-AuTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuTime.debug.xcconfig"; path = "Target Support Files/Pods-AuTime/Pods-AuTime.debug.xcconfig"; sourceTree = "<group>"; };
 		EF3448A9F074768624D993B6 /* Pods-AuTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuTime.release.xcconfig"; path = "Target Support Files/Pods-AuTime/Pods-AuTime.release.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				57218E2226A5B25000D8F1E2 /* ContentView.swift */,
+				57FCA34626A85D3500A57732 /* SignUpView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				57218E2326A5B25000D8F1E2 /* ContentView.swift in Sources */,
 				57218E2126A5B25000D8F1E2 /* AuTimeApp.swift in Sources */,
 				5779035426A5B4D800D856BD /* Activity.swift in Sources */,
+				57FCA34726A85D3500A57732 /* SignUpView.swift in Sources */,
 				5779035826A5B4E300D856BD /* UserViewModel.swift in Sources */,
 				5779035326A5B4D800D856BD /* User.swift in Sources */,
 				5779035926A5B4E300D856BD /* ActivityViewModel.swift in Sources */,
