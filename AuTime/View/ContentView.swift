@@ -25,7 +25,7 @@ struct ContentView: View {
     var body: some View {
         VStack{
             
-            List(activitiesManager.activities){ activity in
+            List(activitiesManager.todayActivities){ activity in
                 Text(activity.name)
                     .onTapGesture {
                         subActivitiesManager.activityReference = activity.id!
@@ -34,16 +34,13 @@ struct ContentView: View {
                         showSubActivitiesView.toggle()
                     }
             }
-            
-            
-            
+                        
             Button(action: {
-                activitiesManager.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [true, true, false, true, false, false, true], time: Date(), handler: {})
+                activitiesManager.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [1, 2, 4, 6], time: Date(), handler: {})
             }, label: {
                 Text("ADD ACTIVITY")
             })
             .padding()
-            
             
             Button(action: {
                 showContentView = false

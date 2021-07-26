@@ -13,6 +13,6 @@ struct Activity: Identifiable, Codable {
     var complete: Date
     var generateStar: Bool
     var name: String
-    var repeatDays: [Bool]
+    var repeatDays: [Int]
     var time: Date
 }
