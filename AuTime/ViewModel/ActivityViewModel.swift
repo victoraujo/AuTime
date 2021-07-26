@@ -10,6 +10,7 @@ import Firebase
 
 class ActivityViewModel: ObservableObject {
     @Published var activities = [Activity]()
+    @Published var todayActivities = [Activity]()
     @ObservedObject var userManager: UserViewModel
     
     var db = Firestore.firestore()
@@ -20,7 +21,7 @@ class ActivityViewModel: ObservableObject {
         self.fetchData()
     }
         
-    func createActivity(category: String, complete: Date, star: Bool, name: String, days: [Bool], time: Date, handler: @escaping () -> Void?) {
+    func createActivity(category: String, complete: Date, star: Bool, name: String, days: [Int], time: Date, handler: @escaping () -> Void?) {
         
         if let docId = userManager.session?.email {
             let usersCollecttion = db.collection("users").document(docId).collection("activities").addDocument(data: [
@@ -58,15 +59,34 @@ class ActivityViewModel: ObservableObject {
                     let activityComplete = data["complete"] as? Date ?? Date()
                     let activityStar = data["generateStar"] as? Bool ?? false
                     let activityName = data["name"] as? String ?? ""
-                    let activityDays = data["repeatDays"] as? [Bool] ?? [false, false, false, false, false, false, false]
+                    let activityDays = data["repeatDays"] as? [Int] ?? []
                     let activityTime = data["time"] as? Date ?? Date()
                     
                     return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime)
                 })
+
+                self.filterTodayActivities()
+                self.objectWillChange.send()
                 
             })
         }
+
+    }
+    
+    func filterTodayActivities() {
+        self.todayActivities = self.activities.filter { activity in
+            let today = getDayOfWeek(Date())
+            return activity.repeatDays.contains(today)
+        }
+        
+        self.objectWillChange.send()
     }
 
-
+    func getDayOfWeek(_ day: Date) -> Int {
+        let calendar = Calendar(identifier: .gregorian)
+        let weekDay = calendar.component(.weekday, from: day)
+        return weekDay
+    }
+    
+    
 }
