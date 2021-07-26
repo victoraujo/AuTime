@@ -19,6 +19,7 @@
 		57A2F2F726AAEC12000A75AD /* SubActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2F2F626AAEC12000A75AD /* SubActivity.swift */; };
 		57A2F2F926AAECFD000A75AD /* SubActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2F2F826AAECFD000A75AD /* SubActivityViewModel.swift */; };
 		57A2F2FB26AAEF7B000A75AD /* SubActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2F2FA26AAEF7B000A75AD /* SubActivitiesView.swift */; };
+		57EA9D6926AEF75300439615 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EA9D6826AEF75300439615 /* ImageViewModel.swift */; };
 		57FCA34726A85D3500A57732 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FCA34626A85D3500A57732 /* SignUpView.swift */; };
 		B0B4ACDB67F730BBF623B69B /* Pods_AuTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B994875882FFECEE977B317 /* Pods_AuTime.framework */; };
 /* End PBXBuildFile section */
@@ -38,6 +39,7 @@
 		57A2F2F626AAEC12000A75AD /* SubActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubActivity.swift; sourceTree = "<group>"; };
 		57A2F2F826AAECFD000A75AD /* SubActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubActivityViewModel.swift; sourceTree = "<group>"; };
 		57A2F2FA26AAEF7B000A75AD /* SubActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubActivitiesView.swift; sourceTree = "<group>"; };
+		57EA9D6826AEF75300439615 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		57FCA34626A85D3500A57732 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		6B994875882FFECEE977B317 /* Pods_AuTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AuTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF1721293E595517E718A96 /* Pods-AuTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuTime.debug.xcconfig"; path = "Target Support Files/Pods-AuTime/Pods-AuTime.debug.xcconfig"; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				5779035626A5B4E300D856BD /* UserViewModel.swift */,
 				5779035726A5B4E300D856BD /* ActivityViewModel.swift */,
 				57A2F2F826AAECFD000A75AD /* SubActivityViewModel.swift */,
+				57EA9D6826AEF75300439615 /* ImageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -155,7 +158,7 @@
 				57218E1926A5B25000D8F1E2 /* Sources */,
 				57218E1A26A5B25000D8F1E2 /* Frameworks */,
 				57218E1B26A5B25000D8F1E2 /* Resources */,
-				C727BABF72E3F0E40FC5CE4F /* [CP] Embed Pods Frameworks */,
+				DFE21081970D520CB31922D3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -212,7 +215,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C727BABF72E3F0E40FC5CE4F /* [CP] Embed Pods Frameworks */ = {
+		DFE21081970D520CB31922D3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -267,6 +270,7 @@
 				5779035826A5B4E300D856BD /* UserViewModel.swift in Sources */,
 				5779035326A5B4D800D856BD /* User.swift in Sources */,
 				57A2F2FB26AAEF7B000A75AD /* SubActivitiesView.swift in Sources */,
+				57EA9D6926AEF75300439615 /* ImageViewModel.swift in Sources */,
 				5779035926A5B4E300D856BD /* ActivityViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

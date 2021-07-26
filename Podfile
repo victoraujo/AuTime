@@ -8,5 +8,7 @@ target 'AuTime' do
   # Pods for AuTime
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore' 
+pod 'Firebase/Storage'
+pod 'FirebaseUI/Storage'
 
 end
