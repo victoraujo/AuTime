@@ -14,7 +14,8 @@ struct ContentView: View {
     
     @State var showSubActivitiesView = false
     @Binding var showContentView: Bool
-    
+    @ObservedObject var imageVM = ImageViewModel()
+    @State var image = UIImage()
     init(show: Binding<Bool>, userManager: UserViewModel) {
         self._showContentView = show
         self.userManager = userManager
@@ -34,7 +35,7 @@ struct ContentView: View {
                         showSubActivitiesView.toggle()
                     }
             }
-                        
+            Image(uiImage: imageVM.image.image ?? UIImage())
             Button(action: {
                 activitiesManager.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [1, 2, 4, 6], time: Date(), handler: {})
             }, label: {
@@ -47,6 +48,21 @@ struct ContentView: View {
                 userManager.signOut()
             }, label: {
                 Text("DESLOGAR")
+                    .foregroundColor(.red)
+            })
+            .padding()
+            Button(action: {
+//                guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
+//                    return
+//                }
+                // save image to URL
+//                do {
+//                    try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
+//                    imageVM.uploadImage(urlFile: imageURL)
+//                } catch { }
+                imageVM.downloadImage()
+            }, label: {
+                Text("DOWNLOAD")
                     .foregroundColor(.red)
             })
             .padding()
