@@ -11,6 +11,7 @@ import Combine
 
 class UserViewModel: ObservableObject {
     public static var shared = UserViewModel()
+    
     @Published var session: UserSession? {didSet {self.didChange.send(self)}}
     
     var db = Firestore.firestore()

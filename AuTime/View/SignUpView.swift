@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 
 struct SignUpView: View {
-    @ObservedObject var userManager = UserViewModel()
+    @ObservedObject var userManager = UserViewModel.shared
     @State var email = ""
     @State var senha = ""
     @State var error = ""
