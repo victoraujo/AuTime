@@ -11,10 +11,13 @@ import FirebaseStorageUI
 
 class ImageViewModel: ObservableObject{
     @Published var image = UIImageView()
+    
+    static var shared = ImageViewModel()
+    
     var userManager = UserViewModel.shared
 
     func uploadImage(urlFile: URL){
-    
+        print("che")
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let localFile = urlFile

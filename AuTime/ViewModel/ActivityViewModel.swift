@@ -11,13 +11,14 @@ import Firebase
 class ActivityViewModel: ObservableObject {
     @Published var activities = [Activity]()
     @Published var todayActivities = [Activity]()
-    @ObservedObject var userManager: UserViewModel
     
+    static var shared = ActivityViewModel()
+    
+    var userManager = UserViewModel.shared
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
     
-    init(userManager: UserViewModel) {
-        self.userManager = userManager
+    init() {
         self.fetchData()
     }
         
