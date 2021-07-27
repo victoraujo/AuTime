@@ -15,6 +15,14 @@ struct ChildView: View {
     
     @State var visualization: ViewMode = .day
     var names: [String] = ["beber agua", "oi", "bom dia", "tomar banho"]
+    var profile = UIImage(imageLiteralResourceName: "memoji.png")
+    
+    func getHoursAndMinutes(from date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        let timeString = formatter.string(from: date)
+        return timeString
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -86,19 +94,28 @@ struct ChildView: View {
                     
                     HStack (alignment: .top){
                         VStack {
-                            Image(systemName: "person.fill")
-                                .resizable()
-                                .foregroundColor(.blue)
-                                .padding()
-                                .frame(width: 100, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                .background(Color.white                       .cornerRadius(21))
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: 80, height: 80, alignment: .center)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(21)
+                                    .offset(x: -2, y: 8)
+                                
+                                Image(uiImage: profile)
+                                    .resizable()
+                                    .foregroundColor(.blue)
+                                    .padding([.horizontal, .bottom])
+                                    .frame(width: 125, height: 125, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                    .background(Color.clear)
+                                    
+                            }
                             
                             Text("João")
                                 .foregroundColor(.white)
                                 .font(.title3)
                                 .fontWeight(.bold)
                         }
-                        .padding()
+                        .padding([.horizontal, .bottom])
                         .padding(.horizontal)
                         
                         VStack(alignment: .center){
@@ -161,8 +178,8 @@ struct ChildView: View {
                                         ActivityView(activityName: name)
                                             .frame(width: 314, height: 252, alignment: .center)
                                             .padding(.bottom)
-                                        
-                                        Text("Horário")
+                                    
+                                        Text("\(getHoursAndMinutes(from: Date()))")
                                             .font(.title2)
                                             .fontWeight(.bold)
                                             .foregroundColor(.black90Color)
@@ -180,7 +197,6 @@ struct ChildView: View {
                             }
                         }
                         .frame(width: 0.9*geometry.size.width, alignment: .center)
-                        .shadow(radius: 10)
                         
                         
                         Divider()

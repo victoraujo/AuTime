@@ -9,6 +9,17 @@ import SwiftUI
 
 struct ActivityView: View {
     var activityName: String = "Café da manhã"
+    var category: String = "Prêmio"
+    var subActivitiesCount: Int = 0
+    
+    func getIconImage() -> Image{
+        switch self.category {
+        case "Prêmio":
+            return Image(systemName: "star.fill")
+        default:
+            return Image(systemName: "heart.fill")
+        }
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -21,19 +32,20 @@ struct ActivityView: View {
                     .cornerRadius(21, [.topRight, .topLeft])
                 
                 HStack(alignment: .center){
-                    Image(systemName: "star.fill")
+                    self.getIconImage()
                         .resizable()
+                        .scaledToFit()
                         .foregroundColor(.greenColor)
-                        .frame(width: 0.1*geometry.size.width, height: 0.1*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .frame(width: 0.1*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .padding(.trailing)
                         
                     VStack(alignment: .leading){
-                        Text(activityName)
+                        Text(self.activityName)
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.greenColor)
                         
-                        Text("Numero de subtarefas")
+                        Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "Nenhuma") subtarefa\(subActivitiesCount > 1 ? "s" : "")")
                             .font(.subheadline)
                             .fontWeight(.bold)
                             .foregroundColor(.black90Color)
