@@ -8,13 +8,8 @@
 import SwiftUI
 
 struct SubActivitiesView: View {
-    @ObservedObject var subActivitiesManager: SubActivityViewModel
-    
-    init(userManager: UserViewModel, subActivitiesManager: SubActivityViewModel){
-        print("ACTIVITY ID NO SUB: \(subActivitiesManager.activityReference!)")
-        self.subActivitiesManager = subActivitiesManager
-    }
-    
+    @ObservedObject var subActivitiesManager = SubActivityViewModel.shared
+        
     var body: some View {
         VStack{
             List(subActivitiesManager.subActivities){ subActivity in
@@ -37,6 +32,6 @@ struct SubActivitiesView: View {
 struct SubActivitiesView_Previews: PreviewProvider {
     
     static var previews: some View {
-        SubActivitiesView(userManager: UserViewModel(), subActivitiesManager: SubActivityViewModel(userManager: UserViewModel()))
+        SubActivitiesView()
     }
 }

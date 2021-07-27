@@ -12,15 +12,12 @@ import SwiftUI
 class SubActivityViewModel: ObservableObject {
     @Published var subActivities = [SubActivity]()
     @Published var activityReference: String?
-    @ObservedObject var userManager: UserViewModel
+
+    static var shared = SubActivityViewModel()
     
+    var userManager = UserViewModel.shared
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
-    
-    
-    init(userManager: UserViewModel) {
-        self.userManager = userManager
-    }
         
     func createSubActivity(complete: Date, name: String, handler: @escaping () -> Void?) {
         

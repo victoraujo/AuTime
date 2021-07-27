@@ -8,20 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var userManager: UserViewModel
-    @ObservedObject var activitiesManager: ActivityViewModel
-    @ObservedObject var subActivitiesManager: SubActivityViewModel
+    @ObservedObject var userManager = UserViewModel.shared
+    @ObservedObject var activitiesManager = ActivityViewModel.shared
+    @ObservedObject var subActivitiesManager = SubActivityViewModel.shared
+    @ObservedObject var imageVM = ImageViewModel.shared
     
     @State var showSubActivitiesView = false
     @Binding var showContentView: Bool
-    @ObservedObject var imageVM = ImageViewModel()
+    
     @State var image = UIImage()
     
-    init(show: Binding<Bool>, userManager: UserViewModel) {
+    init(show: Binding<Bool>) {
         self._showContentView = show
-        self.userManager = userManager
-        self.activitiesManager = ActivityViewModel(userManager: userManager)
-        self.subActivitiesManager = SubActivityViewModel(userManager: userManager)
         self.imageVM.downloadImage()
     }
     
@@ -79,7 +77,7 @@ struct ContentView: View {
         .onAppear(perform: {
             self.activitiesManager.fetchData()
         })
-        .fullScreenCover(isPresented: $showSubActivitiesView){ SubActivitiesView(userManager: self.userManager, subActivitiesManager: self.subActivitiesManager)
+        .fullScreenCover(isPresented: $showSubActivitiesView){ SubActivitiesView()
         }
         
     }
@@ -88,6 +86,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(show: .constant(true), userManager: UserViewModel())
+        ContentView(show: .constant(true))
     }
 }
