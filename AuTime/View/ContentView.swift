@@ -16,11 +16,13 @@ struct ContentView: View {
     @Binding var showContentView: Bool
     @ObservedObject var imageVM = ImageViewModel()
     @State var image = UIImage()
+    
     init(show: Binding<Bool>, userManager: UserViewModel) {
         self._showContentView = show
         self.userManager = userManager
         self.activitiesManager = ActivityViewModel(userManager: userManager)
         self.subActivitiesManager = SubActivityViewModel(userManager: userManager)
+        self.imageVM.downloadImage()
     }
     
     var body: some View {
@@ -30,8 +32,6 @@ struct ContentView: View {
                 Text(activity.name)
                     .onTapGesture {
                         subActivitiesManager.activityReference = activity.id!
-                        
-                        print("ACTIVITY ID NA ACT: \(activity.id!)")
                         showSubActivitiesView.toggle()
                     }
             }
@@ -51,15 +51,23 @@ struct ContentView: View {
                     .foregroundColor(.red)
             })
             .padding()
+            
             Button(action: {
-//                guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
-//                    return
-//                }
-                // save image to URL
-//                do {
-//                    try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
-//                    imageVM.uploadImage(urlFile: imageURL)
-//                } catch { }
+                guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
+                    return
+                }
+                 // Save image to URL
+                do {
+                    try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
+                    imageVM.uploadImage(urlFile: imageURL)
+                } catch { }
+            }, label: {
+                Text("UPLOAD")
+                    .foregroundColor(.red)
+            })
+            .padding()
+            
+            Button(action: {
                 imageVM.downloadImage()
             }, label: {
                 Text("DOWNLOAD")

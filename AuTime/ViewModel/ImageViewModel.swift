@@ -11,15 +11,24 @@ import FirebaseStorageUI
 
 class ImageViewModel: ObservableObject{
     @Published var image = UIImageView()
-    func uploadImage(urlFile: URL){let storage = Storage.storage()
-    let data = Data()
-    let storageRef = storage.reference()
-    let localFile = urlFile
-    let photoRef = storageRef.child("oxe")
+    var userManager = UserViewModel.shared
+
+    func uploadImage(urlFile: URL){
+    
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let localFile = urlFile
         
-        let uploadTask = photoRef.putFile(from: localFile, metadata: nil){(metadata, err) in
-            guard let metadata = metadata else{
-                print(err?.localizedDescription)
+        guard let email = userManager.session?.email else {
+            print("Email is nil during upload file.")
+            return
+        }
+        
+        let photoRef = storageRef.child("users/\(String(describing: email))/Activities/ocapi")
+            
+        let _ = photoRef.putFile(from: localFile, metadata: nil){(metadata, err) in
+            guard let _ = metadata else{
+                print("Error in upload: \(err!.localizedDescription)")
                 return
             }
             print("Photo Uploaded")
@@ -30,7 +39,13 @@ class ImageViewModel: ObservableObject{
     func downloadImage(){
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let photoRef = storageRef.child("oxe")
+        
+        guard let email = userManager.session?.email else {
+            print("Email is nil during download file.")
+            return
+        }
+        
+        let photoRef = storageRef.child("users/\(String(describing: email))/Activities/ocapi")
         
         self.image.sd_setImage(with: photoRef)
         self.objectWillChange.send()
