@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ActivityView: View {
+    var activityName: String = "Café da manhã"
+    
     var body: some View {
         GeometryReader { geometry in
             VStack{
@@ -23,10 +25,10 @@ struct ActivityView: View {
                         .resizable()
                         .foregroundColor(.greenColor)
                         .frame(width: 0.1*geometry.size.width, height: 0.1*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .padding()
+                        .padding(.trailing)
                         
                     VStack(alignment: .leading){
-                        Text("Nome da Atividade")
+                        Text(activityName)
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.greenColor)
@@ -38,6 +40,7 @@ struct ActivityView: View {
                     }
                     
                 }
+                .padding(.vertical, 12)
             }
             .cornerRadius(21)
         }
