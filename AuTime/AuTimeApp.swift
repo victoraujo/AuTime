@@ -17,7 +17,7 @@ struct AuTimeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            SignUpView()
+            ChildView()
         }
     }
 }
