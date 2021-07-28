@@ -63,6 +63,8 @@ class ActivityViewModel: ObservableObject {
                     let activityDays = data["repeatDays"] as? [Int] ?? []
                     let activityTime = data["time"] as? Date ?? Date()
                     
+                    print("activityTime: \(activityTime)")
+                    
                     return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime)
                 })
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Activity: Identifiable, Codable {
+struct Activity: Identifiable, Codable, Hashable {
     var id: String?
     var category: String
     var complete: Date
