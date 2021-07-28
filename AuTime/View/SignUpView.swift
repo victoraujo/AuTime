@@ -69,7 +69,7 @@ struct SignUpView: View {
             }
         }
         .fullScreenCover(isPresented: $showContentView) {
-            ContentView(show: $showContentView)
+            ChildView(show: $showContentView)
         }
         .onChange(of: userManager.session?.email, perform: { email in
             if email != nil {

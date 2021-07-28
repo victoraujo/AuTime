@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct ActivityView: View {
-    var activityName: String = "Café da manhã"
-    var category: String = "Prêmio"
-    var subActivitiesCount: Int = 0
+    var activity: Activity
+    var subActivitiesCount: Int = 5
     
     func getIconImage() -> Image{
-        switch self.category {
+        switch self.activity.category {
         case "Prêmio":
             return Image(systemName: "star.fill")
         default:
@@ -40,7 +39,7 @@ struct ActivityView: View {
                         .padding(.trailing)
                         
                     VStack(alignment: .leading){
-                        Text(self.activityName)
+                        Text(self.activity.name)
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.greenColor)
@@ -59,9 +58,9 @@ struct ActivityView: View {
     }
 }
 
-struct ActivityView_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityView()
-            .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-    }
-}
+//struct ActivityView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ActivityView(activity: <#Activity#>)
+//            .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+//    }
+//}
