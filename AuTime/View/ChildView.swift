@@ -105,9 +105,9 @@ struct ChildView: View {
                                     .resizable()
                                     .foregroundColor(.blue)
                                     .padding([.horizontal, .bottom])
-                                    .frame(width: 125, height: 125, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                    .frame(width: 120, height: 120, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                     .background(Color.clear)
-                                    
+                                
                             }
                             
                             Text("João")
@@ -166,11 +166,11 @@ struct ChildView: View {
                             
                             HStack(alignment: .center, spacing: 0.1*geometry.size.width){
                                 
-                                if self.names.count == 1 {
-                                    Rectangle()
-                                        .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                        .foregroundColor(.clear)
-                                }
+                                
+                                Rectangle()
+                                    .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                    .foregroundColor(.clear)
+                                
                                 
                                 
                                 ForEach(names, id: \.self) { name in
@@ -178,7 +178,7 @@ struct ChildView: View {
                                         ActivityView(activityName: name)
                                             .frame(width: 314, height: 252, alignment: .center)
                                             .padding(.bottom)
-                                    
+                                        
                                         Text("\(getHoursAndMinutes(from: Date()))")
                                             .font(.title2)
                                             .fontWeight(.bold)
@@ -188,11 +188,10 @@ struct ChildView: View {
                                     
                                 }
                                 
-                                if self.names.count > 2 {
-                                    Rectangle()
-                                        .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                        .foregroundColor(.clear)
-                                }
+                                Rectangle()
+                                    .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                    .foregroundColor(.clear)
+                                
                                 
                             }
                         }
