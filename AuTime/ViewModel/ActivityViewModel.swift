@@ -25,7 +25,7 @@ class ActivityViewModel: ObservableObject {
     func createActivity(category: String, complete: Date, star: Bool, name: String, days: [Int], time: Date, handler: @escaping () -> Void?) {
         
         if let docId = userManager.session?.email {
-            let usersCollecttion = db.collection("users").document(docId).collection("activities").addDocument(data: [
+            _ = db.collection("users").document(docId).collection("activities").addDocument(data: [
                 "category": category,
                 "complete": complete,
                 "generateStar": star,
@@ -35,7 +35,7 @@ class ActivityViewModel: ObservableObject {
             ])
             {err in
                 if let err = err {
-                    print("error adding document:\(err)")
+                    print("Error adding document: \(err)")
                 }
                 else{
                     handler()
@@ -57,14 +57,20 @@ class ActivityViewModel: ObservableObject {
                     let data = docSnapshot.data()
                     let docId = docSnapshot.documentID
                     let activityCategory = data["category"] as? String ?? ""
-                    let activityComplete = data["complete"] as? Date ?? Date()
+                    let acitivityCompleteString = data["complete"] as? String ?? "01-01-2000"
                     let activityStar = data["generateStar"] as? Bool ?? false
                     let activityName = data["name"] as? String ?? ""
                     let activityDays = data["repeatDays"] as? [Int] ?? []
-                    let activityTime = data["time"] as? Date ?? Date()
+                    let activityTimeString = data["time"] as? String ?? "00:00"
                     
-                    print("activityTime: \(activityTime)")
+                    let hourFormatter = DateFormatter()
+                    hourFormatter.dateFormat = "HH:mm"
+                    let activityTime = hourFormatter.date(from: activityTimeString) ?? Date()
                     
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "dd-mm-yyyy"
+                    let activityComplete = dateFormatter.date(from: acitivityCompleteString) ?? Date()
+                                                                        
                     return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime)
                 })
 
@@ -83,6 +89,11 @@ class ActivityViewModel: ObservableObject {
         }
         
         self.objectWillChange.send()
+    }
+    
+    func clearActivities() {
+        self.activities = []
+        self.todayActivities = []
     }
 
     func getDayOfWeek(_ day: Date) -> Int {
