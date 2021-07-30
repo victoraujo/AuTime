@@ -10,22 +10,22 @@ import SwiftUI
 struct ChildView: View {
     
     @ObservedObject var activitiesManager = ActivityViewModel.shared
+    @ObservedObject var userManager = UserViewModel.shared
     @State var visualization: ViewMode = .day
     @State var currentActivity: Int = 1
+    @State var currentDate = ""
+    @State var currentHour = ""
     @Binding var showContentView: Bool
+    
     var names: [String] = ["beber agua", "oi", "bom dia", "tomar banho"]
     var profile = UIImage(imageLiteralResourceName: "memoji.png")
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
     
     init(show: Binding<Bool>) {
         self._showContentView = show
         self.currentActivity = self.getCurrentActivityIndex()
-    }
-    
-    func getHoursAndMinutes(from date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        let timeString = formatter.string(from: date)
-        return timeString
     }
     
     func getCurrentActivityIndex() -> Int {
@@ -48,6 +48,24 @@ struct ChildView: View {
         return (index ?? self.activitiesManager.todayActivities.count) + 1
     }
     
+    func getDate(from date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM"
+        
+        let days = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+        let calendar = Calendar(identifier: .gregorian)
+        let weekDay = calendar.component(.weekday, from: date)
+        
+        return days[weekDay-1] + ", " + dateFormatter.string(from: date)
+    }
+    
+    func getHoursAndMinutes(from date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        let timeString = formatter.string(from: date)
+        return timeString
+    }
+    
     enum ViewMode {
         case day, week
     }
@@ -57,7 +75,7 @@ struct ChildView: View {
             VStack (alignment: .center){
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Data de hoje")
+                        Text(self.currentDate)
                             .foregroundColor(.white)
                             .fontWeight(.bold)
                             .font(.title)
@@ -66,12 +84,16 @@ struct ChildView: View {
                             Image(systemName: "clock")
                                 .foregroundColor(.white)
                             
-                            Text("Hora de hoje")
+                            Text(self.currentHour)
                                 .foregroundColor(.white)
-                                .font(.headline)
+                                .font(.title)
                                 .fontWeight(.semibold)
                         }
                     }
+                    .onReceive(timer, perform: { _ in
+                        self.currentDate = self.getDate(from: Date())
+                        self.currentHour = self.getHoursAndMinutes(from: Date())
+                    })
                     .padding()
                     .frame(width: 0.27*geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .background(Rectangle().fill(Color.greenColor).cornerRadius(21, [.bottomRight]))
@@ -148,6 +170,8 @@ struct ChildView: View {
                         
                         
                         Button(action: {
+                            self.userManager.signOut()
+                            self.activitiesManager.clearActivities()
                             self.showContentView.toggle()
                         }, label: {
                             VStack(alignment: .center){
@@ -257,6 +281,12 @@ struct ChildView: View {
                 
             }
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            .onAppear {
+                self.activitiesManager.fetchData()
+            }
+            .onChange(of: self.userManager.session, perform: { _ in
+                self.activitiesManager.fetchData()
+            })
             .onChange(of: self.activitiesManager.todayActivities, perform: { _ in
                 self.currentActivity = self.getCurrentActivityIndex()
             })
