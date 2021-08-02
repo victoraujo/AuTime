@@ -11,7 +11,7 @@ struct ChildView: View {
     
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var userManager = UserViewModel.shared
-    @State var visualization: ViewMode = .week
+    @State var visualization: ViewMode = .day
     @State var currentActivity: Int = 1
     @State var currentDate = ""
     @State var currentHour = ""
