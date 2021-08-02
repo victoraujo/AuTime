@@ -12,4 +12,5 @@ extension Color {
     static let black90Color = Color.init(red: 137/255, green: 137/255, blue: 137/255, opacity: 1) // #898989 - Alpha: 0.9
     // static let grayColor = Color.init(red: 151/255, green: 151/255, blue: 151/255, opacity: 1) // #979797 - Alpha: 1
     static let grayColor = Color.init(red: 239/255, green: 239/255, blue: 240/255, opacity: 1) //#EFEFF0 - Alpha: 1
+    static let black60Color = Color.init(red: 248/250, green: 248/250, blue: 248/250)
 }
