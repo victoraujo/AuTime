@@ -227,6 +227,7 @@ struct ChildView: View {
                             }
                     } else {
                         WeekActivitiesView()
+                            .frame(width: 0.9*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     }
                 }
                 
