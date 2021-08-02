@@ -12,6 +12,7 @@ struct SideBarParentView: View {
     @ObservedObject var userManager = UserViewModel.shared
     var profile = UIImage(imageLiteralResourceName: "memoji.png")
     var menu = ["Criar atividade", "Mostrar cronograma", "Ver semanas", "Ver todas atividades", "Ver tutorias"]
+    
     var body: some View {
         GeometryReader{geometry in
             HStack{
@@ -37,6 +38,7 @@ struct SideBarParentView: View {
                             }
                             .padding()
                         })
+                        
                         VStack {
                             ZStack {
                                 Rectangle()
@@ -62,8 +64,7 @@ struct SideBarParentView: View {
                         .padding([.horizontal, .bottom])
                         .padding(.horizontal)
                     }
-                    .padding()
-                    .frame(height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .frame(width: geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .background(Rectangle().fill(Color.blue).cornerRadius(21, [.bottomRight]))
                 
                     Text("Área do Responsável")
@@ -72,7 +73,9 @@ struct SideBarParentView: View {
                         .foregroundColor(.black90Color)
                         .padding()
                         .frame(alignment: .center)
+                    
                     Spacer()
+                    
                     ForEach(0..<menu.count){index in
                         Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                             Text(menu[index])
@@ -92,7 +95,7 @@ struct SideBarParentView: View {
             
             }
             .background(Color.black60Color)
-            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            .edgesIgnoringSafeArea(.all)
             
         }
 }

@@ -71,7 +71,7 @@ class ActivityViewModel: ObservableObject {
                     let activityTime = hourFormatter.date(from: activityTimeString) ?? Date()
                     
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd-MM-yyyy"
+                    dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
                     let activityComplete = dateFormatter.date(from: acitivityCompleteString) ?? Date()
                                                                         
                     return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime)

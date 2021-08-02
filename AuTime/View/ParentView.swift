@@ -8,13 +8,26 @@
 import SwiftUI
 
 struct ParentView: View {
-    @Binding var showContentView: Bool
     @ObservedObject var userManager = UserViewModel.shared
+    @Binding var showContentView: Bool
+    @State var visualization: ParentViewMode = .schedule
+    
+    enum ParentViewMode {
+        case create, schedule, weeks, activities, tutorial
+    }
+    
     var body: some View {
         GeometryReader{ geometry in
             
-            SideBarParentView(showContentView: $showContentView)
-                .frame(width: geometry.size.width * 0.27, alignment: .leading)
+            HStack {
+                SideBarParentView(showContentView: $showContentView)
+                    .frame(width: geometry.size.width * 0.27, alignment: .leading)
+                
+                Spacer()
+                
+                ScheduleView()
+            }
+            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         }
         
     }
@@ -23,5 +36,8 @@ struct ParentView: View {
 struct ParentView_Previews: PreviewProvider {
     static var previews: some View {
         ParentView(showContentView: .constant(true))
+            .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
+            .environment(\.horizontalSizeClass, .compact)
+            .environment(\.verticalSizeClass, .compact)
     }
 }

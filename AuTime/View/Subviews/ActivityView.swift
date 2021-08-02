@@ -10,6 +10,7 @@ import SwiftUI
 struct ActivityView: View {
     var activity: Activity
     var subActivitiesCount: Int = 5
+    var colorTheme: Color
     
     func getIconImage() -> Image{
         switch self.activity.category {
@@ -34,7 +35,7 @@ struct ActivityView: View {
                     self.getIconImage()
                         .resizable()
                         .scaledToFit()
-                        .foregroundColor(.greenColor)
+                        .foregroundColor(colorTheme)
                         .frame(width: 0.1*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .padding(.trailing)
                         
@@ -42,7 +43,7 @@ struct ActivityView: View {
                         Text(self.activity.name)
                             .font(.title3)
                             .fontWeight(.bold)
-                            .foregroundColor(.greenColor)
+                            .foregroundColor(colorTheme)
                         
                         Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "Nenhuma") subtarefa\(subActivitiesCount > 1 ? "s" : "")")
                             .font(.subheadline)
@@ -60,7 +61,7 @@ struct ActivityView: View {
 
 //struct ActivityView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ActivityView(activity: <#Activity#>)
+//        ActivityView(activity: <#Activity#>, colorTheme: .greenColor)
 //            .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
 //    }
 //}

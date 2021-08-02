@@ -11,18 +11,16 @@ struct ChildView: View {
     
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var userManager = UserViewModel.shared
-    @State var visualization: ViewMode = .day
+    @State var visualization: ChildViewMode = .day
     @State var currentActivity: Int = 1
     @State var currentDate = ""
     @State var currentHour = ""
     @Binding var showContentView: Bool
     
-    var names: [String] = ["beber agua", "oi", "bom dia", "tomar banho"]
     var profile = UIImage(imageLiteralResourceName: "memoji.png")
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
-    
     init(show: Binding<Bool>) {
         self._showContentView = show
         self.currentActivity = self.getCurrentActivityIndex()
@@ -66,7 +64,7 @@ struct ChildView: View {
         return timeString
     }
     
-    enum ViewMode {
+    enum ChildViewMode {
         case day, week
     }
     

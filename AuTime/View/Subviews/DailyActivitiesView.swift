@@ -31,7 +31,7 @@ struct DailyActivitiesView: View {
                     
                     ForEach(Array(self.activitiesManager.todayActivities.enumerated()), id: \.offset) { index, activity in
                         VStack {
-                            ActivityView(activity: activity)
+                            ActivityView(activity: activity, colorTheme: .greenColor)
                                 .frame(width: 314, height: 252, alignment: .center)
                                 .padding(.bottom)
                             
