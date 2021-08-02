@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E19547526B8374E0036B1FC /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E19547426B8374E0036B1FC /* ScheduleView.swift */; };
 		3E3CFC4626A6F0C5007C2646 /* ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CFC4526A6F0C5007C2646 /* ChildView.swift */; };
 		3E3CFC4926A6F69A007C2646 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CFC4826A6F69A007C2646 /* ColorExtension.swift */; };
 		3E3CFC4B26A70000007C2646 /* CornerRadiusExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CFC4A26A70000007C2646 /* CornerRadiusExtension.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E19547426B8374E0036B1FC /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		3E3CFC4526A6F0C5007C2646 /* ChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildView.swift; sourceTree = "<group>"; };
 		3E3CFC4826A6F69A007C2646 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		3E3CFC4A26A70000007C2646 /* CornerRadiusExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadiusExtension.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				5789EF3E26B81FA600218BE7 /* SideBarParentView.swift */,
 				3E8E53C926B4362100D3853F /* WeekActivitiesView.swift */,
 				3E8E53CB26B44E0000D3853F /* DailyActivitiesView.swift */,
+				3E19547426B8374E0036B1FC /* ScheduleView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				57A2F2FB26AAEF7B000A75AD /* SubActivitiesView.swift in Sources */,
 				57EA9D6926AEF75300439615 /* ImageViewModel.swift in Sources */,
 				3E3CFC4626A6F0C5007C2646 /* ChildView.swift in Sources */,
+				3E19547526B8374E0036B1FC /* ScheduleView.swift in Sources */,
 				5779035926A5B4E300D856BD /* ActivityViewModel.swift in Sources */,
 				3E3CFC4B26A70000007C2646 /* CornerRadiusExtension.swift in Sources */,
 				5708DA5526B4342B007DFB66 /* ParentView.swift in Sources */,
