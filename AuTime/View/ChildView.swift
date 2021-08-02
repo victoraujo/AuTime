@@ -11,7 +11,7 @@ struct ChildView: View {
     
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var userManager = UserViewModel.shared
-    @State var visualization: ViewMode = .day
+    @State var visualization: ViewMode = .week
     @State var currentActivity: Int = 1
     @State var currentDate = ""
     @State var currentHour = ""
@@ -198,7 +198,7 @@ struct ChildView: View {
                 
                 Spacer()
                 
-                Text("O que vou fazer hoje?")
+                Text("O que vou fazer \(visualization == .day ? "hoje" : "esta semana")?")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.black90Color)
@@ -208,59 +208,8 @@ struct ChildView: View {
                     
                     Spacer()
                     
-                    if self.names.count == 0 {
-                        
-                        Text("Nenhuma atividade cadastrada para hoje")
-                            .font(.title3)
-                            .fontWeight(.regular)
-                            .foregroundColor(.black90Color)
-                            .frame(width: 0.9*geometry.size.width, alignment: .center)
-                        
-                        Spacer()
-                    } else {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            ScrollViewReader { reader in
-                                
-                                HStack(alignment: .center, spacing: 0.1*geometry.size.width){
-                                    
-                                    Rectangle()
-                                        .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                        .foregroundColor(.clear)
-                                        .id(0)
-                                    
-                                    ForEach(Array(self.activitiesManager.todayActivities.enumerated()), id: \.offset) { index, activity in
-                                        VStack {
-                                            ActivityView(activity: activity)
-                                                .frame(width: 314, height: 252, alignment: .center)
-                                                .padding(.bottom)
-                                            
-                                            Text("\(getHoursAndMinutes(from: activity.time))")
-                                                .font(.title2)
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.black90Color)
-                                                .padding(.top, 30)
-                                        }
-                                        .id(index + 1)
-                                        
-                                    }
-                                    
-                                    Rectangle()
-                                        .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                        .foregroundColor(.clear)
-                                        .id(self.activitiesManager.todayActivities.count + 1)
-                                    
-                                }
-                                .onAppear {
-                                    //print("Mudou o index para: \(self.currentActivity)")
-                                    reader.scrollTo(currentActivity)
-                                }
-                                .animation(.easeInOut)
-                            }
-                            
-                        }
-                        .frame(width: 0.9*geometry.size.width, alignment: .center)
-
-                        
+                    if self.visualization == .day {
+                        DailyActivitiesView(currentActivity: self.$currentActivity)
                         
                         Divider()
                             .frame(height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -276,6 +225,8 @@ struct ChildView: View {
                                 print("Cliquei no paranaue")
                                 print("index: \(self.currentActivity)")
                             }
+                    } else {
+                        WeekActivitiesView()
                     }
                 }
                 
