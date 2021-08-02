@@ -22,7 +22,7 @@ class SubActivityViewModel: ObservableObject {
     func createSubActivity(complete: Date, name: String, handler: @escaping () -> Void?) {
         
         if let docId = userManager.session?.email, let activityId = self.activityReference {
-            let usersCollecttion = db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addDocument(data: [
+            let _ = db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addDocument(data: [
                 "complete": complete,
                 "name": name
             ])

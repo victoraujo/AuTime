@@ -22,7 +22,7 @@ struct ActivityView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack{
+            VStack (alignment: .leading){
                 Image(uiImage: UIImage(imageLiteralResourceName: "breakfast"))
                     .resizable()
                     .clipped()
@@ -49,8 +49,8 @@ struct ActivityView: View {
                             .fontWeight(.bold)
                             .foregroundColor(.black90Color)
                     }
-                    
                 }
+                .padding(.leading)
                 .padding(.vertical, 12)
             }
             .cornerRadius(21)

@@ -12,6 +12,9 @@ class ActivityViewModel: ObservableObject {
     @Published var activities = [Activity]()
     @Published var todayActivities = [Activity]()
     
+    // Sunday to Saturday
+    @Published var weekActivities: [[Activity]] = [[], [], [], [], [], [], []]
+    
     static var shared = ActivityViewModel()
     
     var userManager = UserViewModel.shared
@@ -50,7 +53,7 @@ class ActivityViewModel: ObservableObject {
             
             db.collection("users").document(docId).collection("activities").addSnapshotListener({(snapshot, error) in
                 guard let documents = snapshot?.documents else {
-                    print("No docs returend")
+                    print("No docs returned")
                     return
                 }
                 self.activities = documents.map({docSnapshot -> Activity in
@@ -68,13 +71,14 @@ class ActivityViewModel: ObservableObject {
                     let activityTime = hourFormatter.date(from: activityTimeString) ?? Date()
                     
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd-mm-yyyy"
+                    dateFormatter.dateFormat = "dd-MM-yyyy"
                     let activityComplete = dateFormatter.date(from: acitivityCompleteString) ?? Date()
                                                                         
                     return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime)
                 })
 
-                self.filterTodayActivities()
+                self.activities.sort(by: {$0.time < $1.time})
+                self.filterActivitiesPerDay()
                 self.objectWillChange.send()
                 
             })
@@ -82,13 +86,16 @@ class ActivityViewModel: ObservableObject {
 
     }
     
-    func filterTodayActivities() {
-        self.todayActivities = self.activities.filter { activity in
-            let today = getDayOfWeek(Date())
-            return activity.repeatDays.contains(today)
-        }
+    func filterActivitiesPerDay() {
+        self.weekActivities = [[], [], [], [], [], [], []]
         
-        self.objectWillChange.send()
+        for activity in self.activities {
+            for day in activity.repeatDays {
+                self.weekActivities[day - 1].append(activity)
+            }
+        }
+        let todayIndex = getDayOfWeek(Date()) - 1
+        self.todayActivities = self.weekActivities[todayIndex]
     }
     
     func clearActivities() {
@@ -101,6 +108,5 @@ class ActivityViewModel: ObservableObject {
         let weekDay = calendar.component(.weekday, from: day)
         return weekDay
     }
-    
     
 }
