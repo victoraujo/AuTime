@@ -11,13 +11,6 @@ struct DailyActivitiesView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @Binding var currentActivity: Int
     
-    func getHoursAndMinutes(from date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        let timeString = formatter.string(from: date)
-        return timeString
-    }
-    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { reader in
@@ -35,7 +28,7 @@ struct DailyActivitiesView: View {
                                 .frame(width: 314, height: 252, alignment: .center)
                                 .padding(.bottom)
                             
-                            Text("\(getHoursAndMinutes(from: activity.time))")
+                            Text("\(DateHelper.getHoursAndMinutes(from: activity.time))")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(.black90Color)
@@ -52,7 +45,6 @@ struct DailyActivitiesView: View {
                     
                 }
                 .onAppear {
-                    //print("Mudou o index para: \(self.currentActivity)")
                     reader.scrollTo(currentActivity)
                 }
                 .animation(.easeInOut)

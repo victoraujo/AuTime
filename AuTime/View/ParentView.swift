@@ -10,9 +10,9 @@ import SwiftUI
 struct ParentView: View {
     @ObservedObject var userManager = UserViewModel.shared
     @Binding var showContentView: Bool
-    @State var visualization: ParentViewMode = .schedule
+    @State var visualization: ParentViewMode = .create
     
-    enum ParentViewMode {
+    public enum ParentViewMode: Int {
         case create, schedule, weeks, activities, tutorial
     }
     
@@ -20,12 +20,27 @@ struct ParentView: View {
         GeometryReader{ geometry in
             
             HStack {
-                SideBarParentView(showContentView: $showContentView)
+                SideBarParentView(showContentView: $showContentView, visualization: $visualization)
                     .frame(width: geometry.size.width * 0.27, alignment: .leading)
                 
                 Spacer()
                 
-                ScheduleView()
+                if visualization == .create {
+                    Text("Criar")
+                }
+                else if visualization == .schedule {
+                    ScheduleView()
+                }
+                else if visualization == .weeks {
+                    Text("Semanas")
+                }
+                else if visualization == .activities {
+                    Text("Todas atividades")
+                }
+                else if visualization == .tutorial {
+                    Text("Tutoriais")
+                }
+                
             }
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         }
