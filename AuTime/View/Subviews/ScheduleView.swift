@@ -9,13 +9,11 @@ import SwiftUI
 
 struct ScheduleView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
+    @State var currentActivity: Int = 0
     var colorTheme: Color = .blue
     
-    func getHoursAndMinutes(from date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        let timeString = formatter.string(from: date)
-        return timeString
+    init() {
+        currentActivity = self.activitiesManager.getCurrentActivityIndex(offset: 0)
     }
     
     var body: some View {
@@ -44,10 +42,10 @@ struct ScheduleView: View {
                     ScrollView(.vertical) {
                         VStack(alignment: .center, spacing: 0.1*UIScreen.main.bounds.height){
                             
-                            ForEach(self.activitiesManager.todayActivities, id: \.self) {  activity in
+                            ForEach(Array(self.activitiesManager.todayActivities.enumerated()), id: \.offset) {  index, activity in
                                 HStack(alignment: .center) {
                                     
-                                    Text("\(getHoursAndMinutes(from: activity.time))")
+                                    Text("\(DateHelper.getHoursAndMinutes(from: activity.time))")
                                         .font(.title2)
                                         .fontWeight(.bold)
                                         .foregroundColor(.black90Color)
@@ -108,7 +106,12 @@ struct ScheduleView: View {
                                     Spacer()
                                     
                                 }
+                                .id(index)
                             }
+                            
+                            Rectangle()
+                                .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .foregroundColor(.clear)
                         }
                         .padding()
                     }

@@ -24,7 +24,16 @@ class ActivityViewModel: ObservableObject {
     init() {
         self.fetchData()
     }
-        
+    
+    /// Create an activity in Firestore Database
+    /// - Parameters:
+    ///   - category: Activity's category
+    ///   - complete: The last time this activity was completed
+    ///   - star: Indicates if this activity will generate a star
+    ///   - name: Activity's name
+    ///   - days: Activity repeat days
+    ///   - time: The time the activity is scheduled
+    ///   - handler: Function to execute after create procedure
     func createActivity(category: String, complete: Date, star: Bool, name: String, days: [Int], time: Date, handler: @escaping () -> Void?) {
         
         if let docId = userManager.session?.email {
@@ -47,6 +56,7 @@ class ActivityViewModel: ObservableObject {
         }
     }
     
+    /// Fecth activities data from Firestore Database
     func fetchData() {
         if let docId = userManager.session?.email {
             print("Vou pegar a atividade do email \(docId)")
@@ -86,6 +96,7 @@ class ActivityViewModel: ObservableObject {
 
     }
     
+    /// Separate activities on weekdays
     func filterActivitiesPerDay() {
         self.weekActivities = [[], [], [], [], [], [], []]
         
@@ -98,15 +109,42 @@ class ActivityViewModel: ObservableObject {
         self.todayActivities = self.weekActivities[todayIndex]
     }
     
+    /// Clear activities from local class
     func clearActivities() {
         self.activities = []
         self.todayActivities = []
     }
-
+    
+    /// Indicates the integer number as week day (starts in 1 - Sunday)
+    /// - Parameter day: Date which seeks to discover the day of the week
+    /// - Returns: The integer number which represents the day of the week
     func getDayOfWeek(_ day: Date) -> Int {
         let calendar = Calendar(identifier: .gregorian)
         let weekDay = calendar.component(.weekday, from: day)
         return weekDay
+    }
+    
+    /// Indicates the index of the first incomplete activity in a list
+    /// - Parameter offset: Indicates if there is any offset in the list, as  in ChildView
+    /// - Returns: List Index (Activity Index + Offset)
+    func getCurrentActivityIndex(offset: Int) -> Int {
+        let index = self.todayActivities.firstIndex(where: {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd-MM-yyyy"
+            
+            let activityDate = dateFormatter.string(from: $0.complete)
+            let todayDate  = dateFormatter.string(from: Date())
+            
+            print("\($0.name) Date: \(activityDate)")
+            print("todayDate: \(todayDate)")
+            
+            return activityDate != todayDate
+            
+        })
+        
+        print("currentIndex = \(index ?? -1000)")
+        return (index ?? self.todayActivities.count) + offset
     }
     
 }

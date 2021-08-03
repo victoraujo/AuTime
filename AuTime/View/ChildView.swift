@@ -23,48 +23,10 @@ struct ChildView: View {
 
     init(show: Binding<Bool>) {
         self._showContentView = show
-        self.currentActivity = self.getCurrentActivityIndex()
+        self.currentActivity = self.activitiesManager.getCurrentActivityIndex(offset: 1)
     }
     
-    func getCurrentActivityIndex() -> Int {
-        let index = self.activitiesManager.todayActivities.firstIndex(where: {
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd-MM-yyyy"
-            
-            let activityDate = dateFormatter.string(from: $0.complete)
-            let todayDate  = dateFormatter.string(from: Date())
-            
-            print("\($0.name) Date: \(activityDate)")
-            print("todayDate: \(todayDate)")
-            
-            return activityDate != todayDate
-            
-        })
-        
-        print("currentIndex = \(index ?? -1000)")
-        return (index ?? self.activitiesManager.todayActivities.count) + 1
-    }
-    
-    func getDate(from date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM"
-        
-        let days = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
-        let calendar = Calendar(identifier: .gregorian)
-        let weekDay = calendar.component(.weekday, from: date)
-        
-        return days[weekDay-1] + ", " + dateFormatter.string(from: date)
-    }
-    
-    func getHoursAndMinutes(from date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        let timeString = formatter.string(from: date)
-        return timeString
-    }
-    
-    enum ChildViewMode {
+    public enum ChildViewMode: Int {
         case day, week
     }
     
@@ -89,8 +51,8 @@ struct ChildView: View {
                         }
                     }
                     .onReceive(timer, perform: { _ in
-                        self.currentDate = self.getDate(from: Date())
-                        self.currentHour = self.getHoursAndMinutes(from: Date())
+                        self.currentDate = DateHelper.getDate(from: Date())
+                        self.currentHour = DateHelper.getHoursAndMinutes(from: Date())
                     })
                     .padding()
                     .frame(width: 0.27*geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -238,7 +200,7 @@ struct ChildView: View {
                 self.activitiesManager.fetchData()
             })
             .onChange(of: self.activitiesManager.todayActivities, perform: { _ in
-                self.currentActivity = self.getCurrentActivityIndex()
+                self.currentActivity = self.activitiesManager.getCurrentActivityIndex(offset: 1)
             })
         }
     }

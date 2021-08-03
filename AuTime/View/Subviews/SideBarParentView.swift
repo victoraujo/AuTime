@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct SideBarParentView: View {
-    @Binding var showContentView: Bool
     @ObservedObject var userManager = UserViewModel.shared
+    @Binding var showContentView: Bool
+    @Binding var visualization: ParentView.ParentViewMode
+    
     var profile = UIImage(imageLiteralResourceName: "memoji.png")
     var menu = ["Criar atividade", "Mostrar cronograma", "Ver semanas", "Ver todas atividades", "Ver tutorias"]
+    var colorTheme: Color = .blue
     
     var body: some View {
         GeometryReader{geometry in
@@ -20,7 +23,7 @@ struct SideBarParentView: View {
                     HStack(alignment: .center){
                         Button(action: {
                             self.userManager.signOut()
-//                            self.activitiesManager.clearActivities()
+                            //                            self.activitiesManager.clearActivities()
                             self.showContentView.toggle()
                         }, label: {
                             VStack(alignment: .center){
@@ -65,26 +68,28 @@ struct SideBarParentView: View {
                         .padding(.horizontal)
                     }
                     .frame(width: geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .background(Rectangle().fill(Color.blue).cornerRadius(21, [.bottomRight]))
-                
+                    .background(Rectangle().fill(colorTheme).cornerRadius(21, [.bottomRight]))
+                    
                     Text("Área do Responsável")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundColor(.black90Color)
+                        .foregroundColor(.black100Color)
                         .padding()
                         .frame(alignment: .center)
                     
                     Spacer()
                     
-                    ForEach(0..<menu.count){index in
-                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    ForEach(0..<menu.count){ index in
+                        Button(action: {
+                            visualization = ParentView.ParentViewMode(rawValue: index)!
+                        }, label: {
                             Text(menu[index])
                                 .foregroundColor(.white)
                                 .font(.title3)
                                 .fontWeight(.bold)
                                 .padding()
                                 .frame(width: 0.89*geometry.size.width, alignment: .center)
-                                .background(Rectangle().fill(Color.blue).cornerRadius(25))
+                                .background(Rectangle().fill(visualization.rawValue == index ? Color.blue90Color : colorTheme).cornerRadius(25))
                         })
                         
                         Spacer()
@@ -92,16 +97,16 @@ struct SideBarParentView: View {
                     Spacer(minLength: 0.15*geometry.size.height)
                     
                 }
-            
+                
             }
             .background(Color.black60Color)
             .edgesIgnoringSafeArea(.all)
             
         }
-}
+    }
 }
 struct SideBarParentView_Previews: PreviewProvider {
     static var previews: some View {
-        SideBarParentView(showContentView: .constant(true))
+        SideBarParentView(showContentView: .constant(true), visualization: .constant(ParentView.ParentViewMode(rawValue: 0)!))
     }
 }
