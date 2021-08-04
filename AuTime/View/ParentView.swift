@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ParentView: View {
     @ObservedObject var userManager = UserViewModel.shared
-    @Binding var showContentView: Bool
     @State var visualization: ParentViewMode = .create
+    @Binding var showContentView: Bool
     
     public enum ParentViewMode: Int {
         case create, schedule, weeks, activities, tutorial

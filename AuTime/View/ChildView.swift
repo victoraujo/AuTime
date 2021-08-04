@@ -11,19 +11,24 @@ struct ChildView: View {
     
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var userManager = UserViewModel.shared
+    @State var IconImage: Image = Image("")
     @State var visualization: ChildViewMode = .day
-    @State var currentActivity: Int = 1
-    @State var currentDate = ""
-    @State var currentHour = ""
+    @State var currentActivityReference: Activity? = nil
+    @State var currentActivityIndex: Int = 1
+    @State var currentDate = DateHelper.getDate(from: Date())
+    @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
+    @State var showSubActivitiesView: Bool = false
     @Binding var showContentView: Bool
     
     var profile = UIImage(imageLiteralResourceName: "memoji.png")
+    var colorTheme: Color = .greenColor
+    var subActivitiesCount: Int = 5
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
-    init(show: Binding<Bool>) {
-        self._showContentView = show
-        self.currentActivity = self.activitiesManager.getCurrentActivityIndex(offset: 1)
+    
+    init(showContentView: Binding<Bool>) {
+        self._showContentView = showContentView
+        self.currentActivityIndex = self.activitiesManager.getCurrentActivityIndex(offset: 1)
     }
     
     public enum ChildViewMode: Int {
@@ -61,6 +66,7 @@ struct ChildView: View {
                     Spacer()
                     
                     VStack(alignment: .center) {
+                        
                         Text("Visualização")
                             .font(.title3)
                             .fontWeight(.bold)
@@ -169,7 +175,7 @@ struct ChildView: View {
                     Spacer()
                     
                     if self.visualization == .day {
-                        DailyActivitiesView(currentActivity: self.$currentActivity)
+                        DailyActivitiesView(currentActivity: self.$currentActivityIndex, activityReference: self.$currentActivityReference)
                         
                         Divider()
                             .frame(height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -178,13 +184,15 @@ struct ChildView: View {
                         
                         Spacer()
                         
-                        PremiumActivityView()
-                            .frame(width: 0.36*geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
-                            .onTapGesture {
-                                //self.currentActivity = Int.random(in: 0..<self.activitiesManager.todayActivities.count)
-                                print("Cliquei no paranaue")
-                                print("index: \(self.currentActivity)")
-                            }
+                        if activitiesManager.hasPremiumActivity() {
+                            PremiumActivityView()
+                                .frame(width: 0.36*geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
+//                                .onTapGesture {
+//                                    print("Cliquei no paranaue")
+//                                    print("index: \(self.currentActivityIndex)")
+//                                }
+                        }
+                        
                     } else {
                         WeekActivitiesView()
                             .frame(width: 0.9*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -195,20 +203,34 @@ struct ChildView: View {
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             .onAppear {
                 self.activitiesManager.fetchData()
+                self.showSubActivitiesView = false
+                self.currentActivityReference = nil
             }
             .onChange(of: self.userManager.session, perform: { _ in
                 self.activitiesManager.fetchData()
             })
             .onChange(of: self.activitiesManager.todayActivities, perform: { _ in
-                self.currentActivity = self.activitiesManager.getCurrentActivityIndex(offset: 1)
+                self.currentActivityIndex = self.activitiesManager.getCurrentActivityIndex(offset: 1)
             })
+            .onChange(of: currentActivityReference, perform: { value in
+                if value != nil {
+                    self.showSubActivitiesView = true
+                } else {
+                    self.showSubActivitiesView = false
+                }
+                
+            })
+            .fullScreenCover(isPresented: $showSubActivitiesView){
+                SubActivitiesView(showContentView: $showContentView, showSubActivitiesView: $showSubActivitiesView, activity: $currentActivityReference)
+            }
+            
         }
     }
 }
 
 struct ChildView_Previews: PreviewProvider {
     static var previews: some View {
-        ChildView(show: .constant(true))
+        ChildView(showContentView: .constant(true))
             .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
             .environment(\.horizontalSizeClass, .compact)
             .environment(\.verticalSizeClass, .compact)

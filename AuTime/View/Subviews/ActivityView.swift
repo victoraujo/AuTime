@@ -11,14 +11,12 @@ struct ActivityView: View {
     var activity: Activity
     var subActivitiesCount: Int = 5
     var colorTheme: Color
+    var IconImage: Image
     
-    func getIconImage() -> Image{
-        switch self.activity.category {
-        case "Prêmio":
-            return Image(systemName: "star.fill")
-        default:
-            return Image(systemName: "heart.fill")
-        }
+    init(activity: Activity, colorTheme: Color) {
+        self.activity = activity
+        self.colorTheme = colorTheme
+        self.IconImage = Activity.getIconImage(from: self.activity.category)
     }
     
     var body: some View {
@@ -32,7 +30,7 @@ struct ActivityView: View {
                     .cornerRadius(21, [.topRight, .topLeft])
                 
                 HStack(alignment: .center){
-                    self.getIconImage()
+                    IconImage
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(colorTheme)
@@ -51,7 +49,7 @@ struct ActivityView: View {
                             .foregroundColor(.black90Color)
                     }
                 }
-                .padding(.leading)
+                .padding(.leading, 30)
                 .padding(.vertical, 12)
             }
             .cornerRadius(21)

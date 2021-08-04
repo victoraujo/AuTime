@@ -17,18 +17,18 @@ class SubActivityViewModel: ObservableObject {
     
     var userManager = UserViewModel.shared
     var db = Firestore.firestore()
-    var user = Auth.auth().currentUser
         
     func createSubActivity(complete: Date, name: String, handler: @escaping () -> Void?) {
-        
+        print("Get subs")
         if let docId = userManager.session?.email, let activityId = self.activityReference {
+            print("email: \(docId)    -       activity: \(activityId)")
             let _ = db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addDocument(data: [
                 "complete": complete,
                 "name": name
             ])
             {err in
                 if let err = err {
-                    print("error adding document:\(err)")
+                    print("error adding document on CreateSubActivity:\(err)")
                 }
                 else{
                     print("email: \(docId); id: \(activityId)")

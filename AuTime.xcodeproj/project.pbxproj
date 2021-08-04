@@ -114,6 +114,7 @@
 				3E8E53C926B4362100D3853F /* WeekActivitiesView.swift */,
 				3E8E53CB26B44E0000D3853F /* DailyActivitiesView.swift */,
 				3E19547426B8374E0036B1FC /* ScheduleView.swift */,
+				57A2F2FA26AAEF7B000A75AD /* SubActivitiesView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -187,7 +188,6 @@
 			children = (
 				3E3CFC4C26A714E7007C2646 /* Subviews */,
 				57218E2226A5B25000D8F1E2 /* ContentView.swift */,
-				57A2F2FA26AAEF7B000A75AD /* SubActivitiesView.swift */,
 				3E3CFC4526A6F0C5007C2646 /* ChildView.swift */,
 				5708DA5426B4342B007DFB66 /* ParentView.swift */,
 				57FCA34626A85D3500A57732 /* SignUpView.swift */,
