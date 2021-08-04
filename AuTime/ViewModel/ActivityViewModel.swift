@@ -47,7 +47,7 @@ class ActivityViewModel: ObservableObject {
             ])
             {err in
                 if let err = err {
-                    print("Error adding document: \(err)")
+                    print("Error adding document on createActivity: \(err)")
                 }
                 else{
                     handler()
@@ -59,8 +59,6 @@ class ActivityViewModel: ObservableObject {
     /// Fecth activities data from Firestore Database
     func fetchData() {
         if let docId = userManager.session?.email {
-            print("Vou pegar a atividade do email \(docId)")
-            
             db.collection("users").document(docId).collection("activities").addSnapshotListener({(snapshot, error) in
                 guard let documents = snapshot?.documents else {
                     print("No docs returned")
@@ -136,15 +134,18 @@ class ActivityViewModel: ObservableObject {
             let activityDate = dateFormatter.string(from: $0.complete)
             let todayDate  = dateFormatter.string(from: Date())
             
-            print("\($0.name) Date: \(activityDate)")
-            print("todayDate: \(todayDate)")
-            
+//            print("\($0.name) Date: \(activityDate)")
+//            print("todayDate: \(todayDate)")
+//
             return activityDate != todayDate
             
         })
         
-        print("currentIndex = \(index ?? -1000)")
         return (index ?? self.todayActivities.count) + offset
+    }
+    
+    func hasPremiumActivity() -> Bool {
+        return self.todayActivities.contains(where: {$0.category == "Prêmio"})
     }
     
 }

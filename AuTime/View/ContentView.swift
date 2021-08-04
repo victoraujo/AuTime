@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// TO DELETE
+
 struct ContentView: View {
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var activitiesManager = ActivityViewModel.shared
@@ -77,8 +79,8 @@ struct ContentView: View {
         .onAppear(perform: {
             self.activitiesManager.fetchData()
         })
-        .fullScreenCover(isPresented: $showSubActivitiesView){ SubActivitiesView()
-        }
+        //.fullScreenCover(isPresented: $showSubActivitiesView){ SubActivitiesView()
+        //}
         
     }
 }

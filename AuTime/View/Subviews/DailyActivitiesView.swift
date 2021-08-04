@@ -10,47 +10,51 @@ import SwiftUI
 struct DailyActivitiesView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @Binding var currentActivity: Int
+    @Binding var activityReference: Activity?
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            ScrollViewReader { reader in
-                
-                HStack(alignment: .center, spacing: 0.1*UIScreen.main.bounds.width){
+            ScrollView(.horizontal, showsIndicators: false) {
+                ScrollViewReader { reader in
                     
-                    Rectangle()
-                        .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .foregroundColor(.clear)
-                        .id(0)
-                    
-                    ForEach(Array(self.activitiesManager.todayActivities.enumerated()), id: \.offset) { index, activity in
-                        VStack {
-                            ActivityView(activity: activity, colorTheme: .greenColor)
-                                .frame(width: 314, height: 252, alignment: .center)
-                                .padding(.bottom)
+                    HStack(alignment: .center, spacing: 0.05*UIScreen.main.bounds.width){
+                        
+                        Rectangle()
+                            .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                            .foregroundColor(.clear)
+                            .id(0)
+                        
+                        ForEach(Array(self.activitiesManager.todayActivities.enumerated()), id: \.offset) { index, activity in
+                            VStack {
+                                ActivityView(activity: activity, colorTheme: .greenColor)
+                                    .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                    .padding(.bottom)
+                                    .onTapGesture {
+                                        activityReference = activity
+                                    }
+                                
+                                Text("\(DateHelper.getHoursAndMinutes(from: activity.time))")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.black90Color)
+                                    .padding(.top, 30)
+                            }
+                            .id(index + 1)
                             
-                            Text("\(DateHelper.getHoursAndMinutes(from: activity.time))")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .foregroundColor(.black90Color)
-                                .padding(.top, 30)
                         }
-                        .id(index + 1)
+                        
+                        Rectangle()
+                            .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                            .foregroundColor(.clear)
+                            .id(self.activitiesManager.todayActivities.count + 1)
                         
                     }
-                    
-                    Rectangle()
-                        .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .foregroundColor(.clear)
-                        .id(self.activitiesManager.todayActivities.count + 1)
-                    
+                    .onAppear {
+                        reader.scrollTo(currentActivity)
+                    }
+                    .animation(.easeInOut)
                 }
-                .onAppear {
-                    reader.scrollTo(currentActivity)
-                }
-                .animation(.easeInOut)
+                
             }
-            
-        }
-        .frame(width: 0.9*UIScreen.main.bounds.width, alignment: .center)
+            .frame(width: UIScreen.main.bounds.width, alignment: .center)
     }
 }

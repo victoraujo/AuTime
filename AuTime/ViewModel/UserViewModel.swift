@@ -24,14 +24,12 @@ class UserViewModel: ObservableObject {
     }
     
     func listen(){
-        print("listening")
+        print("Listening User")
         handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
             if let user = user {
                 self.session = UserSession(uid: user.uid, email: user.email)
-                print("if")
             }
             else{
-                print("else")
                 self.session = nil
             }
         })
@@ -63,7 +61,7 @@ class UserViewModel: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
-            print("Logged out")
+            print("Logged out!")
         } catch let error {
             print("Logout error: \(error.localizedDescription)")
         }
