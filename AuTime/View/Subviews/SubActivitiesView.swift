@@ -272,75 +272,75 @@ struct SubActivitiesView: View {
                         }
                         .frame(width: UIScreen.main.bounds.width, alignment: .center)
                         .padding()
-                        
-                        Divider()
-                            .frame(height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            .padding(.bottom)
-                            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                        
-                        Spacer()
-                        
-                        HStack(alignment: .center) {
-                            
-                            Button(action: {
-                                self.showSubActivitiesView = false
-                            }, label: {
-                                Text("Voltar")
-                                    .foregroundColor(.black100Color)
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                                    .padding()
-                                    .padding(.horizontal)
-                                    .frame(width: 0.32*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
-                                    .background(colorTheme)
-                                    .cornerRadius(28)
-                                    .padding(.trailing)
-                                
-                            })
-                            
-                            Button(action: {
-                                print("Atividade concluída")
-                                self.showSubActivitiesView = false
-                            }, label: {
-                                Text("Concluir Atividade")
-                                    .foregroundColor(.black100Color)
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                                    .padding()
-                                    .padding(.horizontal)
-                                    .frame(width: 0.3*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
-                                    .background(colorTheme)
-                                    .cornerRadius(28)
-                                    .padding(.leading)
-                            })
-                            
-                        }
-                        .padding()
-                        .padding(.bottom)
-                        .frame(width: geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
-                        
                     }
-                }
-                .onAppear {
-                    self.subActivitiesManager.activityReference = currentActivityReference?.id
-                    self.subActivitiesManager.fetchData()
                     
-                    if let activity = self.currentActivityReference {
-                        self.IconImage = Activity.getIconImage(from: activity.category)
+                    Divider()
+                        .frame(height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .padding(.bottom)
+                        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    
+                    Spacer()
+                    
+                    HStack(alignment: .center) {
+                        
+                        Button(action: {
+                            self.showSubActivitiesView = false
+                        }, label: {
+                            Text("Voltar")
+                                .foregroundColor(.black100Color)
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .padding()
+                                .padding(.horizontal)
+                                .frame(width: 0.32*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
+                                .background(colorTheme)
+                                .cornerRadius(28)
+                                .padding(.trailing)
+                            
+                        })
+                        
+                        Button(action: {
+                            print("Atividade concluída")
+                            self.showSubActivitiesView = false
+                        }, label: {
+                            Text("Concluir Atividade")
+                                .foregroundColor(.black100Color)
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .padding()
+                                .padding(.horizontal)
+                                .frame(width: 0.3*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
+                                .background(colorTheme)
+                                .cornerRadius(28)
+                                .padding(.leading)
+                        })
+                        
                     }
-                }
-                .onChange(of: self.userManager.session, perform: { _ in
-                    if let _ = self.userManager.session?.email {
-                        self.subActivitiesManager.fetchData()
-                    }
-                })
-                .onDisappear {
-                    self.currentActivityReference = nil
+                    .padding()
+                    .padding(.bottom)
+                    .frame(width: geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
+                    
                 }
             }
-            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-
+            .onAppear {
+                self.subActivitiesManager.activityReference = currentActivityReference?.id
+                self.subActivitiesManager.fetchData()
+                
+                if let activity = self.currentActivityReference {
+                    self.IconImage = Activity.getIconImage(from: activity.category)
+                }
+            }
+            .onChange(of: self.userManager.session, perform: { _ in
+                if let _ = self.userManager.session?.email {
+                    self.subActivitiesManager.fetchData()
+                }
+            })
+            .onDisappear {
+                self.currentActivityReference = nil
+            }
         }
+        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+        
     }
 }
 
