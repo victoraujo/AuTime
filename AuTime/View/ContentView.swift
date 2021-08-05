@@ -13,7 +13,7 @@ struct ContentView: View {
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var subActivitiesManager = SubActivityViewModel.shared
-    @ObservedObject var imageVM = ImageViewModel.shared
+    @ObservedObject var imageVM = ImageViewModel()
     
     @State var showSubActivitiesView = false
     @Binding var showContentView: Bool
@@ -22,7 +22,17 @@ struct ContentView: View {
     
     init(show: Binding<Bool>) {
         self._showContentView = show
-        self.imageVM.downloadImage()
+        self.imageVM.downloadImage(from: "users/\(String(describing: userManager.session?.email))/Activities/ocapi")
+        
+        var photo: UIImage!
+        
+        if let data = self.imageVM.imageView.image?.pngData() {
+            photo = UIImage(data: data)
+        } else {
+            photo = UIImage()
+        }
+        
+        self.image = photo
     }
     
     var body: some View {
@@ -35,7 +45,7 @@ struct ContentView: View {
                         showSubActivitiesView.toggle()
                     }
             }
-            Image(uiImage: imageVM.image.image ?? UIImage())
+            Image(uiImage: self.image)
             Button(action: {
                 activitiesManager.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [1, 2, 4, 6], time: Date(), handler: {})
             }, label: {
@@ -56,10 +66,10 @@ struct ContentView: View {
                 guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
                     return
                 }
-                 // Save image to URL
+                // Save image to URL
                 do {
                     try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
-                    imageVM.uploadImage(urlFile: imageURL)
+                    imageVM.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/Activities/ocapi")
                 } catch { }
             }, label: {
                 Text("UPLOAD")
@@ -68,7 +78,7 @@ struct ContentView: View {
             .padding()
             
             Button(action: {
-                imageVM.downloadImage()
+                let _ = imageVM.downloadImage(from: "users/\(String(describing: userManager.session?.email))/Activities/ocapi")
             }, label: {
                 Text("DOWNLOAD")
                     .foregroundColor(.red)
@@ -78,6 +88,16 @@ struct ContentView: View {
         
         .onAppear(perform: {
             self.activitiesManager.fetchData()
+            
+            var photo: UIImage!
+            
+            if let data = self.imageVM.imageView.image?.pngData() {
+                photo = UIImage(data: data)
+            } else {
+                photo = UIImage()
+            }
+            
+            self.image = photo
         })
         //.fullScreenCover(isPresented: $showSubActivitiesView){ SubActivitiesView()
         //}

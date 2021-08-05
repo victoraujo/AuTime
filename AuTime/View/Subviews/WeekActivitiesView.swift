@@ -10,7 +10,7 @@ import SwiftUI
 struct WeekActivitiesView: View {
         
     @ObservedObject var activitiesManager = ActivityViewModel.shared
-    
+        
     func getDateString(from date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM"
@@ -51,23 +51,7 @@ struct WeekActivitiesView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack (alignment: .center, spacing: 0.025*geometry.size.width){
                                 ForEach(self.activitiesManager.weekActivities[self.dayWeekIndex(offset: dayCount)], id: \.self) { activity in
-                                    VStack {
-                                        Image(uiImage: UIImage(imageLiteralResourceName: "breakfast"))
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 0.18*geometry.size.width, height: 0.018*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                        
-                                        Text(activity.name)
-                                            .foregroundColor(.greenColor)
-                                            .font(.body)
-                                            .fontWeight(.bold)
-                                            .multilineTextAlignment(.center)
-                                            .padding()
-                                        
-                                    }
-                                    .clipShape(RoundedRectangle(cornerRadius: 21))
-                                    .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
-                                    
+                                    ActivityWeekView(name: activity.name)
                                 }
                             }
                             .frame(minHeight: 210, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -78,6 +62,41 @@ struct WeekActivitiesView: View {
                 }
             }
         }
+    }
+}
+
+
+struct ActivityWeekView: View {
+    
+    @ObservedObject var imageManager = ImageViewModel()
+    @ObservedObject var userManager = UserViewModel.shared
+
+    var name: String
+    
+    init(name: String) {
+        self.name = name
+        
+        let filePath = "users/\(String(describing: userManager.session?.email))/Activities/\(self.name)"
+        self.imageManager.downloadImage(from: filePath)
+    }
+    
+    var body: some View {
+        VStack {
+            Image(uiImage: self.imageManager.imageView.image ?? UIImage())
+                .resizable()
+                .scaledToFill()
+                .frame(width: 0.18*UIScreen.main.bounds.width, height: 0.018*UIScreen.main.bounds.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            
+            Text(name)
+                .foregroundColor(.greenColor)
+                .font(.body)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .padding()
+            
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 21))
+        .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
     }
 }
 

@@ -15,7 +15,8 @@ struct Activity: Identifiable, Codable, Hashable {
     var name: String
     var repeatDays: [Int]
     var time: Date
-
+    //var image: Data
+    
     static func getIconImage(from category: String) -> Image {        
         switch category {
             case "Prêmio":
