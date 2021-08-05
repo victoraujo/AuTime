@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct ActivityView: View {
+    @ObservedObject var imageManager = ImageViewModel()
+    @ObservedObject var userManager = UserViewModel.shared
+    
+    @State var image: UIImage = UIImage()
+    
     var activity: Activity
     var subActivitiesCount: Int = 5
     var colorTheme: Color
@@ -17,12 +22,19 @@ struct ActivityView: View {
         self.activity = activity
         self.colorTheme = colorTheme
         self.IconImage = Activity.getIconImage(from: self.activity.category)
+        
+        if let email = userManager.session?.email {
+            let filePath = "users/\(email)/Activities/\(activity.name)"
+            self.imageManager.downloadImage(from: filePath)
+        }
+        
+        self.image = self.imageManager.imageView.image ?? UIImage()
     }
     
     var body: some View {
         GeometryReader { geometry in
             VStack (alignment: .leading){
-                Image(uiImage: UIImage(imageLiteralResourceName: "breakfast"))
+                Image(uiImage: self.image)
                     .resizable()
                     .clipped()
                     .scaledToFill()
@@ -54,6 +66,12 @@ struct ActivityView: View {
             }
             .cornerRadius(21)
         }
+        .onAppear{
+            self.image = self.imageManager.imageView.image ?? UIImage()
+        }
+        .onChange(of: imageManager.imageView.image, perform: { value in
+            self.image = self.imageManager.imageView.image ?? UIImage()
+        })
     }
 }
 

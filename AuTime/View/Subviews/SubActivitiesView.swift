@@ -11,6 +11,7 @@ struct SubActivitiesView: View {
     
     @ObservedObject var subActivitiesManager = SubActivityViewModel.shared
     @ObservedObject var userManager = UserViewModel.shared
+    @ObservedObject var imageManager = ImageViewModel()
     @State var IconImage: Image = Image("")
     @State var currentDate = DateHelper.getDate(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
@@ -34,6 +35,9 @@ struct SubActivitiesView: View {
         }
         
         self.subActivitiesManager.activityReference = currentActivityReference?.id
+        
+        let filePath = "users/\(String(describing: userManager.session?.email))/Activities/\(String(describing: currentActivityReference?.name))"
+        self.imageManager.downloadImage(from: filePath)
     }
     
     var body: some View {
@@ -75,10 +79,10 @@ struct SubActivitiesView: View {
                             .padding()
                         
                         HStack(alignment: .center) {
-                            Image(uiImage: UIImage(imageLiteralResourceName: "breakfast"))
-                                .resizable()
-                                .frame(width: geometry.size.width*0.1, height: geometry.size.height*0.1, alignment: .center)
-                                .padding(.trailing)
+                            Image(uiImage: self.imageManager.imageView.image ?? UIImage())
+                            .resizable()
+                            .frame(width: geometry.size.width*0.1, height: geometry.size.height*0.1, alignment: .center)
+                            .padding(.trailing)
                             
                             IconImage
                                 .resizable()
@@ -105,7 +109,7 @@ struct SubActivitiesView: View {
                         }
                         .clipShape(RoundedRectangle.init(cornerRadius: 21))
                         .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 10, x: 0, y: 6))
-
+                        
                         
                     }
                     .padding(.top)
@@ -207,7 +211,7 @@ struct SubActivitiesView: View {
                                         .cornerRadius(21)
                                         .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
                                         .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
-
+                                        
                                         .padding(.bottom)
                                         
                                         Text("Etapa \(index + 1)")

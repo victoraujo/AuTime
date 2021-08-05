@@ -9,17 +9,18 @@ import SwiftUI
 import Firebase
 
 class ActivityViewModel: ObservableObject {
+    @ObservedObject var imageManager = ImageViewModel()
+    @ObservedObject var userManager = UserViewModel.shared
+    
     @Published var activities = [Activity]()
     @Published var todayActivities = [Activity]()
-    
-    // Sunday to Saturday
     @Published var weekActivities: [[Activity]] = [[], [], [], [], [], [], []]
     
     static var shared = ActivityViewModel()
     
-    var userManager = UserViewModel.shared
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
+    
     
     init() {
         self.fetchData()
@@ -44,14 +45,25 @@ class ActivityViewModel: ObservableObject {
                 "name": name,
                 "repeatDays": days,
                 "time": time
-            ])
-            {err in
+            ]) { err in
                 if let err = err {
                     print("Error adding document on createActivity: \(err)")
                 }
                 else{
                     handler()
                 }
+            }
+            
+            guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
+                return
+            }
+            
+            // Save image to URL
+            do {
+                try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
+                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/Activities/\(name)")
+            } catch {
+                print("Can't upload the image \(name) to Activities folder.")
             }
         }
     }
@@ -81,8 +93,12 @@ class ActivityViewModel: ObservableObject {
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
                     let activityComplete = dateFormatter.date(from: acitivityCompleteString) ?? Date()
+                    
+//                    let activityImage: Data = self.getImage(from: activityName).pngData() ?? Data()
+//
+//                    print("IMAGEM DA ATIVIDADE: \(activityImage)")
                                                                         
-                    return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime)
+                    return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime)//, image: activityImage)
                 })
 
                 self.activities.sort(by: {$0.time < $1.time})
@@ -144,8 +160,28 @@ class ActivityViewModel: ObservableObject {
         return (index ?? self.todayActivities.count) + offset
     }
     
+    /// Indicates if there are any premium activity today
+    /// - Returns: A boolean indicating the presence of this activity
     func hasPremiumActivity() -> Bool {
         return self.todayActivities.contains(where: {$0.category == "Prêmio"})
+    }
+
+    func getImage(from activityName: String) -> UIImage {
+        guard let email = self.userManager.session?.email else {
+            print("Email was nil when call download image on ActivityViewModel.")
+            return UIImage()
+        }
+        let filePath = "users/\(String(describing: email))/Activities/\(activityName)"
+        self.imageManager.downloadImage(from: filePath)
+        
+        var photo: UIImage!
+        if let data = self.imageManager.imageView.image?.pngData() {
+            photo = UIImage(data: data)
+        } else {
+            photo = UIImage()
+        }
+        
+        return photo
     }
     
 }

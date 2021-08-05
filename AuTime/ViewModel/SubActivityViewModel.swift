@@ -5,17 +5,18 @@
 //  Created by Victor Vieira on 23/07/21.
 //
 
-import Foundation
 import Firebase
 import SwiftUI
 
 class SubActivityViewModel: ObservableObject {
+    @ObservedObject var imageManager = ImageViewModel()
+    @ObservedObject var userManager = UserViewModel.shared
+    
     @Published var subActivities = [SubActivity]()
     @Published var activityReference: String?
 
     static var shared = SubActivityViewModel()
     
-    var userManager = UserViewModel.shared
     var db = Firestore.firestore()
         
     func createSubActivity(complete: Date, name: String, handler: @escaping () -> Void?) {
@@ -25,8 +26,7 @@ class SubActivityViewModel: ObservableObject {
             let _ = db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addDocument(data: [
                 "complete": complete,
                 "name": name
-            ])
-            {err in
+            ]) { err in
                 if let err = err {
                     print("error adding document on CreateSubActivity:\(err)")
                 }
@@ -34,6 +34,18 @@ class SubActivityViewModel: ObservableObject {
                     print("email: \(docId); id: \(activityId)")
                     handler()
                 }
+            }
+            
+            guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
+                return
+            }
+            
+            // Save image to URL
+            do {
+                try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
+                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/SubActivities/\(name)")
+            } catch {
+                print("Can't upload the image \(name) to SubActivities folder.")
             }
         }
     }
@@ -46,21 +58,39 @@ class SubActivityViewModel: ObservableObject {
             
             db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addSnapshotListener({(snapshot, error) in
                 guard let documents = snapshot?.documents else {
-                    print("No docs returend")
+                    print("No docs returned")
                     return
                 }
                 self.subActivities = documents.map({docSnapshot -> SubActivity in
                     let data = docSnapshot.data()
                     let docId = docSnapshot.documentID
-                    let activityComplete = data["complete"] as? Date ?? Date()
-                    let activityName = data["name"] as? String ?? ""
+                    let subActivityComplete = data["complete"] as? Date ?? Date()
+                    let subActivityName = data["name"] as? String ?? ""
                     
-                    return SubActivity(id: docId, complete: activityComplete, name: activityName)
+                    //let subActivityImage = self.getImage(from: subActivityName).pngData()!
+                    
+                    return SubActivity(id: docId, complete: subActivityComplete, name: subActivityName)//, image: subActivityImage)
                 })
                 
             })
         }
     }
-
-
+    
+    func getImage(from subActivityName: String) -> UIImage {
+        guard let email = self.userManager.session?.email else {
+            print("Email was nil when call download image on ActivityViewModel.")
+            return UIImage()
+        }
+        let filePath = "users/\(String(describing: email))/SubActivities/\(subActivityName)"
+        self.imageManager.downloadImage(from: filePath)
+        
+        var photo: UIImage!
+        if let data = self.imageManager.imageView.image?.pngData() {
+            photo = UIImage(data: data)
+        } else {
+            photo = UIImage()
+        }
+        return photo
+    }
+    
 }
