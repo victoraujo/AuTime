@@ -33,4 +33,31 @@ class DateHelper {
         return timeString
     }
     
+    class func getDateString(from date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM"
+        
+        let days = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+        let calendar = Calendar(identifier: .gregorian)
+        let weekDay = calendar.component(.weekday, from: date)
+        
+        return days[weekDay-1] + ", " + dateFormatter.string(from: date)
+    }
+    
+    class func addNumberOfDaysToDate(date: Date, count: Int) -> Date {
+        let newComponent = DateComponents(day: count)
+        guard let newDate = Calendar.current.date(byAdding: newComponent, to: date) else {
+            return date
+        }
+        return newDate
+    }
+    
+    class func dayWeekIndex(offset: Int) -> Int {
+        let newDate = addNumberOfDaysToDate(date: Date(), count: offset)
+        let calendar = Calendar(identifier: .gregorian)
+        let weekDay = calendar.component(.weekday, from: newDate)
+        
+        return weekDay - 1
+    }
+    
 }
