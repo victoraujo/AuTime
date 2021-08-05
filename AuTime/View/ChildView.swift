@@ -185,12 +185,17 @@ struct ChildView: View {
                         Spacer()
                         
                         if activitiesManager.hasPremiumActivity() {
+                            
                             PremiumActivityView()
                                 .frame(width: 0.36*geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
-//                                .onTapGesture {
-//                                    print("Cliquei no paranaue")
-//                                    print("index: \(self.currentActivityIndex)")
-//                                }
+                                .background(Rectangle().fill(Color.white).cornerRadius(21, [.topLeft, .topRight]).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
+
+                            //                                .onTapGesture {
+                            //                                    print("Cliquei no paranaue")
+                            //                                    print("index: \(self.currentActivityIndex)")
+                            //                                }
+                            
+                            
                         }
                         
                     } else {

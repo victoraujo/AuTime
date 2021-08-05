@@ -100,9 +100,12 @@ struct SubActivitiesView: View {
                                         .foregroundColor(.black90Color)
                                 }
                             }
+                            .padding(.trailing)
                             
                         }
                         .clipShape(RoundedRectangle.init(cornerRadius: 21))
+                        .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 10, x: 0, y: 6))
+
                         
                     }
                     .padding(.top)
@@ -177,53 +180,6 @@ struct SubActivitiesView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         ScrollViewReader { reader in
-                            
-                            //                            HStack(alignment: .center, spacing: 0.05*UIScreen.main.bounds.width){
-                            //
-                            //                                Rectangle()
-                            //                                    .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            //                                    .foregroundColor(.clear)
-                            //                                    .id(0)
-                            //
-                            //                                ForEach(Array(self.subActivitiesManager.subActivities.enumerated()), id: \.offset) { index, subactivity in
-                            //                                    VStack(alignment: .center){
-                            //                                        VStack (alignment: .center){
-                            //                                            Image(uiImage: UIImage(imageLiteralResourceName: "breakfast"))
-                            //                                                .resizable()
-                            //                                                .clipped()
-                            //                                                .scaledToFill()
-                            //                                                .cornerRadius(21, [.topRight, .topLeft])
-                            //
-                            //                                            Text(subactivity.name)
-                            //                                                .font(.title3)
-                            //                                                .fontWeight(.bold)
-                            //                                                .foregroundColor(.white)
-                            //                                                .padding()
-                            //                                        }
-                            //                                        .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            //                                        .background(colorTheme)
-                            //                                        .cornerRadius(21)
-                            //                                        .id(index)
-                            //                                        .padding(.bottom)
-                            //
-                            //                                        Text("Etapa \(index + 1)")
-                            //                                            .foregroundColor(.black90Color)
-                            //                                            .font(.title2)
-                            //                                            .fontWeight(.bold)
-                            //                                            .padding(.top, 30)
-                            //                                    }
-                            //
-                            //                                }
-                            //
-                            //                                Rectangle()
-                            //                                    .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            //                                    .foregroundColor(.clear)
-                            //                                    .id(self.subActivitiesManager.subActivities.count + 1)
-                            //
-                            //                            }
-                            //                            .animation(.easeInOut)
-                            //                        }
-                            
                             HStack(alignment: .center, spacing: 0.05*UIScreen.main.bounds.width){
                                 
                                 Rectangle()
@@ -250,6 +206,8 @@ struct SubActivitiesView: View {
                                         .background(colorTheme)
                                         .cornerRadius(21)
                                         .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                        .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
+
                                         .padding(.bottom)
                                         
                                         Text("Etapa \(index + 1)")
@@ -292,7 +250,7 @@ struct SubActivitiesView: View {
                                 .fontWeight(.bold)
                                 .padding()
                                 .padding(.horizontal)
-                                .frame(width: 0.32*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
+                                .frame(width: 0.25*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
                                 .background(colorTheme)
                                 .cornerRadius(28)
                                 .padding(.trailing)
@@ -309,7 +267,7 @@ struct SubActivitiesView: View {
                                 .fontWeight(.bold)
                                 .padding()
                                 .padding(.horizontal)
-                                .frame(width: 0.3*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
+                                .frame(width: 0.25*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
                                 .background(colorTheme)
                                 .cornerRadius(28)
                                 .padding(.leading)

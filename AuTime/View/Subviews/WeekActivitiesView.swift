@@ -55,7 +55,7 @@ struct WeekActivitiesView: View {
                                         Image(uiImage: UIImage(imageLiteralResourceName: "breakfast"))
                                             .resizable()
                                             .scaledToFill()
-                                            .frame(width: 183, height: 142, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                            .frame(width: 0.18*geometry.size.width, height: 0.018*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                         
                                         Text(activity.name)
                                             .foregroundColor(.greenColor)
@@ -66,6 +66,7 @@ struct WeekActivitiesView: View {
                                         
                                     }
                                     .clipShape(RoundedRectangle(cornerRadius: 21))
+                                    .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
                                     
                                 }
                             }

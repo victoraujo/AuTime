@@ -27,6 +27,7 @@ struct DailyActivitiesView: View {
                             VStack {
                                 ActivityView(activity: activity, colorTheme: .greenColor)
                                     .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                    .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
                                     .padding(.bottom)
                                     .onTapGesture {
                                         activityReference = activity
