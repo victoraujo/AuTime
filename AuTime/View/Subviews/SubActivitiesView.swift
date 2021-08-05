@@ -15,6 +15,7 @@ struct SubActivitiesView: View {
     @State var IconImage: Image = Image("")
     @State var currentDate = DateHelper.getDate(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
+    @State var activityImage: UIImage = UIImage()
     
     @Binding var showContentView: Bool
     @Binding var showSubActivitiesView: Bool
@@ -35,9 +36,11 @@ struct SubActivitiesView: View {
         }
         
         self.subActivitiesManager.activityReference = currentActivityReference?.id
-        
-        let filePath = "users/\(String(describing: userManager.session?.email))/Activities/\(String(describing: currentActivityReference?.name))"
-        self.imageManager.downloadImage(from: filePath)
+                
+        if let email = userManager.session?.email , let name = currentActivityReference?.name {
+            let filePath = "users/\(email)/Activities/\(name)"
+            self.imageManager.downloadImage(from: filePath)
+        }        
     }
     
     var body: some View {
@@ -79,7 +82,7 @@ struct SubActivitiesView: View {
                             .padding()
                         
                         HStack(alignment: .center) {
-                            Image(uiImage: self.imageManager.imageView.image ?? UIImage())
+                            Image(uiImage: self.activityImage)
                             .resizable()
                             .frame(width: geometry.size.width*0.1, height: geometry.size.height*0.1, alignment: .center)
                             .padding(.trailing)
@@ -291,6 +294,9 @@ struct SubActivitiesView: View {
                 if let activity = self.currentActivityReference {
                     self.IconImage = Activity.getIconImage(from: activity.category)
                 }
+                
+                self.activityImage = self.imageManager.imageView.image ?? UIImage()
+                
             }
             .onChange(of: self.userManager.session, perform: { _ in
                 if let _ = self.userManager.session?.email {

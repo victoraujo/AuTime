@@ -38,21 +38,20 @@ class ImageViewModel: ObservableObject{
     
     func downloadImage(from filePath: String) {
         
-        print("Baixando imagem: \(filePath)")
-        
-        let storage = Storage.storage()
-        let storageRef = storage.reference()
-        
         guard let _ = userManager.session?.email else {
             print("Email is nil during download file.")
             return
         }
         
+        print("Download image from \(filePath)")
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
         let photoRef = storageRef.child(filePath)
         
-        self.imageView.sd_setImage(with: photoRef)
-        self.objectWillChange.send()
-        
-        print("Imagem desse objeto é \(String(describing: imageView.image))")
+        self.imageView.sd_setImage(with: photoRef, placeholderImage: UIImage(), completion: {_,_,_,_ in
+            self.objectWillChange.send()
+        })
+
     }
 }
