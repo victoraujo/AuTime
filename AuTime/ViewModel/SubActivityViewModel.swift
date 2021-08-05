@@ -76,9 +76,10 @@ class SubActivityViewModel: ObservableObject {
         }
     }
     
+    
     func getImage(from subActivityName: String) -> UIImage {
         guard let email = self.userManager.session?.email else {
-            print("Email was nil when call download image on ActivityViewModel.")
+            print("Email was nil when call download image on SubActivityViewModel.")
             return UIImage()
         }
         let filePath = "users/\(String(describing: email))/SubActivities/\(subActivityName)"

@@ -16,6 +16,7 @@ struct SubActivitiesView: View {
     @State var currentDate = DateHelper.getDate(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
     @State var activityImage: UIImage = UIImage()
+    @State var subsImages: [UIImage] = []
     
     @Binding var showContentView: Bool
     @Binding var showSubActivitiesView: Bool
@@ -40,6 +41,13 @@ struct SubActivitiesView: View {
         if let email = userManager.session?.email , let name = currentActivityReference?.name {
             let filePath = "users/\(email)/Activities/\(name)"
             self.imageManager.downloadImage(from: filePath)
+
+            // TO DO
+            // Laço entre as subatividades da respectiva atividade
+            // Mapear as strings dos nomes das subatividades em imagens,
+            // usando a função downloadImage para cada um dos paths
+            // Usar variável subsImages
+            
         }        
     }
     
@@ -85,7 +93,6 @@ struct SubActivitiesView: View {
                             Image(uiImage: self.activityImage)
                             .resizable()
                             .frame(width: geometry.size.width*0.1, height: geometry.size.height*0.1, alignment: .center)
-                            .padding(.trailing)
                             
                             IconImage
                                 .resizable()
@@ -105,6 +112,7 @@ struct SubActivitiesView: View {
                                         .font(.subheadline)
                                         .fontWeight(.bold)
                                         .foregroundColor(.black90Color)
+                                        .padding(.trailing)
                                 }
                             }
                             .padding(.trailing)
