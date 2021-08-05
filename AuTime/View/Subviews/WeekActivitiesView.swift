@@ -13,7 +13,7 @@ struct WeekActivitiesView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ScrollView(.vertical){
+            ScrollView(.vertical, showsIndicators: false){
                 VStack (alignment: .leading){
                     ForEach(0..<7, id: \.self) { dayCount in
                         Text(DateHelper.getDateString(from: DateHelper.addNumberOfDaysToDate(date: Date(), count: dayCount)))
