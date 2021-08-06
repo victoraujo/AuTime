@@ -15,7 +15,7 @@ class SubActivityViewModel: ObservableObject {
     @Published var subActivities = [SubActivity]()
     @Published var activityReference: String?
 
-    static var shared = SubActivityViewModel()
+    //static var shared = SubActivityViewModel()
     
     var db = Firestore.firestore()
         
@@ -61,6 +61,7 @@ class SubActivityViewModel: ObservableObject {
                     print("No docs returned")
                     return
                 }
+                
                 self.subActivities = documents.map({docSnapshot -> SubActivity in
                     let data = docSnapshot.data()
                     let docId = docSnapshot.documentID
@@ -74,6 +75,7 @@ class SubActivityViewModel: ObservableObject {
                 
             })
         }
+        
     }
     
     

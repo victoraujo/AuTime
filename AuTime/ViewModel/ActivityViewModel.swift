@@ -35,7 +35,7 @@ class ActivityViewModel: ObservableObject {
     ///   - days: Activity repeat days
     ///   - time: The time the activity is scheduled
     ///   - handler: Function to execute after create procedure
-    func createActivity(category: String, complete: Date, star: Bool, name: String, days: [Int], time: Date, handler: @escaping () -> Void?) {
+    func createActivity(category: String, complete: Date, star: Bool, name: String, days: [Int], steps: Int, time: Date, handler: @escaping () -> Void?) {
         
         if let docId = userManager.session?.email {
             _ = db.collection("users").document(docId).collection("activities").addDocument(data: [
@@ -44,6 +44,7 @@ class ActivityViewModel: ObservableObject {
                 "generateStar": star,
                 "name": name,
                 "repeatDays": days,
+                "steps": steps,
                 "time": time
             ]) { err in
                 if let err = err {
@@ -85,6 +86,7 @@ class ActivityViewModel: ObservableObject {
                     let activityName = data["name"] as? String ?? ""
                     let activityDays = data["repeatDays"] as? [Int] ?? []
                     let activityTimeString = data["time"] as? String ?? "00:00"
+                    let activitySteps = data["steps"] as? Int ?? 0
                     
                     let hourFormatter = DateFormatter()
                     hourFormatter.dateFormat = "HH:mm"
@@ -98,7 +100,7 @@ class ActivityViewModel: ObservableObject {
 //
 //                    print("IMAGEM DA ATIVIDADE: \(activityImage)")
                                                                         
-                    return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime)//, image: activityImage)
+                    return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime, stepsCount: activitySteps)//, image: activityImage)
                 })
 
                 self.activities.sort(by: {$0.time < $1.time})
@@ -150,9 +152,6 @@ class ActivityViewModel: ObservableObject {
             let activityDate = dateFormatter.string(from: $0.complete)
             let todayDate  = dateFormatter.string(from: Date())
             
-//            print("\($0.name) Date: \(activityDate)")
-//            print("todayDate: \(todayDate)")
-//
             return activityDate != todayDate
             
         })

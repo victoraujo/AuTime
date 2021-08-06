@@ -12,7 +12,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var activitiesManager = ActivityViewModel.shared
-    @ObservedObject var subActivitiesManager = SubActivityViewModel.shared
+    @ObservedObject var subActivitiesManager = SubActivityViewModel()
     @ObservedObject var imageVM = ImageViewModel()
     
     @State var showSubActivitiesView = false
@@ -47,7 +47,7 @@ struct ContentView: View {
             }
             Image(uiImage: self.image)
             Button(action: {
-                activitiesManager.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [1, 2, 4, 6], time: Date(), handler: {})
+                activitiesManager.createActivity(category: "Teste", complete: Date(), star: true, name: "Zaga", days: [1, 2, 4, 6], steps: 0, time: Date(), handler: {})
             }, label: {
                 Text("ADD ACTIVITY")
             })
