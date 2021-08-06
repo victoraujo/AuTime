@@ -13,6 +13,7 @@ struct SubActivitiesView: View {
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var imageManager = ImageViewModel()
     
+    @State var subActivities: [SubActivity] = []
     @State var IconImage: Image = Image("")
     @State var currentDate = DateHelper.getDate(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
@@ -38,13 +39,14 @@ struct SubActivitiesView: View {
         }
         
         self.subActivitiesManager.activityReference = currentActivityReference?.id
-                
+        
         if let email = userManager.session?.email , let name = currentActivityReference?.name {
             let filePath = "users/\(email)/Activities/\(name)"
             self.imageManager.downloadImage(from: filePath)
         }
         
-        self.subActivitiesCount = self.subActivitiesManager.subActivities.count
+        self.subActivities = self.subActivitiesManager.subActivities
+        self.subActivitiesCount = self.subActivities.count
         
     }
     
@@ -88,8 +90,8 @@ struct SubActivitiesView: View {
                         
                         HStack(alignment: .center) {
                             Image(uiImage: self.activityImage)
-                            .resizable()
-                            .frame(width: geometry.size.width*0.1, height: geometry.size.height*0.1, alignment: .center)
+                                .resizable()
+                                .frame(width: geometry.size.width*0.1, height: geometry.size.height*0.1, alignment: .center)
                             
                             IconImage
                                 .resizable()
@@ -199,7 +201,7 @@ struct SubActivitiesView: View {
                                     .foregroundColor(.clear)
                                     .id(0)
                                 
-                                ForEach(Array(self.subActivitiesManager.subActivities.enumerated()), id: \.offset) { index, subactivity in
+                                ForEach(Array(self.subActivities.enumerated()), id: \.offset) { index, subactivity in
                                     VStack {
                                         SubActivityView(colorTheme: colorTheme, subActivityName: subactivity.name)
                                             .cornerRadius(21)
@@ -283,11 +285,12 @@ struct SubActivitiesView: View {
                 }
                 
                 self.activityImage = self.imageManager.imageView.image ?? UIImage()
-                self.subActivitiesCount = self.subActivitiesManager.subActivities.count
-                
+                self.subActivities = self.subActivitiesManager.subActivities
+                self.subActivitiesCount = self.subActivities.count
             }
             .onChange(of: self.subActivitiesManager.subActivities, perform: { _ in
-                self.subActivitiesCount = self.subActivitiesManager.subActivities.count
+                self.subActivities = self.subActivitiesManager.subActivities
+                self.subActivitiesCount = self.subActivities.count
             })
             .onDisappear {
                 self.currentActivityReference = nil
