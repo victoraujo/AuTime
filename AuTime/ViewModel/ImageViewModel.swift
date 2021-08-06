@@ -49,7 +49,7 @@ class ImageViewModel: ObservableObject{
         let storageRef = storage.reference()
         let photoRef = storageRef.child(filePath)
         
-        self.imageView.sd_setImage(with: photoRef, placeholderImage: UIImage(), completion: {_,_,_,_ in
+        self.imageView.sd_setImage(with: photoRef, placeholderImage: UIImage(), completion: { _ , _ , _ , _ in
             self.objectWillChange.send()
         })
 

@@ -9,14 +9,16 @@ import SwiftUI
 
 struct SubActivitiesView: View {
     
-    @ObservedObject var subActivitiesManager = SubActivityViewModel.shared
+    @ObservedObject var subActivitiesManager = SubActivityViewModel()
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var imageManager = ImageViewModel()
+    
     @State var IconImage: Image = Image("")
     @State var currentDate = DateHelper.getDate(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
     @State var activityImage: UIImage = UIImage()
     @State var subsImages: [UIImage] = []
+    @State var subActivitiesCount: Int = 0
     
     @Binding var showContentView: Bool
     @Binding var showSubActivitiesView: Bool
@@ -24,7 +26,6 @@ struct SubActivitiesView: View {
     
     let profile = UIImage(imageLiteralResourceName: "memoji.png")
     let colorTheme: Color = .greenColor
-    let subActivitiesCount: Int = 5
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     init(showContentView: Binding<Bool>, showSubActivitiesView: Binding<Bool>, activity: Binding<Activity?>) {
@@ -41,14 +42,10 @@ struct SubActivitiesView: View {
         if let email = userManager.session?.email , let name = currentActivityReference?.name {
             let filePath = "users/\(email)/Activities/\(name)"
             self.imageManager.downloadImage(from: filePath)
-
-            // TO DO
-            // Laço entre as subatividades da respectiva atividade
-            // Mapear as strings dos nomes das subatividades em imagens,
-            // usando a função downloadImage para cada um dos paths
-            // Usar variável subsImages
-            
-        }        
+        }
+        
+        self.subActivitiesCount = self.subActivitiesManager.subActivities.count
+        
     }
     
     var body: some View {
@@ -204,26 +201,11 @@ struct SubActivitiesView: View {
                                 
                                 ForEach(Array(self.subActivitiesManager.subActivities.enumerated()), id: \.offset) { index, subactivity in
                                     VStack {
-                                        VStack (alignment: .center){
-                                            Image(uiImage: UIImage(imageLiteralResourceName: "breakfast"))
-                                                .resizable()
-                                                .clipped()
-                                                .scaledToFill()
-                                                .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.21, alignment: .center)
-                                                .cornerRadius(21, [.topRight, .topLeft])
-                                            
-                                            Text(subactivity.name)
-                                                .font(.title3)
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.white)
-                                                .padding()
-                                        }
-                                        .background(colorTheme)
-                                        .cornerRadius(21)
-                                        .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
-                                        .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
-                                        
-                                        .padding(.bottom)
+                                        SubActivityView(colorTheme: colorTheme, subActivityName: subactivity.name)
+                                            .cornerRadius(21)
+                                            .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                            .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
+                                            .padding(.bottom)
                                         
                                         Text("Etapa \(index + 1)")
                                             .font(.title2)
@@ -238,13 +220,10 @@ struct SubActivitiesView: View {
                                 Rectangle()
                                     .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
                                     .foregroundColor(.clear)
-                                    .id(self.subActivitiesManager.subActivities.count + 1)
+                                    .id(self.subActivitiesCount + 1)
                                 
-                            }
-                            
+                            }                                                    
                         }
-                        .frame(width: UIScreen.main.bounds.width, alignment: .center)
-                        .padding()
                     }
                     
                     Divider()
@@ -304,12 +283,11 @@ struct SubActivitiesView: View {
                 }
                 
                 self.activityImage = self.imageManager.imageView.image ?? UIImage()
+                self.subActivitiesCount = self.subActivitiesManager.subActivities.count
                 
             }
-            .onChange(of: self.userManager.session, perform: { _ in
-                if let _ = self.userManager.session?.email {
-                    self.subActivitiesManager.fetchData()
-                }
+            .onChange(of: self.subActivitiesManager.subActivities, perform: { _ in
+                self.subActivitiesCount = self.subActivitiesManager.subActivities.count
             })
             .onDisappear {
                 self.currentActivityReference = nil
@@ -320,10 +298,65 @@ struct SubActivitiesView: View {
     }
 }
 
+struct SubActivityView: View {
+    @ObservedObject var userManager = UserViewModel.shared
+    @ObservedObject var imageManager = ImageViewModel()
+    @State var image: UIImage = UIImage()
+    
+    var colorTheme: Color
+    var subActivityName: String
+    
+    init(colorTheme: Color, subActivityName: String) {
+        self.colorTheme = colorTheme
+        self.subActivityName = subActivityName
+        
+        if let email = userManager.session?.email {
+            let filePath = "users/\(email)/SubActivities/\(subActivityName)"
+            self.imageManager.downloadImage(from: filePath)
+        }
+    }
+    
+    var body: some View {
+        VStack (alignment: .center){
+            Image(uiImage: image)
+                .resizable()
+                .clipped()
+                .scaledToFill()
+                .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.25, alignment: .center)
+                .cornerRadius(21, [.topRight, .topLeft])
+            
+            Text(subActivityName)
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .padding()
+                .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.05, alignment: .center)
+            
+        }
+        .background(colorTheme)
+        .onAppear{
+            if let email = userManager.session?.email {
+                let filePath = "users/\(email)/SubActivities/\(subActivityName)"
+                self.imageManager.downloadImage(from: filePath)
+            }
+            self.image = self.imageManager.imageView.image ?? UIImage()
+        }
+        .onChange(of: imageManager.imageView.image, perform: { value in
+            if let email = userManager.session?.email {
+                let filePath = "users/\(email)/SubActivities/\(subActivityName)"
+                self.imageManager.downloadImage(from: filePath)
+            }
+            self.image = self.imageManager.imageView.image ?? UIImage()
+        })
+        
+    }
+}
+
+
 struct SubActivitiesView_Previews: PreviewProvider {
     
     static var previews: some View {
-        SubActivitiesView(showContentView: .constant(true), showSubActivitiesView: .constant(true), activity: .constant(Activity(id: "sahjsa", category: "Saúde", complete: Date(), generateStar: true, name: "Caminhar", repeatDays: [], time: Date())))
+        SubActivitiesView(showContentView: .constant(true), showSubActivitiesView: .constant(true), activity: .constant(Activity(id: "sahjsa", category: "Saúde", complete: Date(), generateStar: true, name: "Caminhar", repeatDays: [], time: Date(), stepsCount: 0)))
             .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
             .environment(\.horizontalSizeClass, .compact)
             .environment(\.verticalSizeClass, .compact)

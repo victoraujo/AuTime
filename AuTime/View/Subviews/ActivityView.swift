@@ -14,7 +14,7 @@ struct ActivityView: View {
     @State var image: UIImage = UIImage()
     
     var activity: Activity
-    var subActivitiesCount: Int = 5
+    var subActivitiesCount: Int = 0
     var colorTheme: Color
     var IconImage: Image
     
@@ -29,6 +29,7 @@ struct ActivityView: View {
         }
         
         self.image = self.imageManager.imageView.image ?? UIImage()
+        self.subActivitiesCount = self.activity.stepsCount
     }
     
     var body: some View {
