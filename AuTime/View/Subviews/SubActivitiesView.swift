@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct SubActivitiesView: View {
-    
+    @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var subActivitiesManager = SubActivityViewModel()
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var imageManager = ImageViewModel()
     
     @State var subActivities: [SubActivity] = []
     @State var IconImage: Image = Image("")
-    @State var currentDate = DateHelper.getDate(from: Date())
+    @State var currentDate = DateHelper.getDateString(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
     @State var activityImage: UIImage = UIImage()
     @State var subsImages: [UIImage] = []
     @State var subActivitiesCount: Int = 0
+    @State var completes: [Bool] = []
     
     @Binding var showContentView: Bool
     @Binding var showSubActivitiesView: Bool
@@ -48,6 +49,11 @@ struct SubActivitiesView: View {
         self.subActivities = self.subActivitiesManager.subActivities
         self.subActivitiesCount = self.subActivities.count
         
+        self.completes = []
+        for _ in 0..<self.subActivitiesCount {
+            self.completes.append(false)
+        }
+        
     }
     
     var body: some View {
@@ -71,7 +77,7 @@ struct SubActivitiesView: View {
                         }
                     }
                     .onReceive(timer, perform: { _ in
-                        self.currentDate = DateHelper.getDate(from: Date())
+                        self.currentDate = DateHelper.getDateString(from: Date())
                         self.currentHour = DateHelper.getHoursAndMinutes(from: Date())
                     })
                     .padding()
@@ -203,11 +209,14 @@ struct SubActivitiesView: View {
                                 
                                 ForEach(Array(self.subActivities.enumerated()), id: \.offset) { index, subactivity in
                                     VStack {
-                                        SubActivityView(colorTheme: colorTheme, subActivityName: subactivity.name)
-                                            .cornerRadius(21)
+                                        SubActivityView(colorTheme: colorTheme, subActivityName: subactivity.name, completed: self.completes[index])
                                             .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                            .cornerRadius(21)
                                             .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
                                             .padding(.bottom)
+                                            .onTapGesture {
+                                                self.completes[index].toggle()
+                                            }
                                         
                                         Text("Etapa \(index + 1)")
                                             .font(.title2)
@@ -224,7 +233,14 @@ struct SubActivitiesView: View {
                                     .foregroundColor(.clear)
                                     .id(self.subActivitiesCount + 1)
                                 
-                            }                                                    
+                            }
+                            .onChange(of: self.completes, perform: { _ in
+                                let index = self.completes.firstIndex(where: {$0 == false})
+                                withAnimation(.easeInOut(duration: Double(2*self.subActivitiesCount))) {
+                                    reader.scrollTo((index ?? self.subActivitiesCount - 1) + 1, anchor: .center)
+                                }
+                                
+                            })
                         }
                     }
                     
@@ -254,6 +270,9 @@ struct SubActivitiesView: View {
                         })
                         
                         Button(action: {
+                            if let id = currentActivityReference?.id {
+                                self.activitiesManager.completeActivity(activityId: id, with: Date())
+                            }
                             print("Atividade concluída")
                             self.showSubActivitiesView = false
                         }, label: {
@@ -287,10 +306,20 @@ struct SubActivitiesView: View {
                 self.activityImage = self.imageManager.imageView.image ?? UIImage()
                 self.subActivities = self.subActivitiesManager.subActivities
                 self.subActivitiesCount = self.subActivities.count
+                
+                self.completes = []
+                for _ in 0..<self.subActivitiesCount {
+                    self.completes.append(false)
+                }
             }
             .onChange(of: self.subActivitiesManager.subActivities, perform: { _ in
                 self.subActivities = self.subActivitiesManager.subActivities
                 self.subActivitiesCount = self.subActivities.count
+                
+                self.completes = []
+                for _ in 0..<self.subActivitiesCount {
+                    self.completes.append(false)
+                }
             })
             .onDisappear {
                 self.currentActivityReference = nil
@@ -308,10 +337,12 @@ struct SubActivityView: View {
     
     var colorTheme: Color
     var subActivityName: String
+    var completed: Bool
     
-    init(colorTheme: Color, subActivityName: String) {
+    init(colorTheme: Color, subActivityName: String, completed: Bool) {
         self.colorTheme = colorTheme
         self.subActivityName = subActivityName
+        self.completed = completed
         
         if let email = userManager.session?.email {
             let filePath = "users/\(email)/SubActivities/\(subActivityName)"
@@ -321,22 +352,41 @@ struct SubActivityView: View {
     
     var body: some View {
         VStack (alignment: .center){
-            Image(uiImage: image)
-                .resizable()
-                .clipped()
-                .scaledToFill()
-                .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.25, alignment: .center)
-                .cornerRadius(21, [.topRight, .topLeft])
+            ZStack {
+                Image(uiImage: image)
+                    .resizable()
+                    .clipped()
+                    .scaledToFill()
+                    .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.21, alignment: .center)
+                    .cornerRadius(21, [.topRight, .topLeft])
+                    .overlay(Color.black100Color.opacity( self.completed ? 0.825 : 0).cornerRadius(21, [.topRight, .topLeft]))
+
+                
+                VStack(alignment: .center) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 0.05*UIScreen.main.bounds.height, alignment: .center)
+                        .foregroundColor(.white)
+                    
+                    Text("Etapa concluída!")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding()
+                }
+                .opacity(self.completed ? 1 : 0)
+            }
             
             Text(subActivityName)
                 .font(.title3)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(colorTheme)
                 .padding()
-                .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.05, alignment: .center)
+                .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.09, alignment: .center)
             
         }
-        .background(colorTheme)
+        .background(Color.white)
         .onAppear{
             if let email = userManager.session?.email {
                 let filePath = "users/\(email)/SubActivities/\(subActivityName)"
@@ -351,7 +401,6 @@ struct SubActivityView: View {
             }
             self.image = self.imageManager.imageView.image ?? UIImage()
         })
-        
     }
 }
 

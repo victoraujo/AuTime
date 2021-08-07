@@ -9,20 +9,6 @@ import Foundation
 
 class DateHelper {
     
-    /// Parse date to formatted string
-    /// - Parameter date: Date to be formatted
-    /// - Returns: String containing weekday and date
-    class func getDate(from date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM"
-        
-        let days = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
-        let calendar = Calendar(identifier: .gregorian)
-        let weekDay = calendar.component(.weekday, from: date)
-        
-        return days[weekDay-1] + ", " + dateFormatter.string(from: date)
-    }
-    
     /// Get Hours and Minutes from a date
     /// - Parameter date: Date to be parsed
     /// - Returns: String containing onlye hours and minutes
@@ -33,6 +19,9 @@ class DateHelper {
         return timeString
     }
     
+    /// Parse date to formatted string
+    /// - Parameter date: Date to be formatted
+    /// - Returns: String containing weekday and date
     class func getDateString(from date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM"
@@ -42,6 +31,13 @@ class DateHelper {
         let weekDay = calendar.component(.weekday, from: date)
         
         return days[weekDay-1] + ", " + dateFormatter.string(from: date)
+    }
+    
+    class func getDateFormatted(from date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        
+        return dateFormatter.string(from: date)        
     }
     
     class func addNumberOfDaysToDate(date: Date, count: Int) -> Date {
@@ -58,6 +54,13 @@ class DateHelper {
         let weekDay = calendar.component(.weekday, from: newDate)
         
         return weekDay - 1
+    }
+    
+    class func datesMatch(_ date1: Date, _ date2: Date) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        
+        return dateFormatter.string(from: date1) == dateFormatter.string(from: date2)
     }
     
 }

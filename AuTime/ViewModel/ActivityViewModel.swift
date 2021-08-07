@@ -21,7 +21,6 @@ class ActivityViewModel: ObservableObject {
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
     
-    
     init() {
         self.fetchData()
     }
@@ -81,7 +80,7 @@ class ActivityViewModel: ObservableObject {
                     let data = docSnapshot.data()
                     let docId = docSnapshot.documentID
                     let activityCategory = data["category"] as? String ?? ""
-                    let acitivityCompleteString = data["complete"] as? String ?? "01-01-2000"
+                    let activityCompleteString = data["complete"] as? String ?? "01-01-2000"
                     let activityStar = data["generateStar"] as? Bool ?? false
                     let activityName = data["name"] as? String ?? ""
                     let activityDays = data["repeatDays"] as? [Int] ?? []
@@ -93,12 +92,8 @@ class ActivityViewModel: ObservableObject {
                     let activityTime = hourFormatter.date(from: activityTimeString) ?? Date()
                     
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
-                    let activityComplete = dateFormatter.date(from: acitivityCompleteString) ?? Date()
-                    
-//                    let activityImage: Data = self.getImage(from: activityName).pngData() ?? Data()
-//
-//                    print("IMAGEM DA ATIVIDADE: \(activityImage)")
+                    dateFormatter.dateFormat = "dd-MM-yyyy"
+                    let activityComplete = dateFormatter.date(from: activityCompleteString) ?? Date()
                                                                         
                     return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime, stepsCount: activitySteps)//, image: activityImage)
                 })
@@ -110,6 +105,20 @@ class ActivityViewModel: ObservableObject {
             })
         }
 
+    }
+    
+    func completeActivity(activityId: String, with time: Date) {
+        
+        let completedTime = DateHelper.getDateFormatted(from: time)
+        
+        if let docId = userManager.session?.email {
+            db.collection("users").document(docId).collection("activities").document(activityId).updateData(["complete": completedTime], completion: { _ in
+                print("Activity \(activityId) was completed at \(completedTime)")
+            })
+            
+            return
+        }
+        print("Error when update the activity \(activityId)")
     }
     
     /// Separate activities on weekdays
@@ -161,8 +170,12 @@ class ActivityViewModel: ObservableObject {
     
     /// Indicates if there are any premium activity today
     /// - Returns: A boolean indicating the presence of this activity
-    func hasPremiumActivity() -> Bool {
-        return self.todayActivities.contains(where: {$0.category == "Prêmio"})
+    func hasPremiumActivity() -> Activity? {
+        if let firstPremium = self.todayActivities.first(where: { $0.category == "Prêmio" }) {
+            return firstPremium
+        }
+        
+        return nil
     }
 
     func getImage(from activityName: String) -> UIImage {

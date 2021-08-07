@@ -14,8 +14,8 @@ struct ChildView: View {
     @State var IconImage: Image = Image("")
     @State var visualization: ChildViewMode = .day
     @State var currentActivityReference: Activity? = nil
-    @State var currentActivityIndex: Int = 1
-    @State var currentDate = DateHelper.getDate(from: Date())
+    @State var currentActivityIndex: Int? = 1
+    @State var currentDate = DateHelper.getDateString(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
     @State var showSubActivitiesView: Bool = false
     @Binding var showContentView: Bool
@@ -56,7 +56,7 @@ struct ChildView: View {
                         }
                     }
                     .onReceive(timer, perform: { _ in
-                        self.currentDate = DateHelper.getDate(from: Date())
+                        self.currentDate = DateHelper.getDateString(from: Date())
                         self.currentHour = DateHelper.getHoursAndMinutes(from: Date())
                     })
                     .padding()
@@ -184,18 +184,19 @@ struct ChildView: View {
                         
                         Spacer()
                         
-                        if activitiesManager.hasPremiumActivity() {
+                        if let premium = activitiesManager.hasPremiumActivity() {
                             
-                            PremiumActivityView()
+                            PremiumActivityView(activity: premium)
                                 .frame(width: 0.36*geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
                                 .background(Rectangle().fill(Color.white).cornerRadius(21, [.topLeft, .topRight]).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
-
-                            //                                .onTapGesture {
-                            //                                    print("Cliquei no paranaue")
-                            //                                    print("index: \(self.currentActivityIndex)")
-                            //                                }
-                            
-                            
+                                .onTapGesture {
+                                    if let index = self.activitiesManager.todayActivities.firstIndex(where: {
+                                        $0.category == "Prêmio"
+                                        && !DateHelper.datesMatch(Date(), $0.complete)
+                                    }) {
+                                        self.currentActivityIndex = index + 1
+                                    }
+                                }
                         }
                         
                     } else {
