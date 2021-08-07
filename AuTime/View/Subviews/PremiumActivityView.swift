@@ -9,8 +9,11 @@ import SwiftUI
 
 struct PremiumActivityView: View {
     var starsCompleted: [Bool] = [true, false, false]
-    var activityName: String = "Tomar sorvete"
+    var activity: Activity
     
+    init(activity: Activity) {
+        self.activity = activity
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -26,7 +29,7 @@ struct PremiumActivityView: View {
                 .padding(.horizontal)
                 
                 VStack(alignment: .leading){
-                    Text(activityName)
+                    Text(activity.name)
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.greenColor)
@@ -46,7 +49,7 @@ struct PremiumActivityView: View {
 
 struct PremiumActivityView_Previews: PreviewProvider {
     static var previews: some View {
-        PremiumActivityView()
+        PremiumActivityView(activity: Activity(id: "", category: "Prêmio", complete: Date(), generateStar: true, name: "Premiozinho", repeatDays: [1,2], time: Date(), stepsCount: 0))
             .frame(width: 375, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
             .environment(\.horizontalSizeClass, .compact)

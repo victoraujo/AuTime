@@ -10,10 +10,10 @@ import SwiftUI
 struct DailyActivitiesView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @State var todayActivities: [Activity] = []
-    @Binding var currentActivity: Int
+    @Binding var currentActivity: Int?
     @Binding var activityReference: Activity?
     
-    init(currentActivity: Binding<Int>, activityReference: Binding<Activity?>) {
+    init(currentActivity: Binding<Int?>, activityReference: Binding<Activity?>) {
         self._currentActivity = currentActivity
         self._activityReference = activityReference
         self.todayActivities = self.activitiesManager.todayActivities
@@ -57,15 +57,27 @@ struct DailyActivitiesView: View {
                             .id(self.todayActivities.count + 1)
                         
                     }
-                    .onAppear {
-                        reader.scrollTo(currentActivity)
-                    }
-                    .animation(.easeInOut)
+                    .onChange(of: self.currentActivity, perform: { index in
+                        if let index = index {
+                            withAnimation(.easeInOut(duration: Double(2*self.todayActivities.count))) {
+                                reader.scrollTo(index, anchor: .center)
+                                self.currentActivity = nil
+                            }
+                        }
+                    })
                 }
             }
             .frame(width: UIScreen.main.bounds.width, alignment: .center)
+            .onAppear {
+                self.todayActivities = self.activitiesManager.todayActivities
+
+                let index = self.todayActivities.lastIndex(where: { !DateHelper.datesMatch(Date(), $0.complete) }) ?? self.todayActivities.count
+                self.currentActivity = index + 1
+            }
             .onChange(of: self.activitiesManager.todayActivities, perform: { _ in
                 self.todayActivities = self.activitiesManager.todayActivities
+                let index = self.todayActivities.lastIndex(where: { !DateHelper.datesMatch(Date(), $0.complete) }) ?? self.todayActivities.count
+                self.currentActivity = index + 1
             })
     }
 }

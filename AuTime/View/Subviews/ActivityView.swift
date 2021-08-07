@@ -35,12 +35,31 @@ struct ActivityView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack (alignment: .leading){
-                Image(uiImage: self.image)
+                ZStack {
+                    Image(uiImage: self.image)
                     .resizable()
                     .clipped()
                     .scaledToFill()
                     .frame(width: geometry.size.width, height: 0.7*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .cornerRadius(21, [.topRight, .topLeft])
+                    .overlay(Color.black100Color.opacity( DateHelper.datesMatch(activity.complete, Date()) ? 0.825 : 0).cornerRadius(21, [.topRight, .topLeft]))
+                    
+                    VStack(alignment: .center) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 0.05*UIScreen.main.bounds.height, alignment: .center)
+                            .foregroundColor(.white)
+                        
+                        Text("Atividade concluída!")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding()
+                    }
+                    .opacity( DateHelper.datesMatch(activity.complete, Date()) ? 1 : 0)
+                    
+                }
                 
                 HStack(alignment: .center){
                     IconImage
