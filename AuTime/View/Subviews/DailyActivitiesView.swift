@@ -71,12 +71,12 @@ struct DailyActivitiesView: View {
             .onAppear {
                 self.todayActivities = self.activitiesManager.todayActivities
 
-                let index = self.todayActivities.lastIndex(where: { !DateHelper.datesMatch(Date(), $0.complete) }) ?? self.todayActivities.count
+                let index = self.todayActivities.lastIndex(where: { !DateHelper.datesMatch(Date(), $0.complete) }) ?? self.todayActivities.count - 1
                 self.currentActivity = index + 1
             }
             .onChange(of: self.activitiesManager.todayActivities, perform: { _ in
                 self.todayActivities = self.activitiesManager.todayActivities
-                let index = self.todayActivities.lastIndex(where: { !DateHelper.datesMatch(Date(), $0.complete) }) ?? self.todayActivities.count
+                let index = self.todayActivities.lastIndex(where: { !DateHelper.datesMatch(Date(), $0.complete) }) ?? self.todayActivities.count - 1
                 self.currentActivity = index + 1
             })
     }
