@@ -26,7 +26,7 @@ struct ParentView: View {
                 Spacer()
                 
                 if visualization == .create {
-                    Text("Criar")
+                    CreateActivityView()
                 }
                 else if visualization == .schedule {
                     ScheduleView()

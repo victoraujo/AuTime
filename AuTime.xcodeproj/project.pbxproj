@@ -28,6 +28,7 @@
 		5779035826A5B4E300D856BD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5779035626A5B4E300D856BD /* UserViewModel.swift */; };
 		5779035926A5B4E300D856BD /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5779035726A5B4E300D856BD /* ActivityViewModel.swift */; };
 		5779035C26A5B6A200D856BD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5779035B26A5B6A200D856BD /* GoogleService-Info.plist */; };
+		577CCA7926BABA45006B7A9C /* CreateActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577CCA7826BABA45006B7A9C /* CreateActivityView.swift */; };
 		5789EF3F26B81FA600218BE7 /* SideBarParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5789EF3E26B81FA600218BE7 /* SideBarParentView.swift */; };
 		57A2F2F726AAEC12000A75AD /* SubActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2F2F626AAEC12000A75AD /* SubActivity.swift */; };
 		57A2F2F926AAECFD000A75AD /* SubActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2F2F826AAECFD000A75AD /* SubActivityViewModel.swift */; };
@@ -61,6 +62,7 @@
 		5779035626A5B4E300D856BD /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		5779035726A5B4E300D856BD /* ActivityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
 		5779035B26A5B6A200D856BD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		577CCA7826BABA45006B7A9C /* CreateActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityView.swift; sourceTree = "<group>"; };
 		5789EF3E26B81FA600218BE7 /* SideBarParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarParentView.swift; sourceTree = "<group>"; };
 		57A2F2F626AAEC12000A75AD /* SubActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubActivity.swift; sourceTree = "<group>"; };
 		57A2F2F826AAECFD000A75AD /* SubActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubActivityViewModel.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		3E3CFC4C26A714E7007C2646 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
+				577CCA7826BABA45006B7A9C /* CreateActivityView.swift */,
 				3E3CFC4D26A714F7007C2646 /* ActivityView.swift */,
 				3ED8D18126B0565D00B50A94 /* PremiumActivityView.swift */,
 				5789EF3E26B81FA600218BE7 /* SideBarParentView.swift */,
@@ -329,6 +332,7 @@
 				57218E2326A5B25000D8F1E2 /* ContentView.swift in Sources */,
 				57218E2126A5B25000D8F1E2 /* AuTimeApp.swift in Sources */,
 				5779035426A5B4D800D856BD /* Activity.swift in Sources */,
+				577CCA7926BABA45006B7A9C /* CreateActivityView.swift in Sources */,
 				57A2F2F726AAEC12000A75AD /* SubActivity.swift in Sources */,
 				3E1D23DE26C1EE3A0055D3EC /* FeedbackChildView.swift in Sources */,
 				3E8E53CC26B44E0000D3853F /* DailyActivitiesView.swift in Sources */,
