@@ -357,7 +357,7 @@ struct SubActivityView: View {
                     .resizable()
                     .clipped()
                     .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.21, alignment: .center)
+                    .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.22, alignment: .center)
                     .cornerRadius(21, [.topRight, .topLeft])
                     .overlay(Color.black100Color.opacity( self.completed ? 0.825 : 0).cornerRadius(21, [.topRight, .topLeft]))
 
@@ -383,7 +383,7 @@ struct SubActivityView: View {
                 .fontWeight(.bold)
                 .foregroundColor(colorTheme)
                 .padding()
-                .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.09, alignment: .center)
+                .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.08, alignment: .center)
             
         }
         .background(Color.white)
