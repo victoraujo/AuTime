@@ -30,13 +30,6 @@ struct CreateActivityView: View {
         GeometryReader{ geometry in
             
             VStack(alignment: .leading){
-                //                ZStack{
-                //                    Rectangle()
-                //                        .fill(Color.blue)
-                //                        .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
-                //                        .cornerRadius(60, .bottomRight)
-                //
-                //}
                 
                 Spacer()
                 
@@ -120,8 +113,8 @@ struct CreateActivityView: View {
                                 Text("Activity's time")
                                     .fontWeight(.bold)
                                     .padding()
-                                    //.padding(.top)
-                                                                    
+                                //.padding(.top)
+                                
                                 Text(DateHelper.getHoursAndMinutes(from: Date()))
                                     .foregroundColor(.white)
                                     .fontWeight(.bold)
@@ -172,7 +165,7 @@ struct CreateActivityView: View {
                                 }
                                 .frame(width: geometry.size.width * 0.4)
                                 .padding(.vertical)
-
+                                
                             }
                             .frame(width: geometry.size.width * 0.4, alignment: .trailing)
                         }
@@ -198,31 +191,25 @@ struct CreateActivityView: View {
                                             .padding()
                                         }
                                         else{
-//                                            ZStack(alignment: .bottom){
-//                                                Rectangle()
-//                                                    .foregroundColor(.white)
-//                                                    .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.05)
-//                                                    .cornerRadius(0.013 * geometry.size.height, [.bottomLeft, .bottomRight])
-//
-                                                VStack {
-                                                    Image("breakfast")
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fill)
-                                                        .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.12)
-                                                        .cornerRadius(0.013 * geometry.size.height, [.topLeft, .topRight])
-                                                    
-                                                    Text("Wash hands")
-                                                        .foregroundColor(colorTheme)
-                                                        .fontWeight(.bold)
-                                                        .frame(alignment: .bottom)
-                                                        .padding(.all, 0.04 * geometry.size.height * 0.05)
-                                                        .padding(.bottom, 0.04 * geometry.size.height * 0.05)
-                                                }
-                                                .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.15)
-                                                .background(Color.white.cornerRadius(0.013 * geometry.size.height).shadow(color: .black100Color, radius: 5, x: 0, y: 6))
-                                                .padding()
+                                            
+                                            VStack {
+                                                Image("breakfast")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.115)
+                                                    .cornerRadius(0.013 * geometry.size.height, [.topLeft, .topRight])
+                                                
+                                                Text("Wash hands")
+                                                    .foregroundColor(colorTheme)
+                                                    .fontWeight(.bold)
+                                                    .frame(alignment: .bottom)
+                                                    .padding(.all, 0.04 * geometry.size.height * 0.05)
+                                                    .padding(.bottom, 0.04 * geometry.size.height * 0.05)
                                             }
-                                        //}
+                                            .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.15)
+                                            .background(Color.white.cornerRadius(0.013 * geometry.size.height).shadow(color: .black100Color, radius: 5, x: 0, y: 6))
+                                            .padding()
+                                        }
                                     }
                                     
                                 }
@@ -243,7 +230,7 @@ struct CreateActivityView: View {
                                 .cornerRadius(15)
                         })
                         .padding(.top)
-                    
+                        
                         Spacer()
                     }
                     
