@@ -12,8 +12,8 @@ struct SideBarParentView: View {
     @Binding var showContentView: Bool
     @Binding var visualization: ParentView.ParentViewMode
     
-    var profile = UIImage(imageLiteralResourceName: "memoji.png")
-    var menu = ["Criar atividade", "Mostrar cronograma", "Ver semanas", "Ver todas atividades", "Ver tutorias"]
+    var profile = UIImage(imageLiteralResourceName: "RildaMemoji.png")
+    var menu = ["New activity", "Schedule", "Weeks", "All activities", "Tutorials"]
     var colorTheme: Color = .blue
     
     var body: some View {
@@ -33,7 +33,7 @@ struct SideBarParentView: View {
                                     .foregroundColor(.white)
                                     .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 
-                                Text("Trocar Perfil")
+                                Text("Change Profile")
                                     .foregroundColor(.white)
                                     .font(.subheadline)
                                     .fontWeight(.bold)
@@ -59,7 +59,7 @@ struct SideBarParentView: View {
                                 
                             }
                             
-                            Text("João")
+                            Text("Rilda")
                                 .foregroundColor(.white)
                                 .font(.title3)
                                 .fontWeight(.bold)
@@ -70,7 +70,7 @@ struct SideBarParentView: View {
                     .frame(width: geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .background(Rectangle().fill(colorTheme).cornerRadius(21, [.bottomRight]))
                     
-                    Text("Área do Responsável")
+                    Text("Parents' Area")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(.black100Color)

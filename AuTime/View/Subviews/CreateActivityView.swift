@@ -13,15 +13,14 @@ struct CreateActivityView: View {
     @State var activityTime = ""
     @State var generateStar = false
     @State var weeklyRepeat = false
-    var colorTheme: Color = .blue
-    var weekDays = ["S","T","Q","Q","S","S","D"]
-    var subActivities: [String] = ["oi"]
-    
+    @State private var selectedColor = "select"
     @State var activity = Activity(id: "", category: "", complete: Date(), generateStar: false, name: "", repeatDays: [], time: Date())
     
-    var categories = ["Red", "Green", "Blue", "Tartan"]
-    @State private var selectedColor = "select"
+    var colorTheme: Color = .blue
+    var weekDays = ["S","M","T","W","T","F","S"]
+    var subActivities: [String] = ["oi"]
     
+    var categories = ["Domestic", "Education", "Family", "Friends" , "Fun", "Health", "Hygiene", "Premium", "Therapy"]
     
     func getIconImage() -> Image{
         return Image(systemName: "heart.fill")
@@ -31,178 +30,228 @@ struct CreateActivityView: View {
         GeometryReader{ geometry in
             
             VStack(alignment: .leading){
-//                ZStack{
-//                    Rectangle()
-//                        .fill(Color.blue)
-//                        .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
-//                        .cornerRadius(60, .bottomRight)
-//
-                    Text("Create Activity")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
-                        .padding()
+                //                ZStack{
+                //                    Rectangle()
+                //                        .fill(Color.blue)
+                //                        .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
+                //                        .cornerRadius(60, .bottomRight)
+                //
                 //}
+                
+                Spacer()
+                
+                Text("Create Activity")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.black100Color)
+                    .multilineTextAlignment(.leading)
+                    .padding()
+                    .padding(.top)
+                
                 HStack{
                     Spacer(minLength: geometry.size.width * 0.05)
                     VStack{
-                HStack(alignment: .center){
-                    VStack(alignment: .leading){
-                        Text("Image:")
-                            .fontWeight(.bold)
-                            .padding([.leading, .top, .trailing])
-                        Image("breakfast")
-                            .frame(width: geometry.size.height * 0.16 * 1.75, height: geometry.size.height * 0.16)
-                            .aspectRatio(contentMode: .fit)
-                            .cornerRadius(21)
-                            .padding([.leading, .bottom, .trailing])
-                        Text("Activity's name:")
-                            .fontWeight(.bold)
-                            .padding([.leading, .top, .trailing])
-                        TextField("nome da atividade", text: $activityName).textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding([.leading, .bottom, .trailing])
-                            .frame(width: geometry.size.width * 0.4, height: 30, alignment: .center)
-                        Text("Activity's category:")
-                            .fontWeight(.bold)
-                            .padding([.leading, .top, .trailing])
-                        Section{
-                            HStack{
-                                Picker(selectedColor, selection: $selectedColor) {
-                                    ForEach(categories, id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                                .pickerStyle(MenuPickerStyle())
-                                .frame(width: geometry.size.width * 0.38, height: 30, alignment: .leading)
-                                .padding(.leading)
-                                
-                                
-                                
-                            }
-                            HStack{
-                                Text("Generate star")
+                        HStack(alignment: .top){
+                            VStack(alignment: .leading){
+                                Text("Image:")
+                                    .fontWeight(.bold)
+                                    .padding([.leading, .top, .trailing])
+                                Image("breakfast")
+                                    .frame(width: geometry.size.height * 0.16 * 1.75, height: geometry.size.height * 0.16)
+                                    .aspectRatio(contentMode: .fit)
+                                    .cornerRadius(21)
+                                    .padding([.leading, .bottom, .trailing])
+                                Text("Activity's name:")
                                     .fontWeight(.bold)
                                     .padding()
-                                Spacer()
-                                Toggle("", isOn: $generateStar)
-                                    .frame(width: 50)
-                            }.frame(width: geometry.size.width * 0.4)
-                            
-                        }
-                        
-                        
-                    }
-                    Spacer()
-                    VStack(alignment: .leading){
-                        Text("Tips:")
-                            .fontWeight(.bold)
-                            .padding()
-                        Text("1. Use simple words, action verbs")
-                            .padding(.leading)
-                            .padding([.leading, .bottom])
-                        Text("2. On steps, use one or two words")
-                            .padding(.leading)
-                            .padding([.leading, .bottom])
-                        Text("3. On steps, use one or two words")
-                            .padding(.leading)
-                            .padding([.leading, .bottom])
-                        Text("Activity's time")
-                            .fontWeight(.bold)
-                            .padding()
-                        Text("10:00")
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
-                            .padding()
-                            .frame(height: 20)
-                            .background(Color.blue)
-                            .cornerRadius(14)
-                            .padding(.leading)
-                        Text("Days of week")
-                            .fontWeight(.bold)
-                            .padding()
-                        HStack{
-                            ForEach(0..<7){ dia in
-                                ZStack{
-                                    Circle()
-                                        .frame(width: 30, height: 30)
-                                        .foregroundColor(.blue)
-                                    Text(weekDays[dia])
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                }
-                                //Spacer()
-                            }
-                        }.padding(.leading)
-                        HStack{
-                            Text("Repeat weekly")
-                                .fontWeight(.bold)
-                                .padding()
-                            Spacer()
-                            Toggle("", isOn: $weeklyRepeat)
-                                .frame(width: 50)
-                                .padding(.trailing)
-                            
-                        }.frame(width: geometry.size.width * 0.4)
-                    }
-                    .frame(width: geometry.size.width * 0.4, alignment: .trailing)
-                }
-                    VStack(alignment: .leading){
-                Text("Steps:")
-                    .fontWeight(.bold)
-                    .padding(.leading)
-                ScrollView(.horizontal){
-                    HStack{
-                        ForEach(0..<subActivities.count + 1){ index in
-                            if index == subActivities.count {
-                                ZStack(alignment: .center){
-                                    Rectangle()
-                                        .fill(Color.gray)
-                                        .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.12)
-                                        .cornerRadius(0.013 * geometry.size.height)
-                                    Image(systemName: "plus.circle")
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
-                                        .foregroundColor(.white)
-                                }
-                            }
-                            else{
-                                ZStack(alignment: .bottom){
-                                Image("breakfast")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.12)
-                                    .cornerRadius(0.013 * geometry.size.height)
-                                    Rectangle()
-                                        .foregroundColor(.grayColor)
-                                        .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.02)
-                                        .cornerRadius(0.013 * geometry.size.height, [.bottomLeft, .bottomRight])
-                                Text("Comer")
-                                    .foregroundColor(.black)
+                                TextField("Activity's name", text: $activityName).textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .padding([.leading, .bottom, .trailing])
+                                    .frame(width: geometry.size.width * 0.4, height: 30, alignment: .center)
+                                Text("Activity's category:")
                                     .fontWeight(.bold)
-                                    .frame(alignment: .bottom)
+                                    .padding([.leading, .top, .trailing])
+                                Section{
+                                    HStack{
+                                        Picker(selectedColor, selection: $selectedColor) {
+                                            ForEach(categories, id: \.self) {
+                                                Text($0)
+                                            }
+                                        }
+                                        .padding(.leading)
+                                        .pickerStyle(MenuPickerStyle())
+                                        .frame(width: geometry.size.width * 0.38, height: 30, alignment: .leading)
+                                        .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 2, x: 0, y: 2))
+                                        .padding(.leading)
+                                        .foregroundColor(colorTheme)
+                                        
+                                    }
+                                    .padding(.bottom)
+                                    
+                                    HStack{
+                                        Text("Generate star")
+                                            .fontWeight(.bold)
+                                            .padding()
+                                        Spacer()
+                                        Toggle("", isOn: $generateStar)
+                                            .frame(width: 50)
+                                    }
+                                    .frame(width: geometry.size.width * 0.4)
+                                    .padding(.vertical)
                                 }
+                                
+                            }
+                            Spacer()
+                            
+                            VStack(alignment: .leading){
+                                Text("Tips:")
+                                    .fontWeight(.bold)
+                                    .padding()
+                                Text("1. Use simple words, action verbs")
+                                    .padding(.leading)
+                                    .padding([.leading, .bottom])
+                                Text("2. On steps, use one or two words")
+                                    .padding(.leading)
+                                    .padding([.leading, .bottom])
+                                Text("3. Use the option to generate star for activities that João has less motivation to perform.")
+                                    .padding(.leading)
+                                    .padding([.leading, .bottom])
+                                    .padding(.bottom)
+                                
+                                Text("Activity's time")
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    //.padding(.top)
+                                                                    
+                                Text(DateHelper.getHoursAndMinutes(from: Date()))
+                                    .foregroundColor(.white)
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    .frame(height: 20)
+                                    .background(Color.blue)
+                                    .cornerRadius(14)
+                                    .padding(.leading)
+                                    .padding(.bottom)
+                                
+                                Text("Days of week")
+                                    .fontWeight(.bold)
+                                    .padding()
+                                HStack{
+                                    ForEach(0..<7){ day in
+                                        ZStack{
+                                            Circle()
+                                                .frame(width: 30, height: 30)
+                                                .foregroundColor( activity.repeatDays.contains(day + 1) ? colorTheme : .black100Color)
+                                            Text(weekDays[day])
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.white)
+                                        }
+                                        .onTapGesture {
+                                            if activity.repeatDays.contains(day + 1) {
+                                                let index = activity.repeatDays.firstIndex(of: day + 1)
+                                                activity.repeatDays.remove(at: index!)
+                                            } else {
+                                                activity.repeatDays.append(day + 1)
+                                                activity.repeatDays.sort()
+                                            }
+                                            
+                                        }
+                                    }
                                 }
+                                .padding(.leading)
+                                //.padding(.bottom)
+                                
+                                HStack{
+                                    Text("Repeat weekly")
+                                        .fontWeight(.bold)
+                                        .padding()
+                                    Spacer()
+                                    Toggle("", isOn: $weeklyRepeat)
+                                        .frame(width: 50)
+                                        .padding(.trailing)
+                                    
+                                }
+                                .frame(width: geometry.size.width * 0.4)
+                                .padding(.vertical)
+
+                            }
+                            .frame(width: geometry.size.width * 0.4, alignment: .trailing)
                         }
                         
-                    }
-                }
-                .padding(.leading)
-                }
+                        VStack(alignment: .leading){
+                            Text("Steps:")
+                                .fontWeight(.bold)
+                                .padding(.leading)
+                            ScrollView(.horizontal){
+                                HStack(alignment: .center){
+                                    ForEach(0..<subActivities.count + 1){ index in
+                                        if index == subActivities.count {
+                                            ZStack(alignment: .center){
+                                                Rectangle()
+                                                    .fill(Color.gray)
+                                                    .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.15)
+                                                    .cornerRadius(0.013 * geometry.size.height)
+                                                Image(systemName: "plus.circle")
+                                                    .resizable()
+                                                    .frame(width: 50, height: 50)
+                                                    .foregroundColor(.white)
+                                            }
+                                            .padding()
+                                        }
+                                        else{
+//                                            ZStack(alignment: .bottom){
+//                                                Rectangle()
+//                                                    .foregroundColor(.white)
+//                                                    .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.05)
+//                                                    .cornerRadius(0.013 * geometry.size.height, [.bottomLeft, .bottomRight])
+//
+                                                VStack {
+                                                    Image("breakfast")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fill)
+                                                        .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.12)
+                                                        .cornerRadius(0.013 * geometry.size.height, [.topLeft, .topRight])
+                                                    
+                                                    Text("Wash hands")
+                                                        .foregroundColor(colorTheme)
+                                                        .fontWeight(.bold)
+                                                        .frame(alignment: .bottom)
+                                                        .padding(.all, 0.04 * geometry.size.height * 0.05)
+                                                        .padding(.bottom, 0.04 * geometry.size.height * 0.05)
+                                                }
+                                                .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.15)
+                                                .background(Color.white.cornerRadius(0.013 * geometry.size.height).shadow(color: .black100Color, radius: 5, x: 0, y: 6))
+                                                .padding()
+                                            }
+                                        //}
+                                    }
+                                    
+                                }
+                            }
+                            .padding(.leading)
+                            .padding(.vertical)
+                        }
+                        
+                        Spacer()
+                        
                         Button(action: {}, label: {
                             Text("Save Activity")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)
                                 .padding()
-                                .background(Color.blue)
+                                .background(colorTheme)
                                 .cornerRadius(15)
                         })
                         .padding(.top)
-                }
+                    
+                        Spacer()
+                    }
+                    
+                    
                     Spacer(minLength: geometry.size.width * 0.05)
                 }
             }
-        
+            
         }
     }
 }

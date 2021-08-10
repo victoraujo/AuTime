@@ -27,7 +27,7 @@ struct SubActivitiesView: View {
     @Binding var showSubActivitiesView: Bool
     @Binding var currentActivityReference: Activity?
     
-    let profile = UIImage(imageLiteralResourceName: "memoji.png")
+    let profile = UIImage(imageLiteralResourceName: "JoaoMemoji.png")
     let colorTheme: Color = .greenColor
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
