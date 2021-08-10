@@ -49,7 +49,7 @@ struct CreateActivityView: View {
                                 Text("Image:")
                                     .fontWeight(.bold)
                                     .padding([.leading, .top, .trailing])
-                                Image("breakfast")
+                                Image("Breakfast")
                                     .frame(width: geometry.size.height * 0.16 * 1.75, height: geometry.size.height * 0.16)
                                     .aspectRatio(contentMode: .fit)
                                     .cornerRadius(21)
@@ -193,7 +193,7 @@ struct CreateActivityView: View {
                                         else{
                                             
                                             VStack {
-                                                Image("breakfast")
+                                                Image("Wash hands")
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fill)
                                                     .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.115)
