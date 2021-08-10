@@ -126,7 +126,7 @@ struct ChildView: View {
                                 
                             }
                             
-                            Text("John")
+                            Text("João")
                                 .foregroundColor(.white)
                                 .font(.title3)
                                 .fontWeight(.bold)

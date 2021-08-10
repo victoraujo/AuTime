@@ -153,7 +153,7 @@ struct SubActivitiesView: View {
                                     
                                 }
                                 
-                                Text("John")
+                                Text("João")
                                     .foregroundColor(.white)
                                     .font(.title3)
                                     .fontWeight(.bold)
@@ -302,7 +302,7 @@ struct SubActivitiesView: View {
                 
                 
                 VStack(alignment: .center) {
-                    FeedbackChildView(showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, colorTheme: colorTheme)
+                    FeedbackChildView(showSubActivitiesView: $showSubActivitiesView, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, colorTheme: colorTheme)
                         .frame(width: 0.6*geometry.size.width, height: 0.6*geometry.size.height, alignment: .center)
                         .opacity(showFeedbackPopUp ? 1 : 0)
 
@@ -341,9 +341,6 @@ struct SubActivitiesView: View {
                 self.currentActivityReference = nil
             }
         }
-//        .fullScreenCover(isPresented: $showFeedbackPopUp){
-//            FeedbackChildView(selectedEmotion: "", colorTheme: colorTheme)
-//        }
         .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         
     }
@@ -395,6 +392,7 @@ struct SubActivityView: View {
                         .padding()
                 }
                 .opacity(self.completed ? 1 : 0)
+                .animation(.easeInOut)
             }
             
             Text(subActivityName)

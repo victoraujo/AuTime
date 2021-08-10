@@ -34,7 +34,7 @@ struct PremiumActivityView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.greenColor)
                     
-                    Text("Atividade Prêmio")
+                    Text("Premium Activity")
                         .font(.subheadline)
                         .fontWeight(.bold)
                         .foregroundColor(.black90Color)
