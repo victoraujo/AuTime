@@ -14,7 +14,7 @@ struct CreateActivityView: View {
     @State var generateStar = false
     @State var weeklyRepeat = false
     @State private var selectedColor = "select"
-    @State var activity = Activity(id: "", category: "", complete: Date(), generateStar: false, name: "", repeatDays: [], time: Date())
+    @State var activity = Activity(id: "", category: "", complete: Date(), generateStar: false, name: "", repeatDays: [], time: Date(), stepsCount: 0)
     
     var colorTheme: Color = .blue
     var weekDays = ["S","M","T","W","T","F","S"]
