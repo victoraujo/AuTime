@@ -20,7 +20,7 @@ struct ContentView: View {
     
     @State var image = UIImage()
     
-    let imageName = "Put on shoes"
+    let imageName = "Wash hands"
     
     init(show: Binding<Bool>) {
         self._showContentView = show
