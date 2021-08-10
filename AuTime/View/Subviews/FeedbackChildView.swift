@@ -9,11 +9,13 @@ import SwiftUI
 
 struct FeedbackChildView: View {
     
-    let emotions: [String] = ["Upset", "Sad", "Happy", "Joyful"]
+    @State var showEmotions: Bool = true
     
+    @Binding var showSubActivitiesView: Bool
     @Binding var showFeedbackPopUp: Bool
     @Binding var selectedEmotion: String
     
+    let emotions: [String] = ["Upset", "Sad", "Happy", "Joyful"]
     var colorTheme: Color
     
     var body: some View {
@@ -23,54 +25,89 @@ struct FeedbackChildView: View {
                     
                     Spacer()
                     
-                    Text("John, how are you feeling?")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black100Color)
-                        .multilineTextAlignment(.leading)
-                        .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .padding()
+                    if showEmotions {
                     
-                    HStack(alignment: .top){
-                        ForEach(emotions, id: \.self) { emotion in
-                            VStack(alignment: .center) {
-                                Image("\(emotion)")
-                                    .resizable()
-                                    .frame(width: 0.15*geometry.size.width, height: 0.15*geometry.size.width, alignment: .center)
-                                    .padding()
-                                    .background( emotion == selectedEmotion ?
-                                                    colorTheme
-                                                    :
-                                                    Color.clear
-                                    )
-                                    .cornerRadius(21)
-
-                                  
-                                Text("\(emotion)")
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.black100Color)
-                                
-                            }
-                            .onTapGesture {
-                                if selectedEmotion == emotion {
-                                    self.selectedEmotion = ""
-                                } else {
-                                    self.selectedEmotion = emotion
-                                }
-                                
-                            }
+                        Text("João, how are you feeling?")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black100Color)
+                            .multilineTextAlignment(.leading)
+                            .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             .padding()
+                        
+                        HStack(alignment: .top){
+                            ForEach(emotions, id: \.self) { emotion in
+                                VStack(alignment: .center) {
+                                    Image("\(emotion)")
+                                        .resizable()
+                                        .frame(width: 0.15*geometry.size.width, height: 0.15*geometry.size.width, alignment: .center)
+                                        .padding()
+                                        .background( emotion == selectedEmotion ?
+                                                        colorTheme
+                                                        :
+                                                        Color.clear
+                                        )
+                                        .cornerRadius(21)
+
+                                      
+                                    Text("\(emotion)")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.black100Color)
+                                    
+                                }
+                                .onTapGesture {
+                                    if selectedEmotion == emotion {
+                                        self.selectedEmotion = ""
+                                    } else {
+                                        self.selectedEmotion = emotion
+                                    }
+                                    
+                                }
+                                .padding()
+                            }
                         }
+                        .padding()
+                    } else {
+                        Text("Congratulations!")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(.pinkColor)
+                            .multilineTextAlignment(.center)
+                            .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            
+                        Text("you have completed an activity")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black100Color)
+                            .multilineTextAlignment(.leading)
+                            .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .padding()
+                        
+                        Image("Congratulations")
+                            .resizable()
+                            .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: .center)
+                            .padding()
                     }
-                    .padding()
                     
                     Spacer()
                     
                     VStack(alignment: .center){
                         
                         Button(action: {
-                            self.showFeedbackPopUp = false
+                            // First pop-up is presented  -> Show Second pop-up
+                            if showEmotions {
+                                if selectedEmotion != "" {
+                                    self.showEmotions = false
+                                }
+                            }
+                            // Second pop-up is presented -> Dismiss pop-up view
+                            else {
+                                self.showFeedbackPopUp = false
+                                self.showEmotions = true
+                                self.showSubActivitiesView = false
+                            }
+                            
                         }, label: {
                             Text("Confirm")
                                 .font(.title3)
@@ -85,10 +122,19 @@ struct FeedbackChildView: View {
                         .padding()
                                                 
                         Button(action: {
-                            self.selectedEmotion = ""
-                            self.showFeedbackPopUp = false
+                            // First pop-up is presented  -> Show Second pop-up
+                            if showEmotions {
+                                self.showEmotions = false
+                            }
+                            // Second pop-up is presented -> Dismiss pop-up view
+                            else {
+                                self.selectedEmotion = ""
+                                self.showFeedbackPopUp = false
+                                self.showEmotions = true
+                                self.showSubActivitiesView = false
+                            }
                         }, label: {
-                            Text("Skip")
+                            Text(showEmotions ? "Skip" : "Exit")
                                 .font(.title3)
                                 .fontWeight(.bold)
                                 .foregroundColor(colorTheme)
@@ -112,7 +158,7 @@ struct FeedbackChildView: View {
 
 struct FeedbackChildView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedbackChildView(showFeedbackPopUp: .constant(true), selectedEmotion: .constant("Happy"), colorTheme: .greenColor)
+        FeedbackChildView(showSubActivitiesView: .constant(true), showFeedbackPopUp: .constant(true), selectedEmotion: .constant("Happy"), colorTheme: .greenColor)
             .frame(width: 0.6*UIScreen.main.bounds.height, height: 0.6*UIScreen.main.bounds.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
             .environment(\.horizontalSizeClass, .compact)
