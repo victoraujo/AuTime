@@ -21,6 +21,8 @@ struct SubActivitiesView: View {
     @State var subsImages: [UIImage] = []
     @State var subActivitiesCount: Int = 0
     @State var completes: [Bool] = []
+    @State var showFeedbackPopUp: Bool = false
+    @State var emotion: String = ""
     
     @Binding var showContentView: Bool
     @Binding var showSubActivitiesView: Bool
@@ -58,242 +60,256 @@ struct SubActivitiesView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack (alignment: .center){
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(self.currentDate)
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
-                            .font(.title)
-                            .padding(.bottom)
-                        HStack {
-                            Image(systemName: "clock")
+            ZStack {
+                VStack (alignment: .center){
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(self.currentDate)
                                 .foregroundColor(.white)
-                            
-                            Text(self.currentHour)
-                                .foregroundColor(.white)
-                                .font(.title)
-                                .fontWeight(.semibold)
-                        }
-                    }
-                    .onReceive(timer, perform: { _ in
-                        self.currentDate = DateHelper.getDateString(from: Date())
-                        self.currentHour = DateHelper.getHoursAndMinutes(from: Date())
-                    })
-                    .padding()
-                    .frame(width: 0.27*geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .background(Rectangle().fill(Color.greenColor).cornerRadius(21, [.bottomRight]))
-                    
-                    Spacer()
-                    
-                    VStack(alignment: .center) {
-                        
-                        Text("O que estou fazendo")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(.black90Color)
-                            .padding()
-                        
-                        HStack(alignment: .center) {
-                            Image(uiImage: self.activityImage)
-                                .resizable()
-                                .frame(width: geometry.size.width*0.1, height: geometry.size.height*0.1, alignment: .center)
-                            
-                            IconImage
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 35, alignment: .center)
-                                .foregroundColor(colorTheme)
-                                .padding(.horizontal)
-                            
-                            VStack(alignment: .leading){
-                                VStack(alignment: .leading){
-                                    Text(self.currentActivityReference?.name ?? "SubAtividade sem nome")
-                                        .font(.title3)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(colorTheme)
-                                    
-                                    Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "Nenhuma") subtarefa\(subActivitiesCount > 1 ? "s" : "")")
-                                        .font(.subheadline)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.black90Color)
-                                        .padding(.trailing)
-                                }
-                            }
-                            .padding(.trailing)
-                            
-                        }
-                        .clipShape(RoundedRectangle.init(cornerRadius: 21))
-                        .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 10, x: 0, y: 6))
-                        
-                        
-                    }
-                    .padding(.top)
-                    
-                    Spacer()
-                    
-                    HStack (alignment: .center){
-                        VStack {
-                            ZStack {
-                                Rectangle()
-                                    .frame(width: 80, height: 80, alignment: .center)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(21)
-                                    .offset(x: -2, y: 8)
-                                
-                                Image(uiImage: profile)
-                                    .resizable()
-                                    .foregroundColor(.blue)
-                                    .padding([.horizontal, .bottom])
-                                    .frame(width: 120, height: 120, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                    .background(Color.clear)
-                                
-                            }
-                            
-                            Text("João")
-                                .foregroundColor(.white)
-                                .font(.title3)
                                 .fontWeight(.bold)
-                        }
-                        .padding([.horizontal, .bottom])
-                        .padding(.horizontal)
-                        
-                        
-                        Button(action: {
-                            self.userManager.signOut()
-                            self.showContentView.toggle()
-                        }, label: {
-                            VStack(alignment: .center){
-                                
-                                Image(systemName: "arrow.left.arrow.right.circle.fill")
-                                    .resizable()
+                                .font(.title)
+                                .padding(.bottom)
+                            HStack {
+                                Image(systemName: "clock")
                                     .foregroundColor(.white)
-                                    .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 
-                                Text("Trocar Perfil")
+                                Text(self.currentHour)
                                     .foregroundColor(.white)
-                                    .font(.subheadline)
-                                    .fontWeight(.bold)
-                                    .multilineTextAlignment(.center)
+                                    .font(.title)
+                                    .fontWeight(.semibold)
                             }
-                            .padding()
+                        }
+                        .onReceive(timer, perform: { _ in
+                            self.currentDate = DateHelper.getDateString(from: Date())
+                            self.currentHour = DateHelper.getHoursAndMinutes(from: Date())
                         })
-                    }
-                    .padding()
-                    .frame(width: 0.27*geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .background(Rectangle().fill(Color.greenColor).cornerRadius(21, [.bottomLeft]))
-                    
-                }
-                
-                Spacer()
-                
-                Text("")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.black90Color)
-                    .padding()
-                    .padding(.top)
-                
-                VStack {
-                    
-                    Spacer()
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        ScrollViewReader { reader in
-                            HStack(alignment: .center, spacing: 0.05*UIScreen.main.bounds.width){
+                        .padding()
+                        .frame(width: 0.27*geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .background(Rectangle().fill(Color.greenColor).cornerRadius(21, [.bottomRight]))
+                        
+                        Spacer()
+                        
+                        VStack(alignment: .center) {
+                            
+                            Text("What I am doing")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(.black90Color)
+                                .padding()
+                            
+                            HStack(alignment: .center) {
+                                Image(uiImage: self.activityImage)
+                                    .resizable()
+                                    .frame(width: geometry.size.width*0.1, height: geometry.size.height*0.1, alignment: .center)
                                 
-                                Rectangle()
-                                    .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
-                                    .foregroundColor(.clear)
-                                    .id(0)
+                                IconImage
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 35, alignment: .center)
+                                    .foregroundColor(colorTheme)
+                                    .padding(.horizontal)
                                 
-                                ForEach(Array(self.subActivities.enumerated()), id: \.offset) { index, subactivity in
-                                    VStack {
-                                        SubActivityView(colorTheme: colorTheme, subActivityName: subactivity.name, completed: self.completes[index])
-                                            .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
-                                            .cornerRadius(21)
-                                            .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
-                                            .padding(.bottom)
-                                            .onTapGesture {
-                                                self.completes[index].toggle()
-                                            }
+                                VStack(alignment: .leading){
+                                    VStack(alignment: .leading){
+                                        Text(self.currentActivityReference?.name ?? "Unamed Subactivity")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(colorTheme)
                                         
-                                        Text("Etapa \(index + 1)")
-                                            .font(.title2)
+                                        Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "No") subactivit\(subActivitiesCount > 1 ? "ies" : "y")")
+                                            .font(.subheadline)
                                             .fontWeight(.bold)
                                             .foregroundColor(.black90Color)
-                                            .padding(.top, 30)
+                                            .padding(.trailing)
                                     }
-                                    .id(index + 1)
+                                }
+                                .padding(.trailing)
+                                
+                            }
+                            .clipShape(RoundedRectangle.init(cornerRadius: 21))
+                            .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 10, x: 0, y: 6))
+                            
+                            
+                        }
+                        .padding(.top)
+                        
+                        Spacer()
+                        
+                        HStack (alignment: .center){
+                            VStack {
+                                ZStack {
+                                    Rectangle()
+                                        .frame(width: 80, height: 80, alignment: .center)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(21)
+                                        .offset(x: -2, y: 8)
+                                    
+                                    Image(uiImage: profile)
+                                        .resizable()
+                                        .foregroundColor(.blue)
+                                        .padding([.horizontal, .bottom])
+                                        .frame(width: 120, height: 120, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                        .background(Color.clear)
                                     
                                 }
                                 
-                                Rectangle()
-                                    .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
-                                    .foregroundColor(.clear)
-                                    .id(self.subActivitiesCount + 1)
-                                
+                                Text("John")
+                                    .foregroundColor(.white)
+                                    .font(.title3)
+                                    .fontWeight(.bold)
                             }
-                            .onChange(of: self.completes, perform: { _ in
-                                let index = self.completes.firstIndex(where: {$0 == false})
-                                withAnimation(.easeInOut(duration: Double(2*self.subActivitiesCount))) {
-                                    reader.scrollTo((index ?? self.subActivitiesCount - 1) + 1, anchor: .center)
+                            .padding([.horizontal, .bottom])
+                            .padding(.horizontal)
+                            
+                            
+                            Button(action: {
+                                self.userManager.signOut()
+                                self.showContentView.toggle()
+                            }, label: {
+                                VStack(alignment: .center){
+                                    
+                                    Image(systemName: "arrow.left.arrow.right.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(.white)
+                                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                    
+                                    Text("Change Profile")
+                                        .foregroundColor(.white)
+                                        .font(.subheadline)
+                                        .fontWeight(.bold)
+                                        .multilineTextAlignment(.center)
                                 }
-                                
+                                .padding()
                             })
                         }
+                        .padding()
+                        .frame(width: 0.27*geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .background(Rectangle().fill(Color.greenColor).cornerRadius(21, [.bottomLeft]))
+                        
                     }
-                    
-                    Divider()
-                        .frame(height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .padding(.bottom)
-                        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     
                     Spacer()
                     
-                    HStack(alignment: .center) {
+                    Text("")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black90Color)
+                        .padding()
+                        .padding(.top)
+                    
+                    VStack {
                         
-                        Button(action: {
-                            self.showSubActivitiesView = false
-                        }, label: {
-                            Text("Voltar")
-                                .foregroundColor(.black100Color)
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .padding()
-                                .padding(.horizontal)
-                                .frame(width: 0.25*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
-                                .background(colorTheme)
-                                .cornerRadius(28)
-                                .padding(.trailing)
-                            
-                        })
+                        Spacer()
                         
-                        Button(action: {
-                            if let id = currentActivityReference?.id {
-                                self.activitiesManager.completeActivity(activityId: id, with: Date())
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            ScrollViewReader { reader in
+                                HStack(alignment: .center, spacing: 0.05*UIScreen.main.bounds.width){
+                                    
+                                    Rectangle()
+                                        .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                        .foregroundColor(.clear)
+                                        .id(0)
+                                    
+                                    ForEach(Array(self.subActivities.enumerated()), id: \.offset) { index, subactivity in
+                                        VStack {
+                                            SubActivityView(colorTheme: colorTheme, subActivityName: subactivity.name, completed: self.completes[index])
+                                                .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                                .cornerRadius(21)
+                                                .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
+                                                .padding(.bottom)
+                                                .onTapGesture {
+                                                    self.completes[index].toggle()
+                                                }
+                                            
+                                            Text("Etapa \(index + 1)")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.black90Color)
+                                                .padding(.top, 30)
+                                        }
+                                        .id(index + 1)
+                                        
+                                    }
+                                    
+                                    Rectangle()
+                                        .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                        .foregroundColor(.clear)
+                                        .id(self.subActivitiesCount + 1)
+                                    
+                                }
+                                .onChange(of: self.completes, perform: { _ in
+                                    let index = self.completes.firstIndex(where: {$0 == false})
+                                    withAnimation(.easeInOut(duration: Double(2*self.subActivitiesCount))) {
+                                        reader.scrollTo((index ?? self.subActivitiesCount - 1) + 1, anchor: .center)
+                                    }
+                                    
+                                })
                             }
-                            print("Atividade concluída")
-                            self.showSubActivitiesView = false
-                        }, label: {
-                            Text("Concluir Atividade")
-                                .foregroundColor(.black100Color)
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .padding()
-                                .padding(.horizontal)
-                                .frame(width: 0.25*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
-                                .background(colorTheme)
-                                .cornerRadius(28)
-                                .padding(.leading)
-                        })
+                        }
+                        
+                        Divider()
+                            .frame(height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .padding(.bottom)
+                            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                        
+                        Spacer()
+                        
+                        HStack(alignment: .center) {
+                            
+                            Button(action: {
+                                self.showSubActivitiesView = false
+                            }, label: {
+                                Text("Back")
+                                    .foregroundColor(.black100Color)
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    .padding(.horizontal)
+                                    .frame(width: 0.25*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
+                                    .background(colorTheme)
+                                    .cornerRadius(28)
+                                    .padding(.trailing)
+                                
+                            })
+                            
+                            Button(action: {
+                                if let id = currentActivityReference?.id {
+                                    self.activitiesManager.completeActivity(activityId: id, with: Date())
+                                }
+                                print("Atividade concluída")
+                                //self.showSubActivitiesView = false
+                                self.showFeedbackPopUp = true
+                            }, label: {
+                                Text("Concluir Atividade")
+                                    .foregroundColor(.black100Color)
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    .padding(.horizontal)
+                                    .frame(width: 0.25*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
+                                    .background(colorTheme)
+                                    .cornerRadius(28)
+                                    .padding(.leading)
+                            })
+                            
+                        }
+                        .padding()
+                        .padding(.bottom)
+                        .frame(width: geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
                         
                     }
-                    .padding()
-                    .padding(.bottom)
-                    .frame(width: geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
-                    
                 }
+                
+                
+                VStack(alignment: .center) {
+                    FeedbackChildView(showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, colorTheme: colorTheme)
+                        .frame(width: 0.6*geometry.size.width, height: 0.6*geometry.size.height, alignment: .center)
+                        .opacity(showFeedbackPopUp ? 1 : 0)
+
+                }
+                .background(VisualEffectView(effect: UIBlurEffect(style: .dark))
+                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .opacity((self.showFeedbackPopUp ? 1 : 0)))
             }
             .onAppear {
                 self.subActivitiesManager.activityReference = currentActivityReference?.id
@@ -325,6 +341,9 @@ struct SubActivitiesView: View {
                 self.currentActivityReference = nil
             }
         }
+//        .fullScreenCover(isPresented: $showFeedbackPopUp){
+//            FeedbackChildView(selectedEmotion: "", colorTheme: colorTheme)
+//        }
         .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         
     }
@@ -360,7 +379,7 @@ struct SubActivityView: View {
                     .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.22, alignment: .center)
                     .cornerRadius(21, [.topRight, .topLeft])
                     .overlay(Color.black100Color.opacity( self.completed ? 0.825 : 0).cornerRadius(21, [.topRight, .topLeft]))
-
+                
                 
                 VStack(alignment: .center) {
                     Image(systemName: "checkmark.circle.fill")
@@ -370,7 +389,7 @@ struct SubActivityView: View {
                         .foregroundColor(.white)
                     
                     Text("Etapa concluída!")
-                        .font(.title3)
+                        .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                         .padding()
@@ -379,7 +398,7 @@ struct SubActivityView: View {
             }
             
             Text(subActivityName)
-                .font(.title3)
+                .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(colorTheme)
                 .padding()

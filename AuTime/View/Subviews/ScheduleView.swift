@@ -23,7 +23,7 @@ struct ScheduleView: View {
                                            
                 Spacer()
                 
-                Text("Cronograma do dia")
+                Text("Day Schedule")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.black100Color)
