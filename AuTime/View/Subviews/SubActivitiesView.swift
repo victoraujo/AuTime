@@ -18,7 +18,6 @@ struct SubActivitiesView: View {
     @State var currentDate = DateHelper.getDateString(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
     @State var activityImage: UIImage = UIImage()
-    @State var subsImages: [UIImage] = []
     @State var subActivitiesCount: Int = 0
     @State var completes: [Bool] = []
     @State var showFeedbackPopUp: Bool = false
@@ -49,6 +48,7 @@ struct SubActivitiesView: View {
         }
         
         self.subActivities = self.subActivitiesManager.subActivities
+
         self.subActivitiesCount = self.subActivities.count
         
         self.completes = []
@@ -221,7 +221,7 @@ struct SubActivitiesView: View {
                                                     self.completes[index].toggle()
                                                 }
                                             
-                                            Text("Etapa \(index + 1)")
+                                            Text("Step \(index + 1)")
                                                 .font(.title2)
                                                 .fontWeight(.bold)
                                                 .foregroundColor(.black90Color)
@@ -280,7 +280,7 @@ struct SubActivitiesView: View {
                                 //self.showSubActivitiesView = false
                                 self.showFeedbackPopUp = true
                             }, label: {
-                                Text("Concluir Atividade")
+                                Text("Complete activity")
                                     .foregroundColor(.black100Color)
                                     .font(.title3)
                                     .fontWeight(.bold)
@@ -321,6 +321,7 @@ struct SubActivitiesView: View {
                 
                 self.activityImage = self.imageManager.imageView.image ?? UIImage()
                 self.subActivities = self.subActivitiesManager.subActivities
+                
                 self.subActivitiesCount = self.subActivities.count
                 
                 self.completes = []
@@ -331,7 +332,7 @@ struct SubActivitiesView: View {
             .onChange(of: self.subActivitiesManager.subActivities, perform: { _ in
                 self.subActivities = self.subActivitiesManager.subActivities
                 self.subActivitiesCount = self.subActivities.count
-                
+                                        
                 self.completes = []
                 for _ in 0..<self.subActivitiesCount {
                     self.completes.append(false)
@@ -385,7 +386,7 @@ struct SubActivityView: View {
                         .frame(height: 0.05*UIScreen.main.bounds.height, alignment: .center)
                         .foregroundColor(.white)
                     
-                    Text("Etapa concluída!")
+                    Text("Step completed!")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.white)

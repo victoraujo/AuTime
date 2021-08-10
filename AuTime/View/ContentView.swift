@@ -20,6 +20,8 @@ struct ContentView: View {
     
     @State var image = UIImage()
     
+    let imageName = "Put on shoes"
+    
     init(show: Binding<Bool>) {
         self._showContentView = show
         self.imageVM.downloadImage(from: "users/\(String(describing: userManager.session?.email))/Activities/ocapi")
@@ -68,8 +70,11 @@ struct ContentView: View {
                 }
                 // Save image to URL
                 do {
-                    try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
-                    imageVM.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/Activities/ocapi")
+                    if let email = userManager.session?.email{
+                        try UIImage(named: "\(imageName)")!.pngData()?.write(to: imageURL)
+                        imageVM.uploadImage(urlFile: imageURL, filePath: "users/\(email)/SubActivities/\(imageName)")
+                    }
+                    
                 } catch { }
             }, label: {
                 Text("UPLOAD")
@@ -78,7 +83,7 @@ struct ContentView: View {
             .padding()
             
             Button(action: {
-                let _ = imageVM.downloadImage(from: "users/\(String(describing: userManager.session?.email))/Activities/ocapi")
+                let _ = imageVM.downloadImage(from: "users/\(String(describing: userManager.session?.email))/SubActivities/ocapi")
             }, label: {
                 Text("DOWNLOAD")
                     .foregroundColor(.red)

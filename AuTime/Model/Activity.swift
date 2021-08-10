@@ -19,6 +19,10 @@ struct Activity: Identifiable, Codable, Hashable {
     
     static func getIconImage(from category: String) -> Image {        
         switch category {
+            case "Educação":
+                return Image(systemName: "book.fill")
+            case "Alimentação":
+                return Image(systemName: "foof.fill")
             case "Prêmio":
                 return Image(systemName: "star.fill")
             default:
