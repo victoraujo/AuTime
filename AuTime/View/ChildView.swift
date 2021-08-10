@@ -20,7 +20,7 @@ struct ChildView: View {
     @State var showSubActivitiesView: Bool = false
     @Binding var showContentView: Bool
     
-    var profile = UIImage(imageLiteralResourceName: "memoji.png")
+    var profile = UIImage(imageLiteralResourceName: "JoaoMemoji.png")
     var colorTheme: Color = .greenColor
     var subActivitiesCount: Int = 5
     
