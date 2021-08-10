@@ -11,5 +11,6 @@ struct SubActivity: Identifiable, Codable, Hashable {
     var id: String?
     var complete: Date
     var name: String
+    var order: Int
     //var image: Data
 }

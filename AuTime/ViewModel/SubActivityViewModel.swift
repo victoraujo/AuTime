@@ -56,7 +56,7 @@ class SubActivityViewModel: ObservableObject {
         if let docId = userManager.session?.email, let activityId = self.activityReference {
             print("email: \(docId); id: \(activityId)")
             
-            db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addSnapshotListener({(snapshot, error) in
+            db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").order(by: "order").addSnapshotListener({(snapshot, error) in
                 guard let documents = snapshot?.documents else {
                     print("No docs returned")
                     return
@@ -67,10 +67,9 @@ class SubActivityViewModel: ObservableObject {
                     let docId = docSnapshot.documentID
                     let subActivityComplete = data["complete"] as? Date ?? Date()
                     let subActivityName = data["name"] as? String ?? ""
+                    let subActivityOrder = data["order"] as? Int ?? 0
                     
-                    //let subActivityImage = self.getImage(from: subActivityName).pngData()!
-                    
-                    return SubActivity(id: docId, complete: subActivityComplete, name: subActivityName)//, image: subActivityImage)
+                    return SubActivity(id: docId, complete: subActivityComplete, name: subActivityName, order: subActivityOrder)
                 })
                 
             })

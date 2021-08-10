@@ -51,7 +51,7 @@ struct ActivityView: View {
                             .frame(height: 0.05*UIScreen.main.bounds.height, alignment: .center)
                             .foregroundColor(.white)
                         
-                        Text("Atividade concluída!")
+                        Text("Activity completed!")
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -75,7 +75,7 @@ struct ActivityView: View {
                             .fontWeight(.bold)
                             .foregroundColor(colorTheme)
                         
-                        Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "Nenhuma") subtarefa\(subActivitiesCount > 1 ? "s" : "")")
+                        Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "No") subactivit\(subActivitiesCount > 1 ? "ies" : "y")")
                             .font(.subheadline)
                             .fontWeight(.bold)
                             .foregroundColor(.black90Color)
