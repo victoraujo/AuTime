@@ -18,7 +18,8 @@ struct ChildView: View {
     @State var currentDate = DateHelper.getDateString(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
     @State var showSubActivitiesView: Bool = false
-    @Binding var showContentView: Bool
+    @Binding var showChildView: Bool
+    @Binding var showParentView: Bool
     
     var profile = UIImage(imageLiteralResourceName: "JoaoMemoji.png")
     var colorTheme: Color = .greenColor
@@ -26,8 +27,9 @@ struct ChildView: View {
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    init(showContentView: Binding<Bool>) {
-        self._showContentView = showContentView
+    init(showChildView: Binding<Bool>, showParentView: Binding<Bool>) {
+        self._showChildView = showChildView
+        self._showParentView = showParentView
         self.currentActivityIndex = self.activitiesManager.getCurrentActivityIndex(offset: 1)
     }
     
@@ -136,9 +138,11 @@ struct ChildView: View {
                         
                         
                         Button(action: {
-                            self.userManager.signOut()
-                            self.activitiesManager.clearActivities()
-                            self.showContentView.toggle()
+//                            self.userManager.signOut()
+                            self.showChildView = false
+                            self.showParentView = true
+                            print("show child: \(self.showChildView)")
+                            print("show parent: \(self.showParentView)")
                         }, label: {
                             VStack(alignment: .center){
                                 
@@ -227,7 +231,7 @@ struct ChildView: View {
                 
             })
             .fullScreenCover(isPresented: $showSubActivitiesView){
-                SubActivitiesView(showContentView: $showContentView, showSubActivitiesView: $showSubActivitiesView, activity: $currentActivityReference)
+                SubActivitiesView(showContentView: $showChildView, showSubActivitiesView: $showSubActivitiesView, activity: $currentActivityReference)
             }
             
         }
@@ -236,7 +240,7 @@ struct ChildView: View {
 
 struct ChildView_Previews: PreviewProvider {
     static var previews: some View {
-        ChildView(showContentView: .constant(true))
+        ChildView(showChildView: .constant(true), showParentView: .constant(false))
             .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
             .environment(\.horizontalSizeClass, .compact)
             .environment(\.verticalSizeClass, .compact)
