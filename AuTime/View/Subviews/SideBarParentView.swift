@@ -9,8 +9,9 @@ import SwiftUI
 
 struct SideBarParentView: View {
     @ObservedObject var userManager = UserViewModel.shared
-    @Binding var showContentView: Bool
     @Binding var visualization: ParentView.ParentViewMode
+    @Binding var showChildView: Bool
+    @Binding var showParentView: Bool
     
     var profile = UIImage(imageLiteralResourceName: "RildaMemoji.png")
     var menu = ["New activity", "Schedule", "Weeks", "All activities", "Tutorials"]
@@ -22,9 +23,13 @@ struct SideBarParentView: View {
                 VStack(alignment: .center){
                     HStack(alignment: .center){
                         Button(action: {
-                            self.userManager.signOut()
-                            //                            self.activitiesManager.clearActivities()
-                            self.showContentView.toggle()
+                            //self.userManager.signOut()
+                            self.showChildView = true
+                            self.showParentView = false
+                            print("show child: \(self.showChildView)")
+                            print("show parent: \(self.showParentView)")
+
+                            
                         }, label: {
                             VStack(alignment: .center){
                                 
@@ -107,6 +112,6 @@ struct SideBarParentView: View {
 }
 struct SideBarParentView_Previews: PreviewProvider {
     static var previews: some View {
-        SideBarParentView(showContentView: .constant(true), visualization: .constant(ParentView.ParentViewMode(rawValue: 0)!))
+        SideBarParentView( visualization: .constant(ParentView.ParentViewMode(rawValue: 0)!), showChildView: .constant(false), showParentView: .constant(true))
     }
 }

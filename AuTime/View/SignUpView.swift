@@ -13,10 +13,11 @@ struct SignUpView: View {
     @State var email = ""
     @State var senha = ""
     @State var error = ""
-    @State var showContentView = false
+    @State var showChildView = false
+    @State var showParentView = false
     
     init() {
-        showContentView = userManager.isLogged()
+        showChildView = userManager.isLogged()
     }
     
     var body: some View {
@@ -68,24 +69,23 @@ struct SignUpView: View {
                 
             }
         }
-        .fullScreenCover(isPresented: $showContentView) {
-            ParentView(showContentView: $showContentView)
-            //ChildView(showContentView: $showContentView)
-            //ContentView(show: $showContentView)
+        .fullScreenCover(isPresented: $showChildView) {
+            ChildView(showChildView: $showChildView, showParentView: $showParentView)
         }
+        .fullScreenCover(isPresented: $showParentView) {
+            ParentView(showChildView: $showChildView, showParentView: $showParentView)
+        }
+        
         .onChange(of: userManager.session?.email, perform: { email in
             if email != nil {
-                showContentView = true
+                showChildView = true
+                print("show child: \(showChildView)")
             } else {
-                showContentView = false
+                showChildView = false
+                print("show child: \(showChildView)")
             }
             
         })
+        
     }
 }
-
-//struct SignUpView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SignUpView()
-//    }
-//}
