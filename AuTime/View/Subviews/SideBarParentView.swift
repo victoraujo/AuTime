@@ -25,11 +25,7 @@ struct SideBarParentView: View {
                         Button(action: {
                             //self.userManager.signOut()
                             self.showChildView = true
-                            self.showParentView = false
-                            print("show child: \(self.showChildView)")
-                            print("show parent: \(self.showParentView)")
-
-                            
+                            self.showParentView = false                            
                         }, label: {
                             VStack(alignment: .center){
                                 
