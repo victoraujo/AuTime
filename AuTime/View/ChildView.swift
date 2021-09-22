@@ -141,8 +141,6 @@ struct ChildView: View {
 //                            self.userManager.signOut()
                             self.showChildView = false
                             self.showParentView = true
-                            print("show child: \(self.showChildView)")
-                            print("show parent: \(self.showParentView)")
                         }, label: {
                             VStack(alignment: .center){
                                 
