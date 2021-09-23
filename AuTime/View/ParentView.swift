@@ -33,13 +33,13 @@ struct ParentView: View {
                     ScheduleView()
                 }
                 else if visualization == .weeks {
-                    Text("Semanas")
+                    Text("Weeks")
                 }
                 else if visualization == .activities {
-                    Text("Todas atividades")
+                    Text("All activities")
                 }
                 else if visualization == .tutorial {
-                    Text("Tutoriais")
+                    Text("Tutorials")
                 }
                 
             }
