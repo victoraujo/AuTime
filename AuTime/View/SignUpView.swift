@@ -22,52 +22,52 @@ struct SignUpView: View {
     
     var body: some View {
         VStack{
-            Text("SignUp")
-                .fontWeight(.bold)
-                .font(.title)
-            
-            Text((userManager.session?.email) ?? "Sem login")
-            
-            Spacer()
-            Text("email")
-            TextField("Digite aqui", text: $email)
-            Text("senha")
-            SecureField("Digite aqui", text: $senha)
-            Spacer()
-            Text(error)
-                .foregroundColor(.red)
-            
-            HStack{
-                Button(action: {
-                    userManager.signUp(email: email, password: senha)
-                }, label: {
-                    Text("Create")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                    
-                })
-                
-                Button(action: {
-                    userManager.signIn(email: email, password: senha)
-                }, label: {
-                    Text("Login")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                    
-                })
-                
-                Button(action: {
-                    userManager.signOut()
-                }, label: {
-                    Text("Logout")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                })
-                
-            }
+            //            Text("SignUp")
+            //                .fontWeight(.bold)
+            //                .font(.title)
+            //
+            //            Text((userManager.session?.email) ?? "Sem login")
+            //
+            //            Spacer()
+            //            Text("email")
+            //            TextField("Digite aqui", text: $email)
+            //            Text("senha")
+            //            SecureField("Digite aqui", text: $senha)
+            //            Spacer()
+            //            Text(error)
+            //                .foregroundColor(.red)
+            //
+            //            HStack{
+            //                Button(action: {
+            //                    userManager.signUp(email: email, password: senha)
+            //                }, label: {
+            //                    Text("Create")
+            //                        .padding()
+            //                        .background(Color.blue)
+            //                        .foregroundColor(.white)
+            //
+            //                })
+            //
+            //                Button(action: {
+            //                    userManager.signIn(email: email, password: senha)
+            //                }, label: {
+            //                    Text("Login")
+            //                        .padding()
+            //                        .background(Color.blue)
+            //                        .foregroundColor(.white)
+            //
+            //                })
+            //
+            //                Button(action: {
+            //                    userManager.signOut()
+            //                }, label: {
+            //                    Text("Logout")
+            //                        .padding()
+            //                        .background(Color.blue)
+            //                        .foregroundColor(.white)
+            //                })
+            //
+            //            }
         }
         .fullScreenCover(isPresented: $showChildView) {
             ChildView(showChildView: $showChildView, showParentView: $showParentView)
@@ -86,6 +86,12 @@ struct SignUpView: View {
             }
             
         })
+        .onAppear() {
+            //            userManager.signOut()
+            
+            // Automatic login in the test account
+            userManager.signIn(email: "matheus3@eu.com", password: "matheus123")
+        }
         
     }
 }
