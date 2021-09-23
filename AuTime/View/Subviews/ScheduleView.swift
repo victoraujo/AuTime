@@ -69,7 +69,7 @@ struct ScheduleView: View {
                                                 .padding()
                                             
                                             VStack (alignment: .leading){
-                                                Text("Horário de conclusão")
+                                                Text("Completion time")
                                                     .foregroundColor(colorTheme)
                                                     .font(.callout)
                                                     .fontWeight(.regular)
@@ -89,12 +89,12 @@ struct ScheduleView: View {
                                                 .padding()
                                             
                                             VStack (alignment: .leading){
-                                                Text("Feedback de emoção")
+                                                Text("Emotion feedback")
                                                     .foregroundColor(colorTheme)
                                                     .font(.callout)
                                                     .fontWeight(.regular)
                                                 
-                                                Text("Feliz")
+                                                Text("Happy")
                                                     .foregroundColor(colorTheme)
                                                     .font(.title3)
                                                     .fontWeight(.bold)
