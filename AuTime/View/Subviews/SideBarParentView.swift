@@ -14,7 +14,7 @@ struct SideBarParentView: View {
     @Binding var showParentView: Bool
     
     var profile = UIImage(imageLiteralResourceName: "RildaMemoji.png")
-    var menu = ["New activity", "Schedule", "Weeks", "All activities", "Tutorials"]
+    var menu = ["Schedule", "New activity", "Weeks", "All activities", "Tutorials"]
     var colorTheme: Color = .blue
     
     var body: some View {
