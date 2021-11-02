@@ -9,12 +9,12 @@ import SwiftUI
 
 struct ParentView: View {
     @ObservedObject var userManager = UserViewModel.shared
-    @State var visualization: ParentViewMode = .create
+    @State var visualization: ParentViewMode = .schedule
     @Binding var showChildView: Bool
     @Binding var showParentView: Bool
     
     public enum ParentViewMode: Int {
-        case create, schedule, weeks, activities, tutorial
+        case schedule, create, weeks, activities, tutorial
     }
     
     var body: some View {
@@ -26,12 +26,12 @@ struct ParentView: View {
                 
                 Spacer()
                 
-                if visualization == .create {
-                    CreateActivityView()
-                }
-                else if visualization == .schedule {
+                if visualization == .schedule {
                     ScheduleView()
                 }
+                else if visualization == .create {
+                    CreateActivityView()
+                }    
                 else if visualization == .weeks {
                     Text("Weeks")
                 }

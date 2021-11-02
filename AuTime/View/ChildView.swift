@@ -183,14 +183,15 @@ struct ChildView: View {
                             .frame(height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             .padding(.bottom)
                             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                        
+                                                
                         Spacer()
-                        
+
                         if let premium = activitiesManager.hasPremiumActivity() {
                             
                             PremiumActivityView(activity: premium)
                                 .frame(width: 0.36*geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
                                 .background(Rectangle().fill(Color.white).cornerRadius(21, [.topLeft, .topRight]).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
+                                .offset(y: 6)
                                 .onTapGesture {
                                     if let index = self.activitiesManager.todayActivities.firstIndex(where: {
                                         $0.category == "Prêmio"
@@ -229,7 +230,7 @@ struct ChildView: View {
                 
             })
             .fullScreenCover(isPresented: $showSubActivitiesView){
-                SubActivitiesView(showContentView: $showChildView, showSubActivitiesView: $showSubActivitiesView, activity: $currentActivityReference)
+                SubActivitiesView(showChildView: $showChildView, showParentView: $showParentView, showSubActivitiesView: $showSubActivitiesView, activity: $currentActivityReference)
             }
             
         }

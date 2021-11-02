@@ -45,7 +45,7 @@ struct DailyActivitiesView: View {
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .foregroundColor(.black90Color)
-                                    .padding(.top, 100)
+                                    .padding(.top, UIScreen.main.bounds.height*0.09)
                             }
                             .id(index + 1)
                             

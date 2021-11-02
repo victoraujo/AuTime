@@ -17,7 +17,7 @@ struct SignUpView: View {
     @State var showParentView = false
     
     init() {
-        showChildView = userManager.isLogged()
+        showParentView = userManager.isLogged()
     }
     
     var body: some View {
@@ -78,11 +78,11 @@ struct SignUpView: View {
         
         .onChange(of: userManager.session?.email, perform: { email in
             if email != nil {
-                showChildView = true
-                print("show child: \(showChildView)")
+                showParentView = true
+                print("show child: \(showParentView)")
             } else {
-                showChildView = false
-                print("show child: \(showChildView)")
+                showParentView = false
+                print("show child: \(showParentView)")
             }
             
         })

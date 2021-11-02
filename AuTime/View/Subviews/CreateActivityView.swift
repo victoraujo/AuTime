@@ -15,6 +15,8 @@ struct CreateActivityView: View {
     @State var weeklyRepeat = false
     @State private var selectedColor = "select"
     @State var activity = Activity(id: "", category: "", complete: Date(), generateStar: false, name: "", repeatDays: [], time: Date(), stepsCount: 0)
+    @State var isShowingPhotoPicker = false
+    @State var activityImage = UIImage(named: "Breakfast") ?? UIImage()
     
     var colorTheme: Color = .blue
     var weekDays = ["S","M","T","W","T","F","S"]
@@ -49,11 +51,15 @@ struct CreateActivityView: View {
                                 Text("Image:")
                                     .fontWeight(.bold)
                                     .padding([.leading, .top, .trailing])
-                                Image("Breakfast")
+                                Image(uiImage: activityImage)
+                                    .resizable()
                                     .frame(width: geometry.size.height * 0.16 * 1.75, height: geometry.size.height * 0.16)
-                                    .aspectRatio(contentMode: .fit)
+                                    .aspectRatio(contentMode: .fill)
                                     .cornerRadius(21)
                                     .padding([.leading, .bottom, .trailing])
+                                    .onTapGesture {
+                                        isShowingPhotoPicker = true
+                                    }
                                 Text("Activity's name:")
                                     .fontWeight(.bold)
                                     .padding()
@@ -168,68 +174,67 @@ struct CreateActivityView: View {
                                 
                             }
                             .frame(width: geometry.size.width * 0.4, alignment: .trailing)
+                                                       
                         }
                         
-                        VStack(alignment: .leading){
-                            Text("Steps:")
-                                .fontWeight(.bold)
-                                .padding(.leading)
-                            ScrollView(.horizontal){
-                                HStack(alignment: .center){
-                                    ForEach(0..<subActivities.count + 1){ index in
-                                        if index == subActivities.count {
-                                            ZStack(alignment: .center){
-                                                Rectangle()
-                                                    .fill(Color.gray)
-                                                    .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.15)
-                                                    .cornerRadius(0.013 * geometry.size.height)
-                                                Image(systemName: "plus.circle")
-                                                    .resizable()
-                                                    .frame(width: 50, height: 50)
-                                                    .foregroundColor(.white)
+                        HStack(alignment: .center){
+                            VStack(alignment: .leading){
+                                Text("Steps:")
+                                    .fontWeight(.bold)
+                                    .padding(.leading)
+                                ScrollView(.horizontal){
+                                    HStack(alignment: .center){
+                                        ForEach(0..<subActivities.count + 1){ index in
+                                            if index == subActivities.count {
+                                                ZStack(alignment: .center){
+                                                    Rectangle()
+                                                        .fill(Color.gray)
+                                                        .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.15)
+                                                        .cornerRadius(0.013 * geometry.size.height)
+                                                    Image(systemName: "plus.circle")
+                                                        .resizable()
+                                                        .frame(width: 50, height: 50)
+                                                        .foregroundColor(.white)
+                                                }
+                                                .padding()
                                             }
-                                            .padding()
-                                        }
-                                        else{
-                                            
-                                            VStack {
-                                                Image("Wash hands")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fill)
-                                                    .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.115)
-                                                    .cornerRadius(0.013 * geometry.size.height, [.topLeft, .topRight])
+                                            else{
                                                 
-                                                Text("Wash hands")
-                                                    .foregroundColor(colorTheme)
-                                                    .fontWeight(.bold)
-                                                    .frame(alignment: .bottom)
-                                                    .padding(.all, 0.04 * geometry.size.height * 0.05)
-                                                    .padding(.bottom, 0.04 * geometry.size.height * 0.05)
+                                                VStack {
+                                                    Image("Wash hands")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fill)
+                                                        .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.115)
+                                                        .cornerRadius(0.013 * geometry.size.height, [.topLeft, .topRight])
+                                                    
+                                                    Text("Wash hands")
+                                                        .foregroundColor(colorTheme)
+                                                        .fontWeight(.bold)
+                                                        .frame(alignment: .bottom)
+                                                        .padding(.all, 0.04 * geometry.size.height * 0.05)
+                                                        .padding(.bottom, 0.04 * geometry.size.height * 0.05)
+                                                }
+                                                .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.15)
+                                                .background(Color.white.cornerRadius(0.013 * geometry.size.height).shadow(color: .black100Color, radius: 5, x: 0, y: 6))
+                                                .padding()
                                             }
-                                            .frame(width: geometry.size.height * 0.12 * 1.75, height: geometry.size.height * 0.15)
-                                            .background(Color.white.cornerRadius(0.013 * geometry.size.height).shadow(color: .black100Color, radius: 5, x: 0, y: 6))
-                                            .padding()
                                         }
+                                        
                                     }
-                                    
                                 }
+                                .padding(.leading)
+                                .padding(.vertical)
                             }
-                            .padding(.leading)
-                            .padding(.vertical)
+                            Button(action: {}, label: {
+                                Text("Save Activity")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .background(colorTheme)
+                                    .cornerRadius(15)
+                            })
                         }
-                        
-                        Spacer()
-                        
-                        Button(action: {}, label: {
-                            Text("Save Activity")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(colorTheme)
-                                .cornerRadius(15)
-                        })
-                        .padding(.top)
                         
                         Spacer()
                     }
@@ -238,6 +243,9 @@ struct CreateActivityView: View {
                     Spacer(minLength: geometry.size.width * 0.05)
                 }
             }
+            .sheet(isPresented: $isShowingPhotoPicker, content: {
+                PhotoPicker(activityImage: $activityImage)
+            })
             
         }
     }

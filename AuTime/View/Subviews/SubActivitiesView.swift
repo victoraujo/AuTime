@@ -23,7 +23,8 @@ struct SubActivitiesView: View {
     @State var showFeedbackPopUp: Bool = false
     @State var emotion: String = ""
     
-    @Binding var showContentView: Bool
+    @Binding var showChildView: Bool
+    @Binding var showParentView: Bool
     @Binding var showSubActivitiesView: Bool
     @Binding var currentActivityReference: Activity?
     
@@ -31,8 +32,9 @@ struct SubActivitiesView: View {
     let colorTheme: Color = .greenColor
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    init(showContentView: Binding<Bool>, showSubActivitiesView: Binding<Bool>, activity: Binding<Activity?>) {
-        self._showContentView = showContentView
+    init(showChildView: Binding<Bool>, showParentView: Binding<Bool>, showSubActivitiesView: Binding<Bool>, activity: Binding<Activity?>) {
+        self._showChildView = showChildView
+        self._showParentView = showParentView
         self._showSubActivitiesView = showSubActivitiesView
         self._currentActivityReference = activity
         
@@ -163,8 +165,8 @@ struct SubActivitiesView: View {
                             
                             
                             Button(action: {
-                                self.userManager.signOut()
-                                self.showContentView.toggle()
+                                self.showChildView = false
+                                self.showParentView = true
                             }, label: {
                                 VStack(alignment: .center){
                                     
@@ -426,7 +428,7 @@ struct SubActivityView: View {
 struct SubActivitiesView_Previews: PreviewProvider {
     
     static var previews: some View {
-        SubActivitiesView(showContentView: .constant(true), showSubActivitiesView: .constant(true), activity: .constant(Activity(id: "sahjsa", category: "Saúde", complete: Date(), generateStar: true, name: "Caminhar", repeatDays: [], time: Date(), stepsCount: 0)))
+        SubActivitiesView(showChildView: .constant(true), showParentView: .constant(true), showSubActivitiesView: .constant(true), activity: .constant(Activity(id: "sahjsa", category: "Saúde", complete: Date(), generateStar: true, name: "Caminhar", repeatDays: [], time: Date(), stepsCount: 0)))
             .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
             .environment(\.horizontalSizeClass, .compact)
             .environment(\.verticalSizeClass, .compact)
