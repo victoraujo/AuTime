@@ -17,6 +17,7 @@
 		3E3CFC4E26A714F7007C2646 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CFC4D26A714F7007C2646 /* ActivityView.swift */; };
 		3E8E53CA26B4362100D3853F /* WeekActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E53C926B4362100D3853F /* WeekActivitiesView.swift */; };
 		3E8E53CC26B44E0000D3853F /* DailyActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E53CB26B44E0000D3853F /* DailyActivitiesView.swift */; };
+		3E901C892731C6E1002FE8A2 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E901C882731C6E1002FE8A2 /* PhotoPicker.swift */; };
 		3ED8D18226B0565D00B50A94 /* PremiumActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8D18126B0565D00B50A94 /* PremiumActivityView.swift */; };
 		5708DA5526B4342B007DFB66 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708DA5426B4342B007DFB66 /* ParentView.swift */; };
 		57218E2126A5B25000D8F1E2 /* AuTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218E2026A5B25000D8F1E2 /* AuTimeApp.swift */; };
@@ -49,6 +50,7 @@
 		3E3CFC4D26A714F7007C2646 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		3E8E53C926B4362100D3853F /* WeekActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekActivitiesView.swift; sourceTree = "<group>"; };
 		3E8E53CB26B44E0000D3853F /* DailyActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyActivitiesView.swift; sourceTree = "<group>"; };
+		3E901C882731C6E1002FE8A2 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		3ED8D18126B0565D00B50A94 /* PremiumActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumActivityView.swift; sourceTree = "<group>"; };
 		5708DA5426B4342B007DFB66 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
 		57218E1D26A5B25000D8F1E2 /* AuTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				3E1CE91F26B977E700BF0867 /* DateHelper.swift */,
+				3E901C882731C6E1002FE8A2 /* PhotoPicker.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				3E8E53CA26B4362100D3853F /* WeekActivitiesView.swift in Sources */,
 				3E3CFC4E26A714F7007C2646 /* ActivityView.swift in Sources */,
 				3E1CE92026B977E700BF0867 /* DateHelper.swift in Sources */,
+				3E901C892731C6E1002FE8A2 /* PhotoPicker.swift in Sources */,
 				3E3CFC4926A6F69A007C2646 /* ColorExtension.swift in Sources */,
 				57FCA34726A85D3500A57732 /* SignUpView.swift in Sources */,
 				5789EF3F26B81FA600218BE7 /* SideBarParentView.swift in Sources */,
