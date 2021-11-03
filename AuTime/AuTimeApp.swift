@@ -10,14 +10,13 @@ import Firebase
 
 @main
 struct AuTimeApp: App {
-    
     init() {
         FirebaseApp.configure()
     }
     
     var body: some Scene {
         WindowGroup {
-            SignUpView()
+            RootView()
         }
     }
 }

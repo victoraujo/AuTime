@@ -13,6 +13,7 @@ class UserViewModel: ObservableObject {
     public static var shared = UserViewModel()
     
     @Published var session: UserSession? {didSet {self.didChange.send(self)}}
+    @Published var logged = false
     
     var db = Firestore.firestore()
 
@@ -53,6 +54,7 @@ class UserViewModel: ObservableObject {
             if let error = error {
                 print(error.localizedDescription)
             } else{
+                self.logged = true
                 print("Signed In!")
             }
         })
@@ -67,8 +69,7 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func createUser() {
-        
+    func createUser() {        
         if let session = self.session {
             self.db.collection("users").document(session.email!).setData([
                 "emails": [session.email!]
@@ -77,7 +78,7 @@ class UserViewModel: ObservableObject {
     }
     
     func isLogged() -> Bool {
-        return (Auth.auth().currentUser?.isEmailVerified ?? false)
+        return logged//(Auth.auth().currentUser?.isEmailVerified ?? false)
     }
     
 }

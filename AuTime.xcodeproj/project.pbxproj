@@ -19,6 +19,10 @@
 		3E8E53CC26B44E0000D3853F /* DailyActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E53CB26B44E0000D3853F /* DailyActivitiesView.swift */; };
 		3E901C892731C6E1002FE8A2 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E901C882731C6E1002FE8A2 /* PhotoPicker.swift */; };
 		3ED8D18226B0565D00B50A94 /* PremiumActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8D18126B0565D00B50A94 /* PremiumActivityView.swift */; };
+		3EECA74D2732DDC400181E1F /* NativeSiderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA74C2732DDC400181E1F /* NativeSiderBarView.swift */; };
+		3EECA7512732E8D800181E1F /* NavigationConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA7502732E8D800181E1F /* NavigationConfigurator.swift */; };
+		3EECA7532732FB9700181E1F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA7522732FB9700181E1F /* RootView.swift */; };
+		3EECA7552732FBDE00181E1F /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA7542732FBDE00181E1F /* AppEnvironment.swift */; };
 		5708DA5526B4342B007DFB66 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708DA5426B4342B007DFB66 /* ParentView.swift */; };
 		57218E2126A5B25000D8F1E2 /* AuTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218E2026A5B25000D8F1E2 /* AuTimeApp.swift */; };
 		57218E2326A5B25000D8F1E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218E2226A5B25000D8F1E2 /* ContentView.swift */; };
@@ -52,6 +56,10 @@
 		3E8E53CB26B44E0000D3853F /* DailyActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyActivitiesView.swift; sourceTree = "<group>"; };
 		3E901C882731C6E1002FE8A2 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		3ED8D18126B0565D00B50A94 /* PremiumActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumActivityView.swift; sourceTree = "<group>"; };
+		3EECA74C2732DDC400181E1F /* NativeSiderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeSiderBarView.swift; sourceTree = "<group>"; };
+		3EECA7502732E8D800181E1F /* NavigationConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationConfigurator.swift; sourceTree = "<group>"; };
+		3EECA7522732FB9700181E1F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		3EECA7542732FBDE00181E1F /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		5708DA5426B4342B007DFB66 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
 		57218E1D26A5B25000D8F1E2 /* AuTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57218E2026A5B25000D8F1E2 /* AuTimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuTimeApp.swift; sourceTree = "<group>"; };
@@ -101,6 +109,7 @@
 			children = (
 				3E1CE91F26B977E700BF0867 /* DateHelper.swift */,
 				3E901C882731C6E1002FE8A2 /* PhotoPicker.swift */,
+				3EECA7502732E8D800181E1F /* NavigationConfigurator.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -127,6 +136,7 @@
 				3E19547426B8374E0036B1FC /* ScheduleView.swift */,
 				57A2F2FA26AAEF7B000A75AD /* SubActivitiesView.swift */,
 				3E1D23DD26C1EE3A0055D3EC /* FeedbackChildView.swift */,
+				3EECA74C2732DDC400181E1F /* NativeSiderBarView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -191,6 +201,7 @@
 				5779035726A5B4E300D856BD /* ActivityViewModel.swift */,
 				57A2F2F826AAECFD000A75AD /* SubActivityViewModel.swift */,
 				57EA9D6826AEF75300439615 /* ImageViewModel.swift */,
+				3EECA7542732FBDE00181E1F /* AppEnvironment.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -203,6 +214,7 @@
 				3E3CFC4526A6F0C5007C2646 /* ChildView.swift */,
 				5708DA5426B4342B007DFB66 /* ParentView.swift */,
 				57FCA34626A85D3500A57732 /* SignUpView.swift */,
+				3EECA7522732FB9700181E1F /* RootView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -330,6 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EECA7512732E8D800181E1F /* NavigationConfigurator.swift in Sources */,
 				3E070DC926BF3C6600A0AA6C /* BlurEffect.swift in Sources */,
 				57A2F2F926AAECFD000A75AD /* SubActivityViewModel.swift in Sources */,
 				57218E2326A5B25000D8F1E2 /* ContentView.swift in Sources */,
@@ -340,8 +353,10 @@
 				3E1D23DE26C1EE3A0055D3EC /* FeedbackChildView.swift in Sources */,
 				3E8E53CC26B44E0000D3853F /* DailyActivitiesView.swift in Sources */,
 				3ED8D18226B0565D00B50A94 /* PremiumActivityView.swift in Sources */,
+				3EECA74D2732DDC400181E1F /* NativeSiderBarView.swift in Sources */,
 				3E8E53CA26B4362100D3853F /* WeekActivitiesView.swift in Sources */,
 				3E3CFC4E26A714F7007C2646 /* ActivityView.swift in Sources */,
+				3EECA7532732FB9700181E1F /* RootView.swift in Sources */,
 				3E1CE92026B977E700BF0867 /* DateHelper.swift in Sources */,
 				3E901C892731C6E1002FE8A2 /* PhotoPicker.swift in Sources */,
 				3E3CFC4926A6F69A007C2646 /* ColorExtension.swift in Sources */,
@@ -349,6 +364,7 @@
 				5789EF3F26B81FA600218BE7 /* SideBarParentView.swift in Sources */,
 				5779035826A5B4E300D856BD /* UserViewModel.swift in Sources */,
 				5779035326A5B4D800D856BD /* User.swift in Sources */,
+				3EECA7552732FBDE00181E1F /* AppEnvironment.swift in Sources */,
 				57A2F2FB26AAEF7B000A75AD /* SubActivitiesView.swift in Sources */,
 				57EA9D6926AEF75300439615 /* ImageViewModel.swift in Sources */,
 				3E3CFC4626A6F0C5007C2646 /* ChildView.swift in Sources */,

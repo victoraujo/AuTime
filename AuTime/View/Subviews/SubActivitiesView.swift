@@ -12,6 +12,7 @@ struct SubActivitiesView: View {
     @ObservedObject var subActivitiesManager = SubActivityViewModel()
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var imageManager = ImageViewModel()
+    @ObservedObject var env: AppEnvironment
     
     @State var subActivities: [SubActivity] = []
     @State var IconImage: Image = Image("")
@@ -23,9 +24,6 @@ struct SubActivitiesView: View {
     @State var showFeedbackPopUp: Bool = false
     @State var emotion: String = ""
     
-    @Binding var showChildView: Bool
-    @Binding var showParentView: Bool
-    @Binding var showSubActivitiesView: Bool
     @Binding var currentActivityReference: Activity?
     @Binding var star: Int
     
@@ -33,10 +31,8 @@ struct SubActivitiesView: View {
     let colorTheme: Color = .greenColor
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    init(showChildView: Binding<Bool>, showParentView: Binding<Bool>, showSubActivitiesView: Binding<Bool>, activity: Binding<Activity?>, star: Binding<Int>) {
-        self._showChildView = showChildView
-        self._showParentView = showParentView
-        self._showSubActivitiesView = showSubActivitiesView
+    init(env: ObservedObject<AppEnvironment>, activity: Binding<Activity?>) {
+        self._env = env
         self._currentActivityReference = activity
         self._star = star
         
@@ -167,8 +163,7 @@ struct SubActivitiesView: View {
                             
                             
                             Button(action: {
-                                self.showChildView = false
-                                self.showParentView = true
+                                self.env.profile = .parent
                             }, label: {
                                 VStack(alignment: .center){
                                     
@@ -261,7 +256,7 @@ struct SubActivitiesView: View {
                         HStack(alignment: .center) {
                             
                             Button(action: {
-                                self.showSubActivitiesView = false
+                                self.env.showSubActivities = false
                             }, label: {
                                 Text("Back")
                                     .foregroundColor(.black100Color)
@@ -306,7 +301,7 @@ struct SubActivitiesView: View {
                 
                 
                 VStack(alignment: .center) {
-                    FeedbackChildView(showSubActivitiesView: $showSubActivitiesView, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, star: $star, colorTheme: colorTheme)
+                    FeedbackChildView(env: env, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, colorTheme: colorTheme)
                         .frame(width: 0.6*geometry.size.width, height: 0.6*geometry.size.height, alignment: .center)
                         .opacity(showFeedbackPopUp ? 1 : 0)
 
@@ -427,13 +422,13 @@ struct SubActivityView: View {
 }
 
 
-struct SubActivitiesView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        SubActivitiesView(showChildView: .constant(true), showParentView: .constant(true), showSubActivitiesView: .constant(true), activity: .constant(Activity(id: "sahjsa", category: "Saúde", complete: Date(), generateStar: true, name: "Caminhar", repeatDays: [], time: Date(), stepsCount: 0)), star: .constant(0))
-            .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
-            .environment(\.horizontalSizeClass, .compact)
-            .environment(\.verticalSizeClass, .compact)
-        
-    }
-}
+//struct SubActivitiesView_Previews: PreviewProvider {
+//    
+//    static var previews: some View {
+//        SubActivitiesView(env: AppEnvironment(), activity: .constant(Activity(id: "sahjsa", category: "Saúde", complete: Date(), generateStar: true, name: "Caminhar", repeatDays: [], time: Date(), stepsCount: 0)))
+//            .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
+//            .environment(\.horizontalSizeClass, .compact)
+//            .environment(\.verticalSizeClass, .compact)
+//        
+//    }
+//}
