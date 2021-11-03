@@ -18,7 +18,7 @@ class AppEnvironment: ObservableObject {
     @Published var scheduleIsOpen: Bool = false
     
     func reset() {
-        profile = .child
+        profile = .parent
         showSubActivities = false
         scheduleIsOpen = false
     }

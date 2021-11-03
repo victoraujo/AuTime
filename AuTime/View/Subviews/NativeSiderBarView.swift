@@ -14,36 +14,46 @@ struct NativeSideBarView: View {
     
     var body: some View {
         List {
-            Button(action:{
-                env.scheduleIsOpen.toggle()
-            }){
+//            Button(action:{
+//                env.scheduleIsOpen.toggle()
+//            }){
+//                HStack{
+//                    Text("Schedule")
+//                        .bold()
+//                    Spacer()
+//                    Image(systemName: "chevron.right")
+//                        .rotationEffect(.init(degrees: env.scheduleIsOpen ? 90.0 : 0))
+//                        .animation(.spring())
+//
+//                }
+//            }
+//            .padding(.vertical)
+//            .foregroundColor(.primary)
+            
+//            Group{
+//                if env.scheduleIsOpen {
+//                    NavigationLink(destination: ScheduleView().edgesIgnoringSafeArea(.all)) {
+//                        Text("Today")
+//                    }
+//
+//                    NavigationLink(destination: ScheduleView().edgesIgnoringSafeArea(.all)) {
+//                        Text("Week")
+//                    }
+//                }
+//            }
+//            .padding(.top, -10)
+//            .padding(.leading)
+//            .font(Font.headline.weight(.regular))
+            
+            NavigationLink(destination: ScheduleView()){
                 HStack{
                     Text("Schedule")
                         .bold()
                     Spacer()
-                    Image(systemName: "chevron.right")
-                        .rotationEffect(.init(degrees: env.scheduleIsOpen ? 90.0 : 0))
-                        .animation(.spring())
-                    
                 }
+                .font(Font.headline.weight(.regular))
+                .foregroundColor(.primary)
             }
-            .padding(.vertical)
-            .foregroundColor(.primary)
-            
-            Group{
-                if env.scheduleIsOpen {
-                    NavigationLink(destination: ScheduleView()) {
-                        Text("Today")
-                    }
-                    
-                    NavigationLink(destination: ScheduleView()) {
-                        Text("Week")
-                    }
-                }
-            }
-            .padding(.top, -10)
-            .padding(.leading)
-            .font(Font.headline.weight(.regular))
             
             NavigationLink(destination: ScheduleView()){
                 HStack{

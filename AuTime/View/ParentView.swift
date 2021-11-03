@@ -9,15 +9,21 @@ import SwiftUI
 
 struct ParentView: View {
     @ObservedObject var userManager = UserViewModel.shared
-    @ObservedObject var env: AppEnvironment    
-        
+    @ObservedObject var env: AppEnvironment
+    
     var body: some View {
         GeometryReader{ geometry in
             NavigationView{
                 NativeSideBarView(env: env)
-                ScheduleView().edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                ScheduleView()
             }
-        }        
+            .toolbar(content: {
+                ToolbarItem(content: {
+                    
+                })
+            })
+            
+        }
     }
 }
 

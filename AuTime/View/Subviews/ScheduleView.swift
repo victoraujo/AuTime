@@ -41,13 +41,7 @@ struct ScheduleView: View {
                     .frame(width: 0.4*geometry.size.width, alignment: .center)
                     
                     Spacer()
-                    
-                    Button(action: {
-                        print("New activity")
-                    }, label: {
-                        Text("Add Activity")
-                            .foregroundColor(.blue)
-                    })
+                                
                 }
                 .padding()
                 
