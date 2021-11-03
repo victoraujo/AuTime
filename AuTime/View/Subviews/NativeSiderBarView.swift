@@ -41,6 +41,7 @@ struct NativeSideBarView: View {
                     }
                 }
             }
+            .padding(.top, -10)
             .padding(.leading)
             .font(Font.headline.weight(.regular))
             

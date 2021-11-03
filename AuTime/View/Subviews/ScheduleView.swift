@@ -10,7 +10,12 @@ import SwiftUI
 struct ScheduleView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @State var currentActivity: Int = 0
+    @State var visualization: ScheduleViewMode = .today
     var colorTheme: Color = .blue
+    
+    public enum ScheduleViewMode: Int {
+        case today, week
+    }
     
     init() {
         currentActivity = self.activitiesManager.getCurrentActivityIndex(offset: 0)
@@ -20,19 +25,45 @@ struct ScheduleView: View {
         GeometryReader { geometry in
             
             VStack(alignment: .center){
+                
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    
+                    VStack {
+                        Picker("Visualization", selection: $visualization) {
+                            Text("Today").tag(ScheduleViewMode.today)
+                            Text("Week").tag(ScheduleViewMode.week)
+                        }
+                        .pickerStyle(.segmented)
+                    }
+                    .frame(width: 0.4*geometry.size.width, alignment: .center)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        print("New activity")
+                    }, label: {
+                        Text("Add Activity")
+                            .foregroundColor(.blue)
+                    })
+                }
+                .padding()
+                
+                Spacer()
                                 
                 HStack {
-                    Text("Day Schedule")
+                    Text("João's Schedule")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundColor(.black100Color)
-                        //.multilineTextAlignment(.leading)
-                    .padding(.horizontal)
+                        .foregroundColor(.primary)
+                        .padding(.horizontal)
                     
                     Spacer()
                 }
-                                
-                                                
+                
+                
                 ScrollView(.vertical) {
                     VStack(alignment: .center, spacing: 0.1*UIScreen.main.bounds.height){
                         

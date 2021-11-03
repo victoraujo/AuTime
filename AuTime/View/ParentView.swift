@@ -15,11 +15,9 @@ struct ParentView: View {
         GeometryReader{ geometry in
             NavigationView{
                 NativeSideBarView(env: env)
-                ScheduleView()
+                ScheduleView().edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             }
-        }
-        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-        
+        }        
     }
 }
 
