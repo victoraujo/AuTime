@@ -25,6 +25,8 @@ struct ScheduleView: View {
         GeometryReader { geometry in
             
             VStack(alignment: .center){
+                Spacer()
+                
                 ScrollView(.vertical) {
                     VStack(alignment: .center, spacing: 0.1*UIScreen.main.bounds.height){
                         
@@ -109,7 +111,7 @@ struct ScheduleView: View {
             .padding(.horizontal)
             
         }
-        .navigationBarTitle("João's Schedule", displayMode: .automatic)
+        .navigationTitle("João's Schedule")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button("Add Activity") {

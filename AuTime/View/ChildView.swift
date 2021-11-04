@@ -222,7 +222,7 @@ struct ChildView: View {
                 
             })
             .fullScreenCover(isPresented: $env.showSubActivities){
-                SubActivitiesView(env: _env, activity: $currentActivityReference)
+                SubActivitiesView(env: _env, activity: $currentActivityReference, star: $star)
             }
             
         }

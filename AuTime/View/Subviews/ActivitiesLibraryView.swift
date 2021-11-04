@@ -16,20 +16,6 @@ struct ActivitiesLibraryView: View {
     var body: some View {
         GeometryReader{ geometry in
             VStack{
-                HStack{
-                    Text("Activities Library")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                        .padding(.horizontal)
-                    Spacer()
-                    Button(action: {
-                        showingPopover = true
-                    }, label: {
-                        Text("Create activity")
-                    })
-                        .padding()
-                }
                 SearchBar(text: .constant(""))
                 ScrollView(.vertical){
                     HStack{
@@ -113,6 +99,19 @@ struct ActivitiesLibraryView: View {
                     }.padding([.leading, .bottom])
                     
                     Spacer()
+                }
+                
+            }
+            .navigationTitle("Activities Library")
+            .toolbar {
+                
+                ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
+                    Button(action: {
+                        showingPopover = true
+                    }, label: {
+                        Text("Create activity")
+                    })
+                    .padding()
                 }
                 
             }

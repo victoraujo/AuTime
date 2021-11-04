@@ -19,9 +19,21 @@ struct NativeSideBarView: View {
                 Label("Schedule", systemImage: "calendar")
             })
             
-            NavigationLink(destination: ScheduleView(), label: {
+            NavigationLink(destination: ActivitiesLibraryView(), label: {
                 Label("Activities Library", systemImage: "book")
-            })            
+            })
+            
+            Button(action: {
+                env.profile = .child
+            }, label: {
+                Label("Change profile", systemImage: "person.crop.circle")
+//                HStack{
+//                    Image(systemName: "person.crop.circle")
+//                        .foregroundColor(colorTheme)
+//                        .padding()
+//                    Text("Change profile")
+//                }
+            })
         }
         .navigationTitle("Parent's View")
         .listStyle(SidebarListStyle())

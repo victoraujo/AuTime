@@ -31,7 +31,7 @@ struct SubActivitiesView: View {
     let colorTheme: Color = .greenColor
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    init(env: ObservedObject<AppEnvironment>, activity: Binding<Activity?>) {
+    init(env: ObservedObject<AppEnvironment>, activity: Binding<Activity?>, star: Binding<Int>) {
         self._env = env
         self._currentActivityReference = activity
         self._star = star
@@ -301,7 +301,7 @@ struct SubActivitiesView: View {
                 
                 
                 VStack(alignment: .center) {
-                    FeedbackChildView(env: env, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, colorTheme: colorTheme)
+                    FeedbackChildView(env: env, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, star: $star, colorTheme: colorTheme)
                         .frame(width: 0.6*geometry.size.width, height: 0.6*geometry.size.height, alignment: .center)
                         .opacity(showFeedbackPopUp ? 1 : 0)
 

@@ -187,7 +187,7 @@ struct FeedbackChildView: View {
 
 struct FeedbackChildView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedbackChildView(env: AppEnvironment(), showFeedbackPopUp: .constant(true), selectedEmotion: .constant("Happy"), colorTheme: .greenColor)
+        FeedbackChildView(env: AppEnvironment(), showFeedbackPopUp: .constant(true), selectedEmotion: .constant("Happy"), star: .constant(0), colorTheme: .greenColor)
             .frame(width: 0.6*UIScreen.main.bounds.height, height: 0.6*UIScreen.main.bounds.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
             .environment(\.horizontalSizeClass, .compact)
