@@ -15,14 +15,8 @@ struct ParentView: View {
         GeometryReader{ geometry in
             NavigationView{
                 NativeSideBarView(env: env)
-                ScheduleView()
-            }
-            .toolbar(content: {
-                ToolbarItem(content: {
-                    
-                })
-            })
-            
+                ScheduleView().navigationTitle("João's Schedule")
+            }            
         }
     }
 }

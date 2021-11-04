@@ -25,44 +25,13 @@ struct ScheduleView: View {
         GeometryReader { geometry in
             
             VStack(alignment: .center){
-                
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    
-                    VStack {
-                        Picker("Visualization", selection: $visualization) {
-                            Text("Today").tag(ScheduleViewMode.today)
-                            Text("Week").tag(ScheduleViewMode.week)
-                        }
-                        .pickerStyle(.segmented)
-                    }
-                    .frame(width: 0.4*geometry.size.width, alignment: .center)
-                    
-                    Spacer()
-                                
-                }
-                .padding()
-                
-                Spacer()
-                                
-                HStack {
-                    Text("João's Schedule")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                        .padding(.horizontal)
-                    
-                    Spacer()
-                }
-                
-                
                 ScrollView(.vertical) {
                     VStack(alignment: .center, spacing: 0.1*UIScreen.main.bounds.height){
                         
                         ForEach(Array(self.activitiesManager.todayActivities.enumerated()), id: \.offset) {  index, activity in
                             HStack(alignment: .center) {
+                                
+                                Spacer()
                                 
                                 Text("\(DateHelper.getHoursAndMinutes(from: activity.time))")
                                     .font(.title2)
@@ -138,6 +107,26 @@ struct ScheduleView: View {
                 }
             }
             .padding(.horizontal)
+            
+        }
+        .navigationBarTitle("João's Schedule", displayMode: .automatic)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button("Add Activity") {
+                    print("Add activity on schedule!")
+                }
+            }
+            
+            ToolbarItem(placement: ToolbarItemPlacement.principal) {
+                VStack {
+                    Picker("Visualization", selection: $visualization) {
+                        Text("Today").tag(ScheduleViewMode.today)
+                        Text("Week").tag(ScheduleViewMode.week)
+                    }
+                    .pickerStyle(.segmented)
+                }
+                .frame(width: 0.3*UIScreen.main.bounds.width, alignment: .center)
+            }
             
         }
     }

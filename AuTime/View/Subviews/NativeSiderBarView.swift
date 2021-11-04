@@ -15,64 +15,13 @@ struct NativeSideBarView: View {
     var body: some View {
         
         List {
-            //            Button(action:{
-            //                env.scheduleIsOpen.toggle()
-            //            }){
-            //                HStack{
-            //                    Text("Schedule")
-            //                        .bold()
-            //                    Spacer()
-            //                    Image(systemName: "chevron.right")
-            //                        .rotationEffect(.init(degrees: env.scheduleIsOpen ? 90.0 : 0))
-            //                        .animation(.spring())
-            //
-            //                }
-            //            }
-            //            .padding(.vertical)
-            //            .foregroundColor(.primary)
-            
-            //            Group{
-            //                if env.scheduleIsOpen {
-            //                    NavigationLink(destination: ScheduleView().edgesIgnoringSafeArea(.all)) {
-            //                        Text("Today")
-            //                    }
-            //
-            //                    NavigationLink(destination: ScheduleView().edgesIgnoringSafeArea(.all)) {
-            //                        Text("Week")
-            //                    }
-            //                }
-            //            }
-            //            .padding(.top, -10)
-            //            .padding(.leading)
-            //            .font(Font.headline.weight(.regular))
-            
-            NavigationLink(destination: ScheduleView()){
-                HStack{
-                    Text("Schedule")
-                        .bold()
-                    Spacer()
-                }
-                .font(Font.headline.weight(.regular))
-                .foregroundColor(.primary)
-            }
-            
-            NavigationLink(destination: ActivitiesLibraryView().navigationBarTitle("", displayMode: .inline)){
-                HStack{
-                    Text("Activities")
-                        .bold()
-                    Spacer()
-                }
-                .font(Font.headline.weight(.regular))
-                .foregroundColor(.primary)
-            }
-            Button(action: {
-                env.profile = .child
-            }, label: {
-                HStack{
-                    Image(systemName: "person.crop.circle")
-                    Text("Change profile")
-                }
+            NavigationLink(destination: ScheduleView(), label: {
+                Label("Schedule", systemImage: "calendar")
             })
+            
+            NavigationLink(destination: ScheduleView(), label: {
+                Label("Activities Library", systemImage: "book")
+            })            
         }
         .navigationTitle("Parent's View")
         .listStyle(SidebarListStyle())
