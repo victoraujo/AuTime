@@ -11,6 +11,7 @@ struct ActivitiesLibraryView: View {
     @ObservedObject var activitiesVM = ActivityViewModel()
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var imageManager = ImageViewModel()
+    @State private var showingPopover = false
     
     var body: some View {
         GeometryReader{ geometry in
@@ -22,7 +23,9 @@ struct ActivitiesLibraryView: View {
                         .foregroundColor(.primary)
                         .padding(.horizontal)
                     Spacer()
-                    Button(action: {}, label: {
+                    Button(action: {
+                        showingPopover = true
+                    }, label: {
                         Text("Create activity")
                     })
                         .padding()
@@ -113,10 +116,78 @@ struct ActivitiesLibraryView: View {
                 }
                 
             }
+            .sheet(isPresented: $showingPopover){
+                NewActivity(showingPopover: $showingPopover)
+            }
         }
     }
 }
 
+struct NewActivity: View{
+    @Binding var showingPopover: Bool
+    @State private var selectedCategory = "Health"
+    @State var activityImage = UIImage(named: "Breakfast") ?? UIImage()
+    @State var isShowingPhotoPicker = false
+    let categories = ["Health", "Education", "Family"]
+    
+    
+    var body: some View{
+        
+        GeometryReader{ geometry in
+            VStack{
+                HStack{
+                    Button(action: {showingPopover.toggle()}, label: {Text("Cancel")})
+                        .padding()
+                    Spacer()
+                    Text("New Activity")
+                        .font(.title3)
+                        .padding()
+                    Spacer()
+                    Button(action: {showingPopover.toggle()}, label: {Text("Add")})
+                        .padding()
+                }
+                TextField("title", text: .constant(""))
+                    .padding()
+                    .padding(.horizontal)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
+                
+                Form {
+                    Section {
+                        Picker("Category", selection: $selectedCategory) {
+                            ForEach(categories, id: \.self) {
+                                Text($0)
+                            }
+                        }
+                    }
+                    Text("Generate Star")
+                    Section{
+                        HStack{
+                            Spacer()
+                        Image(uiImage: activityImage)
+                            .resizable()
+                            .frame(width: geometry.size.width * 0.45, height: geometry.size.height * 0.3)
+                            .aspectRatio(contentMode: .fill)
+                            .cornerRadius(21)
+                            .padding()
+                            .onTapGesture {
+                                isShowingPhotoPicker = true
+                            }
+                            Spacer()
+                        }
+                    }.onTapGesture {
+                        isShowingPhotoPicker = true
+                    }
+                }
+                Spacer()
+            }
+            .sheet(isPresented: $isShowingPhotoPicker, content: {
+                PhotoPicker(activityImage: $activityImage)
+            })
+        }
+    }
+}
 
 struct ActivityImageView: View {
     
