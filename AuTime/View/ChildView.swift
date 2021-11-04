@@ -18,6 +18,7 @@ struct ChildView: View {
     @State var currentDate = DateHelper.getDateString(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
     @State var showSubActivitiesView: Bool = false
+    @State var star: Int = 0
     @Binding var showChildView: Bool
     @Binding var showParentView: Bool
     
@@ -188,7 +189,7 @@ struct ChildView: View {
 
                         if let premium = activitiesManager.hasPremiumActivity() {
                             
-                            PremiumActivityView(activity: premium)
+                            PremiumActivityView(activity: premium, starCount: $star)
                                 .frame(width: 0.36*geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
                                 .background(Rectangle().fill(Color.white).cornerRadius(21, [.topLeft, .topRight]).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
                                 .offset(y: 6)
@@ -230,7 +231,7 @@ struct ChildView: View {
                 
             })
             .fullScreenCover(isPresented: $showSubActivitiesView){
-                SubActivitiesView(showChildView: $showChildView, showParentView: $showParentView, showSubActivitiesView: $showSubActivitiesView, activity: $currentActivityReference)
+                SubActivitiesView(showChildView: $showChildView, showParentView: $showParentView, showSubActivitiesView: $showSubActivitiesView, activity: $currentActivityReference, star: $star)
             }
             
         }

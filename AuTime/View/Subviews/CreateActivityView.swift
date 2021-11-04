@@ -225,7 +225,9 @@ struct CreateActivityView: View {
                                 .padding(.leading)
                                 .padding(.vertical)
                             }
-                            Button(action: {}, label: {
+                            Button(action: {
+                                
+                            }, label: {
                                 Text("Save Activity")
                                     .font(.title)
                                     .fontWeight(.bold)

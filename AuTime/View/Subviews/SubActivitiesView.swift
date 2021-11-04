@@ -27,16 +27,18 @@ struct SubActivitiesView: View {
     @Binding var showParentView: Bool
     @Binding var showSubActivitiesView: Bool
     @Binding var currentActivityReference: Activity?
+    @Binding var star: Int
     
     let profile = UIImage(imageLiteralResourceName: "JoaoMemoji.png")
     let colorTheme: Color = .greenColor
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    init(showChildView: Binding<Bool>, showParentView: Binding<Bool>, showSubActivitiesView: Binding<Bool>, activity: Binding<Activity?>) {
+    init(showChildView: Binding<Bool>, showParentView: Binding<Bool>, showSubActivitiesView: Binding<Bool>, activity: Binding<Activity?>, star: Binding<Int>) {
         self._showChildView = showChildView
         self._showParentView = showParentView
         self._showSubActivitiesView = showSubActivitiesView
         self._currentActivityReference = activity
+        self._star = star
         
         if let activity = self.currentActivityReference {
             self.IconImage = Activity.getIconImage(from: activity.category)
@@ -304,7 +306,7 @@ struct SubActivitiesView: View {
                 
                 
                 VStack(alignment: .center) {
-                    FeedbackChildView(showSubActivitiesView: $showSubActivitiesView, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, colorTheme: colorTheme)
+                    FeedbackChildView(showSubActivitiesView: $showSubActivitiesView, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, star: $star, colorTheme: colorTheme)
                         .frame(width: 0.6*geometry.size.width, height: 0.6*geometry.size.height, alignment: .center)
                         .opacity(showFeedbackPopUp ? 1 : 0)
 
@@ -428,7 +430,7 @@ struct SubActivityView: View {
 struct SubActivitiesView_Previews: PreviewProvider {
     
     static var previews: some View {
-        SubActivitiesView(showChildView: .constant(true), showParentView: .constant(true), showSubActivitiesView: .constant(true), activity: .constant(Activity(id: "sahjsa", category: "Saúde", complete: Date(), generateStar: true, name: "Caminhar", repeatDays: [], time: Date(), stepsCount: 0)))
+        SubActivitiesView(showChildView: .constant(true), showParentView: .constant(true), showSubActivitiesView: .constant(true), activity: .constant(Activity(id: "sahjsa", category: "Saúde", complete: Date(), generateStar: true, name: "Caminhar", repeatDays: [], time: Date(), stepsCount: 0)), star: .constant(0))
             .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
             .environment(\.horizontalSizeClass, .compact)
             .environment(\.verticalSizeClass, .compact)

@@ -14,6 +14,7 @@ struct FeedbackChildView: View {
     @Binding var showSubActivitiesView: Bool
     @Binding var showFeedbackPopUp: Bool
     @Binding var selectedEmotion: String
+    @Binding var star: Int
     
     let emotions: [String] = ["Upset", "Sad", "Happy", "Joyful"]
     var colorTheme: Color
@@ -68,7 +69,7 @@ struct FeedbackChildView: View {
                             }
                         }
                         .padding()
-                    } else {
+                    } else if selectedEmotion != "Sad"{
                         Text("Congratulations!")
                             .font(.largeTitle)
                             .fontWeight(.bold)
@@ -77,6 +78,26 @@ struct FeedbackChildView: View {
                             .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             
                         Text("you have completed an activity")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black100Color)
+                            .multilineTextAlignment(.leading)
+                            .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .padding()
+                        
+                        Image("Congratulations")
+                            .resizable()
+                            .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: .center)
+                            .padding()
+                    } else {
+                        Text("Oh, you didn't like...")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(.pinkColor)
+                            .multilineTextAlignment(.center)
+                            .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            
+                        Text("But you have completed an activity and earned a STAR!")
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.black100Color)
@@ -152,13 +173,21 @@ struct FeedbackChildView: View {
             }
             
         }
+        .onDisappear(perform: {
+            if selectedEmotion == "Sad" {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.star += 1
+                }
+            }
+            
+        })
         
     }
 }
 
 struct FeedbackChildView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedbackChildView(showSubActivitiesView: .constant(true), showFeedbackPopUp: .constant(true), selectedEmotion: .constant("Happy"), colorTheme: .greenColor)
+        FeedbackChildView(showSubActivitiesView: .constant(true), showFeedbackPopUp: .constant(true), selectedEmotion: .constant("Happy"), star: .constant(0), colorTheme: .greenColor)
             .frame(width: 0.6*UIScreen.main.bounds.height, height: 0.6*UIScreen.main.bounds.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
             .environment(\.horizontalSizeClass, .compact)
