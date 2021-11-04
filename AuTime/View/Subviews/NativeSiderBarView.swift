@@ -64,7 +64,14 @@ struct NativeSideBarView: View {
                 .font(Font.headline.weight(.regular))
                 .foregroundColor(.primary)
             }
-            
+            Button(action: {
+                env.profile = .child
+            }, label: {
+                HStack{
+                    Image(systemName: "person.crop.circle")
+                    Text("Change profile")
+                }
+            })
         }
         .navigationTitle("Parent's View")
         .listStyle(SidebarListStyle())
