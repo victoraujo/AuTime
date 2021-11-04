@@ -13,37 +13,38 @@ struct NativeSideBarView: View {
     var colorTheme: Color = .blue
     
     var body: some View {
+        
         List {
-//            Button(action:{
-//                env.scheduleIsOpen.toggle()
-//            }){
-//                HStack{
-//                    Text("Schedule")
-//                        .bold()
-//                    Spacer()
-//                    Image(systemName: "chevron.right")
-//                        .rotationEffect(.init(degrees: env.scheduleIsOpen ? 90.0 : 0))
-//                        .animation(.spring())
-//
-//                }
-//            }
-//            .padding(.vertical)
-//            .foregroundColor(.primary)
+            //            Button(action:{
+            //                env.scheduleIsOpen.toggle()
+            //            }){
+            //                HStack{
+            //                    Text("Schedule")
+            //                        .bold()
+            //                    Spacer()
+            //                    Image(systemName: "chevron.right")
+            //                        .rotationEffect(.init(degrees: env.scheduleIsOpen ? 90.0 : 0))
+            //                        .animation(.spring())
+            //
+            //                }
+            //            }
+            //            .padding(.vertical)
+            //            .foregroundColor(.primary)
             
-//            Group{
-//                if env.scheduleIsOpen {
-//                    NavigationLink(destination: ScheduleView().edgesIgnoringSafeArea(.all)) {
-//                        Text("Today")
-//                    }
-//
-//                    NavigationLink(destination: ScheduleView().edgesIgnoringSafeArea(.all)) {
-//                        Text("Week")
-//                    }
-//                }
-//            }
-//            .padding(.top, -10)
-//            .padding(.leading)
-//            .font(Font.headline.weight(.regular))
+            //            Group{
+            //                if env.scheduleIsOpen {
+            //                    NavigationLink(destination: ScheduleView().edgesIgnoringSafeArea(.all)) {
+            //                        Text("Today")
+            //                    }
+            //
+            //                    NavigationLink(destination: ScheduleView().edgesIgnoringSafeArea(.all)) {
+            //                        Text("Week")
+            //                    }
+            //                }
+            //            }
+            //            .padding(.top, -10)
+            //            .padding(.leading)
+            //            .font(Font.headline.weight(.regular))
             
             NavigationLink(destination: ScheduleView()){
                 HStack{
@@ -55,7 +56,7 @@ struct NativeSideBarView: View {
                 .foregroundColor(.primary)
             }
             
-            NavigationLink(destination: ScheduleView()){
+            NavigationLink(destination: ActivitiesLibraryView().navigationBarTitle("", displayMode: .inline)){
                 HStack{
                     Text("Activities")
                         .bold()
