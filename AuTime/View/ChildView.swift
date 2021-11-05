@@ -11,28 +11,20 @@ struct ChildView: View {
     
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var userManager = UserViewModel.shared
+    @ObservedObject var env: AppEnvironment
     @State var IconImage: Image = Image("")
     @State var visualization: ChildViewMode = .day
     @State var currentActivityReference: Activity? = nil
     @State var currentActivityIndex: Int? = 1
     @State var currentDate = DateHelper.getDateString(from: Date())
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
-    @State var showSubActivitiesView: Bool = false
     @State var star: Int = 0
-    @Binding var showChildView: Bool
-    @Binding var showParentView: Bool
     
     var profile = UIImage(imageLiteralResourceName: "JoaoMemoji.png")
     var colorTheme: Color = .greenColor
     var subActivitiesCount: Int = 5
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    init(showChildView: Binding<Bool>, showParentView: Binding<Bool>) {
-        self._showChildView = showChildView
-        self._showParentView = showParentView
-        self.currentActivityIndex = self.activitiesManager.getCurrentActivityIndex(offset: 1)
-    }
     
     public enum ChildViewMode: Int {
         case day, week
@@ -140,8 +132,7 @@ struct ChildView: View {
                         
                         Button(action: {
 //                            self.userManager.signOut()
-                            self.showChildView = false
-                            self.showParentView = true
+                            env.profile = .parent
                         }, label: {
                             VStack(alignment: .center){
                                 
@@ -213,7 +204,7 @@ struct ChildView: View {
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             .onAppear {
                 self.activitiesManager.fetchData()
-                self.showSubActivitiesView = false
+                self.env.showSubActivities = false
                 self.currentActivityReference = nil
             }
             .onChange(of: self.userManager.session, perform: { _ in
@@ -224,26 +215,26 @@ struct ChildView: View {
             })
             .onChange(of: currentActivityReference, perform: { value in
                 if value != nil {
-                    self.showSubActivitiesView = true
+                    self.env.showSubActivities = true
                 } else {
-                    self.showSubActivitiesView = false
+                    self.env.showSubActivities = false
                 }
                 
             })
-            .fullScreenCover(isPresented: $showSubActivitiesView){
-                SubActivitiesView(showChildView: $showChildView, showParentView: $showParentView, showSubActivitiesView: $showSubActivitiesView, activity: $currentActivityReference, star: $star)
+            .fullScreenCover(isPresented: $env.showSubActivities){
+                SubActivitiesView(env: _env, activity: $currentActivityReference, star: $star)
             }
             
         }
     }
 }
 
-struct ChildView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChildView(showChildView: .constant(true), showParentView: .constant(false))
-            .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
-            .environment(\.horizontalSizeClass, .compact)
-            .environment(\.verticalSizeClass, .compact)
-        
-    }
-}
+//struct ChildView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChildView(env: AppEnvironment())
+//            .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
+//            .environment(\.horizontalSizeClass, .compact)
+//            .environment(\.verticalSizeClass, .compact)
+//        
+//    }
+//}
