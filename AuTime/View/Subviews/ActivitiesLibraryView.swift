@@ -209,7 +209,7 @@ struct ActivityImageView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Image(uiImage: self.image)
+                Image(uiImage: self.imageManager.imageView.image ?? UIImage())
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: geometry.size.width, height: geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
