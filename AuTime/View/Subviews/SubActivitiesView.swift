@@ -98,7 +98,7 @@ struct SubActivitiesView: View {
                                 .padding()
                             
                             HStack(alignment: .center) {
-                                Image(uiImage: self.activityImage)
+                                Image(uiImage: self.imageManager.imageView.image ?? UIImage())
                                     .resizable()
                                     .frame(width: geometry.size.width*0.1, height: geometry.size.height*0.1, alignment: .center)
                                 
