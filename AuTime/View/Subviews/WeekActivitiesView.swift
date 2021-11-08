@@ -63,7 +63,7 @@ struct ActivityWeekView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Image(uiImage: self.image)
+                Image(uiImage: self.imageManager.imageView.image ?? UIImage())
                     .resizable()
                     .scaledToFill()
                     .frame(width: geometry.size.width, height: 0.6*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
