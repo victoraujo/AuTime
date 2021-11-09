@@ -36,8 +36,8 @@ class ActivityViewModel: ObservableObject {
     ///   - handler: Function to execute after create procedure
     func createActivity(category: String, completions: [Completion], star: Bool, name: String, days: [Int], steps: Int, time: Date, handler: @escaping () -> Void?) {
         
-        let activityCompletions: [[String:String]] = completions.map{ [DateHelper.dateToString(from: $0.date): $0.feedback]}
-                
+        let activityCompletions: [[String:String]] = completions.map{ ["date": DateHelper.dateToString(from: $0.date), "feedback": $0.feedback]}
+        
         if let docId = userManager.session?.email {
             _ = db.collection("users").document(docId).collection("activities").addDocument(data: [
                 "category": category,
@@ -56,17 +56,17 @@ class ActivityViewModel: ObservableObject {
                 }
             }
             
-//            guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
-//                return
-//            }
-//            
-//            // Save image to URL
-//            do {
-//                try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
-//                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/Activities/\(name)")
-//            } catch {
-//                print("Can't upload the image \(name) to Activities folder.")
-//            }
+            //            guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
+            //                return
+            //            }
+            //
+            //            // Save image to URL
+            //            do {
+            //                try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
+            //                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/Activities/\(name)")
+            //            } catch {
+            //                print("Can't upload the image \(name) to Activities folder.")
+            //            }
         }
     }
     
@@ -78,7 +78,7 @@ class ActivityViewModel: ObservableObject {
                     print("No docs returned")
                     return
                 }
-                self.activities = documents.map({docSnapshot -> Activity in
+                self.activities = documents.map({ docSnapshot -> Activity in
                     let data = docSnapshot.data()
                     let docId = docSnapshot.documentID
                     let activityCategory = data["category"] as? String ?? ""
@@ -90,27 +90,27 @@ class ActivityViewModel: ObservableObject {
                     
                     var activityCompletions: [Completion] = []
                     do {
-                        let json = try JSONSerialization.data(withJSONObject: completions)                        
+                        let json = try JSONSerialization.data(withJSONObject: completions)
                         activityCompletions = try JSONDecoder().decode([Completion].self, from: json)
                     } catch {
                         print(error)
                     }
-                                                                         
+                    
                     let activityTimeString = data["time"] as? String ?? "00:00"
                     let hourFormatter = DateFormatter()
                     hourFormatter.dateFormat = "HH:mm"
                     let activityTime = hourFormatter.date(from: activityTimeString) ?? Date()
-                                                                                            
+                    
                     return Activity(id: docId, category: activityCategory, completions: activityCompletions, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime, stepsCount: activitySteps)//, image: activityImage)
                 })
-
+                
                 self.activities.sort(by: {$0.time < $1.time})
                 self.filterActivitiesPerDay()
                 self.objectWillChange.send()
                 
             })
         }
-
+        
     }
     
     func completeActivity(activityId: String, time: Date, feedback: String) {
@@ -120,23 +120,35 @@ class ActivityViewModel: ObservableObject {
         
         if let docId = userManager.session?.email {
             db.collection("users").document(docId).collection("activities").document(activityId).getDocument(completion: { activity, error in
-                guard let _ = activity?.exists else {
-                    print("Document for \(activityId) does not exist")
-                    return
-                }
                 
-                if let completions = activity?.value(forKey: "completions") as? [[String:String]] {
-                    newCompletions = completions
-                    newCompletions.append([completedTime:feedback])
+                if let activity = activity {
+                    if !activity.exists {
+                        print("Document for \(activityId) does not exist")
+                        return
+                    }
+                    
+                    if let data = activity.data() {
+                        newCompletions = data["completions"] as? [[String:String]] ?? []
+                        let newElement = ["date": completedTime, "feedback": feedback]
+                        newCompletions.append(newElement)
+                        
+                        self.updateActivity(activityId: activityId, fields: ["completions": newCompletions])
+                        
+                    }
                 }
-                
-                activity?.setValue(newCompletions, forKey: "completions")
-                                
             })
             
             return
         }
         print("Error when update the activity \(activityId)")
+    }
+    
+    func updateActivity(activityId: String, fields: [String: Any]) {
+        if let docId = userManager.session?.email {
+            self.db.collection("users").document(docId).collection("activities").document(activityId).updateData(fields, completion: {_ in
+                print("Activity \(activityId) was updated!")
+            })
+        }
     }
     
     /// Separate activities on weekdays
@@ -195,7 +207,7 @@ class ActivityViewModel: ObservableObject {
         
         return nil
     }
-
+    
     func getImage(from activityName: String) -> UIImage {
         guard let email = self.userManager.session?.email else {
             print("Email was nil when call download image on ActivityViewModel.")
