@@ -34,12 +34,14 @@ class ActivityViewModel: ObservableObject {
     ///   - days: Activity repeat days
     ///   - time: The time the activity is scheduled
     ///   - handler: Function to execute after create procedure
-    func createActivity(category: String, complete: Date, star: Bool, name: String, days: [Int], steps: Int, time: Date, handler: @escaping () -> Void?) {
+    func createActivity(category: String, completions: [Completion], star: Bool, name: String, days: [Int], steps: Int, time: Date, handler: @escaping () -> Void?) {
         
+        let activityCompletions: [[String:String]] = completions.map{ [DateHelper.dateToString(from: $0.date): $0.feedback]}
+                
         if let docId = userManager.session?.email {
             _ = db.collection("users").document(docId).collection("activities").addDocument(data: [
                 "category": category,
-                "complete": complete,
+                "completions": activityCompletions,
                 "generateStar": star,
                 "name": name,
                 "repeatDays": days,
@@ -54,17 +56,17 @@ class ActivityViewModel: ObservableObject {
                 }
             }
             
-            guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
-                return
-            }
-            
-            // Save image to URL
-            do {
-                try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
-                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/Activities/\(name)")
-            } catch {
-                print("Can't upload the image \(name) to Activities folder.")
-            }
+//            guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
+//                return
+//            }
+//            
+//            // Save image to URL
+//            do {
+//                try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
+//                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/Activities/\(name)")
+//            } catch {
+//                print("Can't upload the image \(name) to Activities folder.")
+//            }
         }
     }
     
@@ -80,22 +82,26 @@ class ActivityViewModel: ObservableObject {
                     let data = docSnapshot.data()
                     let docId = docSnapshot.documentID
                     let activityCategory = data["category"] as? String ?? ""
-                    let activityCompleteString = data["complete"] as? String ?? "01-01-2000"
+                    let completions = data["completions"] as? [[String:String]] ?? []
                     let activityStar = data["generateStar"] as? Bool ?? false
                     let activityName = data["name"] as? String ?? ""
                     let activityDays = data["repeatDays"] as? [Int] ?? []
-                    let activityTimeString = data["time"] as? String ?? "00:00"
                     let activitySteps = data["steps"] as? Int ?? 0
                     
+                    var activityCompletions: [Completion] = []
+                    do {
+                        let json = try JSONSerialization.data(withJSONObject: completions)                        
+                        activityCompletions = try JSONDecoder().decode([Completion].self, from: json)
+                    } catch {
+                        print(error)
+                    }
+                                                                         
+                    let activityTimeString = data["time"] as? String ?? "00:00"
                     let hourFormatter = DateFormatter()
                     hourFormatter.dateFormat = "HH:mm"
                     let activityTime = hourFormatter.date(from: activityTimeString) ?? Date()
-                    
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd-MM-yyyy"
-                    let activityComplete = dateFormatter.date(from: activityCompleteString) ?? Date()
-                                                                        
-                    return Activity(id: docId, category: activityCategory, complete: activityComplete, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime, stepsCount: activitySteps)//, image: activityImage)
+                                                                                            
+                    return Activity(id: docId, category: activityCategory, completions: activityCompletions, generateStar: activityStar, name: activityName, repeatDays: activityDays, time: activityTime, stepsCount: activitySteps)//, image: activityImage)
                 })
 
                 self.activities.sort(by: {$0.time < $1.time})
@@ -107,13 +113,25 @@ class ActivityViewModel: ObservableObject {
 
     }
     
-    func completeActivity(activityId: String, with time: Date) {
+    func completeActivity(activityId: String, time: Date, feedback: String) {
         
-        let completedTime = DateHelper.getDateFormatted(from: time)
+        let completedTime = DateHelper.dateToString(from: time)
+        var newCompletions: [[String:String]] = []
         
         if let docId = userManager.session?.email {
-            db.collection("users").document(docId).collection("activities").document(activityId).updateData(["complete": completedTime], completion: { _ in
-                print("Activity \(activityId) was completed at \(completedTime)")
+            db.collection("users").document(docId).collection("activities").document(activityId).getDocument(completion: { activity, error in
+                guard let _ = activity?.exists else {
+                    print("Document for \(activityId) does not exist")
+                    return
+                }
+                
+                if let completions = activity?.value(forKey: "completions") as? [[String:String]] {
+                    newCompletions = completions
+                    newCompletions.append([completedTime:feedback])
+                }
+                
+                activity?.setValue(newCompletions, forKey: "completions")
+                                
             })
             
             return
@@ -158,14 +176,14 @@ class ActivityViewModel: ObservableObject {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd-MM-yyyy"
             
-            let activityDate = dateFormatter.string(from: $0.complete)
+            let activityDate = dateFormatter.string(from: $0.lastCompletionDate())
             let todayDate  = dateFormatter.string(from: Date())
             
             return activityDate != todayDate
             
         })
         
-        return (index ?? self.todayActivities.count) + offset
+        return (index ?? 0) + offset
     }
     
     /// Indicates if there are any premium activity today
