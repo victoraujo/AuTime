@@ -273,7 +273,7 @@ struct SubActivitiesView: View {
                             
                             Button(action: {
                                 if let id = currentActivityReference?.id {
-                                    self.activitiesManager.completeActivity(activityId: id, with: Date())
+                                    self.activitiesManager.completeActivity(activityId: id, time: Date(), feedback: "Happy")
                                 }
                                 print("Atividade concluída")
                                 //self.showSubActivitiesView = false

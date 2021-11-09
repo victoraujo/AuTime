@@ -187,7 +187,7 @@ struct ChildView: View {
                                 .onTapGesture {
                                     if let index = self.activitiesManager.todayActivities.firstIndex(where: {
                                         $0.category == "Prêmio"
-                                        && !DateHelper.datesMatch(Date(), $0.complete)
+                                        && !DateHelper.datesMatch(Date(), $0.lastCompletionDate())
                                     }) {
                                         self.currentActivityIndex = index + 1
                                     }

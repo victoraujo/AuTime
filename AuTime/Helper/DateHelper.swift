@@ -37,7 +37,24 @@ class DateHelper {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
         
-        return dateFormatter.string(from: date)        
+        return dateFormatter.string(from: date)
+    }
+    
+    class func dateToString(from date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+        return dateFormatter.string(from: date)
+    }
+    
+    class func stringToDate(from string: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+        return dateFormatter.date(from: string) ?? Date()
+        
     }
     
     class func addNumberOfDaysToDate(date: Date, count: Int) -> Date {
