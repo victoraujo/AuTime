@@ -43,7 +43,7 @@ class ImageViewModel: ObservableObject{
             return
         }
         
-        print("Download image from \(filePath)")
+        //print("Download image from \(filePath)")
         
         let storage = Storage.storage()
         let storageRef = storage.reference()
