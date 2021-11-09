@@ -12,8 +12,8 @@ struct Completion: Codable, Hashable {
     var feedback: String
     
     enum CodingKeys: String, CodingKey {
-        case date = "date"
-        case feedback = "feedback"
+        case date
+        case feedback
     }
     
     init(date: Date, feedback: String) {
@@ -22,7 +22,7 @@ struct Completion: Codable, Hashable {
     }
     
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)        
         self.date = DateHelper.stringToDate(from: try container.decode(String.self, forKey: .date))
         self.feedback = try container.decode(String.self, forKey: .feedback)
     }

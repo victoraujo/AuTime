@@ -82,16 +82,18 @@ class ActivityViewModel: ObservableObject {
                     let data = docSnapshot.data()
                     let docId = docSnapshot.documentID
                     let activityCategory = data["category"] as? String ?? ""
-                    let completions = data["completions"] as? [[String:String]] ?? []
                     let activityStar = data["generateStar"] as? Bool ?? false
                     let activityName = data["name"] as? String ?? ""
                     let activityDays = data["repeatDays"] as? [Int] ?? []
                     let activitySteps = data["steps"] as? Int ?? 0
                     
+                    let completions = data["completions"] as? [[String:String]] ?? []
                     var activityCompletions: [Completion] = []
                     do {
                         let json = try JSONSerialization.data(withJSONObject: completions)
-                        activityCompletions = try JSONDecoder().decode([Completion].self, from: json)
+                        let decoder = JSONDecoder()
+                        decoder.keyDecodingStrategy = .convertFromSnakeCase
+                        activityCompletions = try decoder.decode([Completion].self, from: json)
                     } catch {
                         print(error)
                     }
@@ -114,33 +116,35 @@ class ActivityViewModel: ObservableObject {
     }
     
     func completeActivity(activityId: String, time: Date, feedback: String) {
-        
-        let completedTime = DateHelper.dateToString(from: time)
-        var newCompletions: [[String:String]] = []
-        
-        if let docId = userManager.session?.email {
-            db.collection("users").document(docId).collection("activities").document(activityId).getDocument(completion: { activity, error in
-                
-                if let activity = activity {
-                    if !activity.exists {
-                        print("Document for \(activityId) does not exist")
-                        return
-                    }
-                    
-                    if let data = activity.data() {
-                        newCompletions = data["completions"] as? [[String:String]] ?? []
-                        let newElement = ["date": completedTime, "feedback": feedback]
-                        newCompletions.append(newElement)
-                        
-                        self.updateActivity(activityId: activityId, fields: ["completions": newCompletions])
-                        
-                    }
-                }
-            })
+        DispatchQueue.main.async {
             
-            return
+            let completedTime = DateHelper.dateToString(from: time)
+            var newCompletions: [[String:String]] = []
+            
+            if let docId = self.userManager.session?.email {
+                self.db.collection("users").document(docId).collection("activities").document(activityId).getDocument(completion: { activity, error in
+                    
+                    if let activity = activity {
+                        if !activity.exists {
+                            print("Document for \(activityId) does not exist")
+                            return
+                        }
+                        
+                        if let data = activity.data() {
+                            newCompletions = data["completions"] as? [[String:String]] ?? []
+                            let newElement = ["date": completedTime, "feedback": feedback]
+                            newCompletions.append(newElement)
+                            
+                            self.updateActivity(activityId: activityId, fields: ["completions": newCompletions])
+                            
+                        }
+                    }
+                })
+                
+                return
+            }
+            print("Error when update the activity \(activityId)")
         }
-        print("Error when update the activity \(activityId)")
     }
     
     func updateActivity(activityId: String, fields: [String: Any]) {
