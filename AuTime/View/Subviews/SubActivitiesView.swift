@@ -272,11 +272,6 @@ struct SubActivitiesView: View {
                             })
                             
                             Button(action: {
-                                if let id = currentActivityReference?.id {
-                                    self.activitiesManager.completeActivity(activityId: id, time: Date(), feedback: "Happy")
-                                }
-                                print("Atividade concluída")
-                                //self.showSubActivitiesView = false
                                 self.showFeedbackPopUp = true
                             }, label: {
                                 Text("Complete activity")
@@ -301,7 +296,7 @@ struct SubActivitiesView: View {
                 
                 
                 VStack(alignment: .center) {
-                    FeedbackChildView(env: env, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, star: $star, colorTheme: colorTheme)
+                    FeedbackChildView(env: env, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, star: $star, currentActivityReferenceId: currentActivityReference?.id ?? "", colorTheme: colorTheme)
                         .frame(width: 0.6*geometry.size.width, height: 0.6*geometry.size.height, alignment: .center)
                         .opacity(showFeedbackPopUp ? 1 : 0)
 
@@ -336,7 +331,7 @@ struct SubActivitiesView: View {
                 for _ in 0..<self.subActivitiesCount {
                     self.completes.append(false)
                 }
-            })
+            })            
             .onDisappear {
                 self.currentActivityReference = nil
             }
