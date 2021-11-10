@@ -14,7 +14,7 @@ struct CreateActivityView: View {
     @State var generateStar = false
     @State var weeklyRepeat = false
     @State private var selectedColor = "select"
-    @State var activity = Activity(id: "", category: "", complete: Date(), generateStar: false, name: "", repeatDays: [], time: Date(), stepsCount: 0)
+    @State var activity = Activity(id: "", category: "", completions: [Completion(date: Date(), feedback: "Happy")], generateStar: false, name: "", repeatDays: [], time: Date(), stepsCount: 0)
     @State var isShowingPhotoPicker = false
     @State var activityImage = UIImage(named: "Breakfast") ?? UIImage()
     

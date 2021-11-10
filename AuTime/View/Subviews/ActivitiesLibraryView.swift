@@ -108,6 +108,7 @@ struct ActivitiesLibraryView: View {
                 ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
                     Button(action: {
                         showingPopover = true
+                        ActivityViewModel.shared.createActivity(category: "Teste", completions: [Completion(date: Date(), feedback: "Opa")], star: false, name: "Testinho 2", days: [1,2,3,4,5,6,7], steps: 2, time: Date(), handler: {})
                     }, label: {
                         Text("Create activity")
                     })

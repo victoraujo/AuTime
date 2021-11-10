@@ -56,12 +56,12 @@ struct PremiumActivityView: View {
     }
 }
 
-struct PremiumActivityView_Previews: PreviewProvider {
-    static var previews: some View {
-        PremiumActivityView(activity: Activity(id: "", category: "Prêmio", complete: Date(), generateStar: true, name: "Premiozinho", repeatDays: [1,2], time: Date(), stepsCount: 0), starCount: .constant(0))
-            .frame(width: 375, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
-            .environment(\.horizontalSizeClass, .compact)
-            .environment(\.verticalSizeClass, .compact)
-    }
-}
+//struct PremiumActivityView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PremiumActivityView(activity: Activity(id: "", category: "Prêmio", complete: [Date(), "Happy"], generateStar: true, name: "Premiozinho", repeatDays: [1,2], time: Date(), stepsCount: 0), starCount: .constant(0))
+//            .frame(width: 375, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+//            .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
+//            .environment(\.horizontalSizeClass, .compact)
+//            .environment(\.verticalSizeClass, .compact)
+//    }
+//}

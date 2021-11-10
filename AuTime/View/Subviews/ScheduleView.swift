@@ -55,16 +55,16 @@ struct ScheduleView: View {
                                         Image(systemName: "clock")
                                             .resizable()
                                             .frame(width: 35, height: 35, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                            .foregroundColor(DateHelper.datesMatch(Date(), activity.complete) ? colorTheme : .clear)
+                                            .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
                                             .padding()
                                         
                                         VStack (alignment: .leading){
                                             Text("Completion time")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.complete) ? colorTheme : .clear)
+                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
                                                 .font(.callout)
                                                 .fontWeight(.regular)
                                             
-                                            Text(DateHelper.datesMatch(Date(), activity.complete) ? "\(DateHelper.getHoursAndMinutes(from: activity.complete))" : "")
+                                            Text(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? "\(DateHelper.getHoursAndMinutes(from: activity.lastCompletionDate()))" : "")
                                                 .foregroundColor(colorTheme)
                                                 .font(.title3)
                                                 .fontWeight(.bold)
@@ -75,17 +75,17 @@ struct ScheduleView: View {
                                         Image(systemName: "face.smiling")
                                             .resizable()
                                             .frame(width: 35, height: 35, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                            .foregroundColor(DateHelper.datesMatch(Date(), activity.complete) ? colorTheme : .clear)
+                                            .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
                                             .padding()
                                         
                                         VStack (alignment: .leading){
                                             Text("Emotion feedback")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.complete) ? colorTheme : .clear)
+                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
                                                 .font(.callout)
                                                 .fontWeight(.regular)
                                             
-                                            Text(DateHelper.datesMatch(Date(), activity.complete) ? "Happy" : "")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.complete) ? colorTheme : .clear)
+                                            Text(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? activity.lastCompletionFeedback() : "")
+                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
                                                 .font(.title3)
                                                 .fontWeight(.bold)
                                         }

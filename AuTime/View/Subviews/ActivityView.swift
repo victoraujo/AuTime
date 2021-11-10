@@ -42,7 +42,7 @@ struct ActivityView: View {
                     .scaledToFill()
                     .frame(width: geometry.size.width, height: 0.7*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .cornerRadius(21, [.topRight, .topLeft])
-                    .overlay(Color.black100Color.opacity( DateHelper.datesMatch(activity.complete, Date()) ? 0.825 : 0).cornerRadius(21, [.topRight, .topLeft]))
+                    .overlay(Color.black100Color.opacity( DateHelper.datesMatch(activity.lastCompletionDate(), Date()) ? 0.825 : 0).cornerRadius(21, [.topRight, .topLeft]))
                     
                     VStack(alignment: .center) {
                         Image(systemName: "checkmark.circle.fill")
@@ -57,7 +57,7 @@ struct ActivityView: View {
                             .foregroundColor(.white)
                             .padding()
                     }
-                    .opacity( DateHelper.datesMatch(activity.complete, Date()) ? 1 : 0)
+                    .opacity( DateHelper.datesMatch(activity.lastCompletionDate(), Date()) ? 1 : 0)
                     
                 }
                 
