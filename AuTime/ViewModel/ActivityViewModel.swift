@@ -46,7 +46,7 @@ class ActivityViewModel: ObservableObject {
                 "name": name,
                 "repeatDays": days,
                 "steps": steps,
-                "time": time
+                "time": DateHelper.dateToString(from: time)
             ]) { err in
                 if let err = err {
                     print("Error adding document on createActivity: \(err)")

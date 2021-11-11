@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Photos
 
 struct ActivitiesLibraryView: View {
     @ObservedObject var activitiesVM = ActivityViewModel()
@@ -108,11 +109,11 @@ struct ActivitiesLibraryView: View {
                 ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
                     Button(action: {
                         showingPopover = true
-                        ActivityViewModel.shared.createActivity(category: "Teste", completions: [Completion(date: Date(), feedback: "Opa")], star: false, name: "Testinho 2", days: [1,2,3,4,5,6,7], steps: 2, time: Date(), handler: {})
+                        //                        ActivityViewModel.shared.createActivity(category: "Teste", completions: [Completion(date: Date(), feedback: "Opa")], star: false, name: "Testinho 2", days: [1,2,3,4,5,6,7], steps: 2, time: Date(), handler: {})
                     }, label: {
                         Text("Create activity")
                     })
-                    .padding()
+                        .padding()
                 }
                 
             }
@@ -128,8 +129,9 @@ struct NewActivity: View{
     @State private var selectedCategory = "Health"
     @State var activityImage = UIImage(named: "Breakfast") ?? UIImage()
     @State var isShowingPhotoPicker = false
+    @State var isShowingAccessDeniedAlert = false
     let categories = ["Health", "Education", "Family"]
-    
+    let alertMessage = String(describing: Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription")!) + " Go to Settings and allow AuTime to access your photos."
     
     var body: some View{
         
@@ -165,15 +167,35 @@ struct NewActivity: View{
                     Section{
                         HStack{
                             Spacer()
-                        Image(uiImage: activityImage)
-                            .resizable()
-                            .frame(width: geometry.size.width * 0.45, height: geometry.size.height * 0.3)
-                            .aspectRatio(contentMode: .fill)
-                            .cornerRadius(21)
-                            .padding()
-                            .onTapGesture {
-                                isShowingPhotoPicker = true
-                            }
+                            Image(uiImage: activityImage)
+                                .resizable()
+                                .frame(width: geometry.size.width * 0.45, height: geometry.size.height * 0.3)
+                                .aspectRatio(contentMode: .fill)
+                                .cornerRadius(21)
+                                .padding()
+                                .onTapGesture {
+                                    let photos = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+                                                                        
+                                    // TO DO: Separate access for limited and authorized
+                                    if photos == .limited || photos == .authorized {
+                                        isShowingPhotoPicker = true
+                                        isShowingAccessDeniedAlert = false
+                                    }
+                                    else {
+                                        PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
+                                            
+                                            // TO DO: Separate access for limited and authorized
+                                            if status == .limited || status == .authorized {
+                                                isShowingPhotoPicker = true
+                                                isShowingAccessDeniedAlert = false
+                                            }
+                                            else {
+                                                isShowingPhotoPicker = false
+                                                isShowingAccessDeniedAlert = true
+                                            }
+                                        })
+                                    }
+                                }
                             Spacer()
                         }
                     }.onTapGesture {
@@ -185,6 +207,20 @@ struct NewActivity: View{
             .sheet(isPresented: $isShowingPhotoPicker, content: {
                 PhotoPicker(activityImage: $activityImage)
             })
+            .alert(isPresented: $isShowingAccessDeniedAlert) { () -> Alert in
+                Alert(title: Text("AuTime Would Like to Access Your Photos"), message: Text(self.alertMessage), primaryButton: .default(Text("Cancel")), secondaryButton: .default(Text("Go to Settings"), action: {
+                    guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                        return
+                    }
+                    
+                    if UIApplication.shared.canOpenURL(settingsUrl) {
+                        UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                            print("Settings opened: \(success)")
+                        })
+                    }
+                    
+                }))
+            }
         }
     }
 }
@@ -214,16 +250,16 @@ struct ActivityImageView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: geometry.size.width, height: geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-
-//                Text(name)
-//                    .foregroundColor(.greenColor)
-//                    .font(.body)
-//                    .fontWeight(.bold)
-//                    .multilineTextAlignment(.center)
-//                    .padding()
-//                    .frame(width: geometry.size.width, height: 0.3*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-//                    .padding(.top)
-
+                
+                //                Text(name)
+                //                    .foregroundColor(.greenColor)
+                //                    .font(.body)
+                //                    .fontWeight(.bold)
+                //                    .multilineTextAlignment(.center)
+                //                    .padding()
+                //                    .frame(width: geometry.size.width, height: 0.3*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                //                    .padding(.top)
+                
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
             //.background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
@@ -237,12 +273,12 @@ struct ActivityImageView: View {
 
 struct SearchBar: View {
     @Binding var text: String
- 
+    
     @State private var isEditing = false
- 
+    
     var body: some View {
         HStack {
- 
+            
             TextField("Search ...", text: $text)
                 .padding(7)
                 .padding(.horizontal, 25)
@@ -252,7 +288,7 @@ struct SearchBar: View {
                 .onTapGesture {
                     self.isEditing = true
                 }
- 
+            
             if isEditing {
                 Button(action: {
                     self.isEditing = false
