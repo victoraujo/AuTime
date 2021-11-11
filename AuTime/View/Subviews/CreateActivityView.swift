@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Photos
 
 struct CreateActivityView: View {
     @State var activityName = ""
@@ -91,25 +92,25 @@ struct CreateActivityView: View {
                             Spacer()
                             
                             VStack(alignment: .leading){
-//                                Text("Tips:")
-//                                    .fontWeight(.bold)
-//                                    .padding()
-//                                Text("1. Use simple words, action verbs")
-//                                    .padding(.leading)
-//                                    .padding([.leading, .bottom])
-//                                Text("2. On steps, use one or two words")
-//                                    .padding(.leading)
-//                                    .padding([.leading, .bottom])
-//                                Text("3. Use the option to generate star for activities that João has less motivation to perform.")
-//                                    .padding(.leading)
-//                                    .padding([.leading, .bottom])
-//                                    .padding(.bottom)
-//
+                                //                                Text("Tips:")
+                                //                                    .fontWeight(.bold)
+                                //                                    .padding()
+                                //                                Text("1. Use simple words, action verbs")
+                                //                                    .padding(.leading)
+                                //                                    .padding([.leading, .bottom])
+                                //                                Text("2. On steps, use one or two words")
+                                //                                    .padding(.leading)
+                                //                                    .padding([.leading, .bottom])
+                                //                                Text("3. Use the option to generate star for activities that João has less motivation to perform.")
+                                //                                    .padding(.leading)
+                                //                                    .padding([.leading, .bottom])
+                                //                                    .padding(.bottom)
+                                //
                                 Text("Activity's time")
                                     .fontWeight(.bold)
                                     .padding()
                                 //.padding(.top)
-                                                                
+                                
                                 Text(DateHelper.getHoursAndMinutes(from: Date()))
                                     .foregroundColor(.white)
                                     .fontWeight(.bold)
@@ -158,7 +159,7 @@ struct CreateActivityView: View {
                                 }
                                 .frame(width: geometry.size.width * 0.4)
                                 .padding(.vertical)
-
+                                
                                 
                                 HStack{
                                     Text("Repeat weekly")
@@ -174,7 +175,7 @@ struct CreateActivityView: View {
                                 
                             }
                             .frame(width: geometry.size.width * 0.4, alignment: .trailing)
-                                                       
+                            
                         }
                         
                         HStack(alignment: .center){
