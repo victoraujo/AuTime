@@ -12,6 +12,7 @@ struct ChildView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var env: AppEnvironment
+    @ObservedObject var premiumManager = PremiumViewModel.shared
     @State var IconImage: Image = Image("")
     @State var visualization: ChildViewMode = .day
     @State var currentActivityReference: Activity? = nil
@@ -180,7 +181,7 @@ struct ChildView: View {
 
                         if let premium = activitiesManager.hasPremiumActivity() {
                             
-                            PremiumActivityView(activity: premium, starCount: $star)
+                            PremiumActivityView(activity: premium, starCount: $premiumManager.premiumCount)
                                 .frame(width: 0.36*geometry.size.width ,height: 0.125*geometry.size.height, alignment: .center)
                                 .background(Rectangle().fill(Color.white).cornerRadius(21, [.topLeft, .topRight]).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
                                 .offset(y: 6)

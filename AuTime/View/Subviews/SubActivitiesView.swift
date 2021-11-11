@@ -13,6 +13,7 @@ struct SubActivitiesView: View {
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var imageManager = ImageViewModel()
     @ObservedObject var env: AppEnvironment
+    @ObservedObject var premiumManager = PremiumViewModel.shared
     
     @State var subActivities: [SubActivity] = []
     @State var IconImage: Image = Image("")
@@ -272,6 +273,17 @@ struct SubActivitiesView: View {
                             })
                             
                             Button(action: {
+                                if let id = currentActivityReference?.id {
+                                    self.activitiesManager.completeActivity(activityId: id, time: Date(), feedback: "Happy")
+                                }
+                                if(currentActivityReference?.generateStar == true) {
+                                    premiumManager.gainStar()
+                                }
+                                if(currentActivityReference?.category == "Prêmio"){
+                                    premiumManager.resetStars()
+                                }
+                                print("Atividade concluída")
+                                //self.showSubActivitiesView = false
                                 self.showFeedbackPopUp = true
                             }, label: {
                                 Text("Complete activity")
