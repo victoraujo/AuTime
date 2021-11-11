@@ -16,7 +16,7 @@ struct FeedbackChildView: View {
     @Binding var showFeedbackPopUp: Bool
     @Binding var selectedEmotion: String
     @Binding var star: Int
-    var currentActivityReferenceId: String
+    var currentActivity: Activity
     
     let emotions: [String] = ["Upset", "Sad", "Happy", "Joyful"]
     var colorTheme: Color
@@ -126,8 +126,7 @@ struct FeedbackChildView: View {
                             }
                             // Second pop-up is presented -> Dismiss pop-up view
                             else {
-                                let id = currentActivityReferenceId
-                                self.activitiesManager.completeActivity(activityId: id, time: Date(), feedback: selectedEmotion)
+                                self.activitiesManager.completeActivity(activity: currentActivity, time: Date(), feedback: selectedEmotion)
                                 
                                 self.showFeedbackPopUp = false
                                 self.showEmotions = true
@@ -155,8 +154,7 @@ struct FeedbackChildView: View {
                             }
                             // Second pop-up is presented -> Dismiss pop-up view
                             else {
-                                let id = currentActivityReferenceId
-                                self.activitiesManager.completeActivity(activityId: id, time: Date(), feedback: "No Feedback")
+                                self.activitiesManager.completeActivity(activity: currentActivity, time: Date(), feedback: "No Feedback")
                                                                     
                                 self.selectedEmotion = ""
                                 self.showFeedbackPopUp = false
@@ -192,12 +190,12 @@ struct FeedbackChildView: View {
     }
 }
 
-struct FeedbackChildView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedbackChildView(env: AppEnvironment(), showFeedbackPopUp: .constant(true), selectedEmotion: .constant("Happy"), star: .constant(0), currentActivityReferenceId: "", colorTheme: .greenColor)
-            .frame(width: 0.6*UIScreen.main.bounds.height, height: 0.6*UIScreen.main.bounds.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
-            .environment(\.horizontalSizeClass, .compact)
-            .environment(\.verticalSizeClass, .compact)
-    }
-}
+//struct FeedbackChildView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FeedbackChildView(env: AppEnvironment(), showFeedbackPopUp: .constant(true), selectedEmotion: .constant("Happy"), star: .constant(0), currentActivity: Activity(), colorTheme: .greenColor)
+//            .frame(width: 0.6*UIScreen.main.bounds.height, height: 0.6*UIScreen.main.bounds.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+//            .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
+//            .environment(\.horizontalSizeClass, .compact)
+//            .environment(\.verticalSizeClass, .compact)
+//    }
+//}
