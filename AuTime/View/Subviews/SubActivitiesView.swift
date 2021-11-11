@@ -49,7 +49,7 @@ struct SubActivitiesView: View {
         }
         
         self.subActivities = self.subActivitiesManager.subActivities
-
+        
         self.subActivitiesCount = self.subActivities.count
         
         self.completes = []
@@ -308,10 +308,13 @@ struct SubActivitiesView: View {
                 
                 
                 VStack(alignment: .center) {
-                    FeedbackChildView(env: env, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, star: $star, currentActivityReferenceId: currentActivityReference?.id ?? "", colorTheme: colorTheme)
-                        .frame(width: 0.6*geometry.size.width, height: 0.6*geometry.size.height, alignment: .center)
-                        .opacity(showFeedbackPopUp ? 1 : 0)
-
+                    if let activity = currentActivityReference {
+                        FeedbackChildView(env: env, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, star: $star, currentActivity: activity, colorTheme: colorTheme)
+                            .frame(width: 0.6*geometry.size.width, height: 0.6*geometry.size.height, alignment: .center)
+                            .opacity(showFeedbackPopUp ? 1 : 0)
+                    }
+                    
+                    
                 }
                 .background(VisualEffectView(effect: UIBlurEffect(style: .dark))
                                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -338,12 +341,12 @@ struct SubActivitiesView: View {
             .onChange(of: self.subActivitiesManager.subActivities, perform: { _ in
                 self.subActivities = self.subActivitiesManager.subActivities
                 self.subActivitiesCount = self.subActivities.count
-                                        
+                
                 self.completes = []
                 for _ in 0..<self.subActivitiesCount {
                     self.completes.append(false)
                 }
-            })            
+            })
             .onDisappear {
                 self.currentActivityReference = nil
             }

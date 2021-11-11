@@ -115,44 +115,32 @@ class ActivityViewModel: ObservableObject {
         
     }
     
-    func completeActivity(activityId: String, time: Date, feedback: String) {
-        DispatchQueue.main.async {
-            
+    
+    func completeActivity(activity: Activity, time: Date, feedback: String) {
+        
+        if let activityId = activity.id {
             let completedTime = DateHelper.dateToString(from: time)
-            var newCompletions: [[String:String]] = []
+            var newCompletions: [[String:String]] = activity.completions.map{["date": DateHelper.dateToString(from: $0.date), "feedback": $0.feedback]}
+            let newElement = ["date": completedTime, "feedback": feedback]
+            newCompletions.append(newElement)
             
-            if let docId = self.userManager.session?.email {
-                self.db.collection("users").document(docId).collection("activities").document(activityId).getDocument(completion: { activity, error in
-                    
-                    if let activity = activity {
-                        if !activity.exists {
-                            print("Document for \(activityId) does not exist")
-                            return
-                        }
-                        
-                        if let data = activity.data() {
-                            newCompletions = data["completions"] as? [[String:String]] ?? []
-                            let newElement = ["date": completedTime, "feedback": feedback]
-                            newCompletions.append(newElement)
-                            
-                            self.updateActivity(activityId: activityId, fields: ["completions": newCompletions])
-                            
-                        }
-                    }
-                })
-                
-                return
-            }
-            print("Error when update the activity \(activityId)")
+            updateActivity(activityId: activityId, fields: ["completions": newCompletions])
+            return
         }
+        print("Error on get activityId of \(activity.name) on update activity.")
+        
+        
     }
     
     func updateActivity(activityId: String, fields: [String: Any]) {
-        if let docId = userManager.session?.email {
+        if let docId = self.userManager.session?.email {
             self.db.collection("users").document(docId).collection("activities").document(activityId).updateData(fields, completion: {_ in
                 print("Activity \(activityId) was updated!")
             })
+            return
         }
+        
+        print("Error on get docId of user on update activity.")
     }
     
     /// Separate activities on weekdays
