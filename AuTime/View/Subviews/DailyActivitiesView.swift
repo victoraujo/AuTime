@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DailyActivitiesView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
+    @ObservedObject var premiumManager = PremiumViewModel.shared
     @State var todayActivities: [Activity] = []
     @Binding var currentActivity: Int?
     @Binding var activityReference: Activity?
@@ -32,6 +33,7 @@ struct DailyActivitiesView: View {
                         
                         ForEach(Array(self.todayActivities.enumerated()), id: \.offset) { index, activity in
                             VStack {
+                                if (activity.category != "Prêmio" || premiumManager.premiumCount == 3){
                                 ActivityView(activity: activity, colorTheme: .greenColor)
                                     .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
                                     .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
@@ -46,7 +48,7 @@ struct DailyActivitiesView: View {
                                     .fontWeight(.bold)
                                     .foregroundColor(.black90Color)
                                     .padding(.top, UIScreen.main.bounds.height*0.09)
-                            }
+                            }}
                             .id(index + 1)
                             
                         }
