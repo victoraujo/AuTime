@@ -38,9 +38,11 @@ struct DailyActivitiesView: View {
                                     .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
                                     .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
                                     .onTapGesture {
-                                        if activity.stepsCount > 0 {
-                                            activityReference = activity
-                                        }                                                                    
+                                        if(!DateHelper.datesMatch(activity.lastCompletionDate(), Date())){
+                                            if activity.stepsCount > 0 {
+                                                activityReference = activity
+                                            }
+                                        }
                                     }
                                 
                                 Text("\(DateHelper.getHoursAndMinutes(from: activity.time))")

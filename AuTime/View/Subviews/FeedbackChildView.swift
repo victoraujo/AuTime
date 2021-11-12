@@ -71,7 +71,7 @@ struct FeedbackChildView: View {
                             }
                         }
                         .padding()
-                    } else if selectedEmotion != "Sad"{
+                    } else if currentActivity.category != "Prêmio"{
                         Text("Congratulations!")
                             .font(.largeTitle)
                             .fontWeight(.bold)
@@ -178,14 +178,6 @@ struct FeedbackChildView: View {
             }
             
         }
-        .onDisappear(perform: {
-            if selectedEmotion == "Sad" {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.star += 1
-                }
-            }
-            
-        })
         
     }
 }
