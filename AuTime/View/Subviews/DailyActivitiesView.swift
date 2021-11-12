@@ -33,7 +33,7 @@ struct DailyActivitiesView: View {
                         
                         ForEach(Array(self.todayActivities.enumerated()), id: \.offset) { index, activity in
                             VStack {
-                                if (activity.category != "Prêmio" || premiumManager.premiumCount == 3){
+                                if (activity.category != "Prêmio" || premiumManager.premiumCount == 3 || DateHelper.datesMatch(activity.lastCompletionDate(), Date())){
                                 ActivityView(activity: activity, colorTheme: .greenColor)
                                     .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
                                     .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))

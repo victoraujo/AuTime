@@ -193,7 +193,7 @@ class ActivityViewModel: ObservableObject {
     /// Indicates if there are any premium activity today
     /// - Returns: A boolean indicating the presence of this activity
     func hasPremiumActivity() -> Activity? {
-        if let firstPremium = self.todayActivities.first(where: { $0.category == "Prêmio" }) {
+        if let firstPremium = self.todayActivities.first(where: { $0.category == "Prêmio" && !DateHelper.datesMatch($0.lastCompletionDate(), Date()) }) {
             return firstPremium
         }
         
