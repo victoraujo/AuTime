@@ -272,10 +272,7 @@ struct SubActivitiesView: View {
                                 
                             })
                             
-                            Button(action: {
-                                if let id = currentActivityReference?.id {
-                                    self.activitiesManager.completeActivity(activityId: id, time: Date(), feedback: "Happy")
-                                }
+                            Button(action: {                                
                                 if(currentActivityReference?.generateStar == true) {
                                     premiumManager.gainStar()
                                 }
