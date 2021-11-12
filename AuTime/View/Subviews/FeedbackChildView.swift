@@ -71,27 +71,7 @@ struct FeedbackChildView: View {
                             }
                         }
                         .padding()
-                    } else if currentActivity.category != "Prêmio"{
-                        Text("Congratulations!")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(.pinkColor)
-                            .multilineTextAlignment(.center)
-                            .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            
-                        Text("you have completed an activity")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .foregroundColor(.black100Color)
-                            .multilineTextAlignment(.leading)
-                            .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            .padding([.horizontal, .bottom])
-                        
-                        Image("Congratulations")
-                            .resizable()
-                            .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: .center)
-                            .padding()
-                    } else {
+                    } else if currentActivity.generateStar {
                         Text("Congratulations!")
                             .font(.largeTitle)
                             .fontWeight(.bold)
@@ -108,6 +88,26 @@ struct FeedbackChildView: View {
                             .padding([.horizontal, .bottom])
                         
                         Image("WonStar")
+                            .resizable()
+                            .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: .center)
+                            .padding()
+                    } else {
+                        Text("Congratulations!")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(.pinkColor)
+                            .multilineTextAlignment(.center)
+                            .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            
+                        Text("you have completed an activity")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black100Color)
+                            .multilineTextAlignment(.leading)
+                            .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .padding([.horizontal, .bottom])
+                        
+                        Image("Congratulations")
                             .resizable()
                             .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: .center)
                             .padding()
