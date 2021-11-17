@@ -28,8 +28,6 @@ struct SubActivitiesView: View {
     @Binding var currentActivityReference: Activity?
     @Binding var star: Int
     
-    let profile = UIImage(imageLiteralResourceName: "JoaoMemoji.png")
-    let colorTheme: Color = .greenColor
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     init(env: ObservedObject<AppEnvironment>, activity: Binding<Activity?>, star: Binding<Int>) {
@@ -107,7 +105,7 @@ struct SubActivitiesView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 35, alignment: .center)
-                                    .foregroundColor(colorTheme)
+                                    .foregroundColor(env.childColorTheme)
                                     .padding(.horizontal)
                                 
                                 VStack(alignment: .leading){
@@ -115,7 +113,7 @@ struct SubActivitiesView: View {
                                         Text(self.currentActivityReference?.name ?? "Unamed Subactivity")
                                             .font(.title3)
                                             .fontWeight(.bold)
-                                            .foregroundColor(colorTheme)
+                                            .foregroundColor(env.childColorTheme)
                                         
                                         Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "No") subactivit\(subActivitiesCount > 1 ? "ies" : "y")")
                                             .font(.subheadline)
@@ -145,7 +143,7 @@ struct SubActivitiesView: View {
                                         .cornerRadius(21)
                                         .offset(x: -2, y: 8)
                                     
-                                    Image(uiImage: profile)
+                                    Image(uiImage: env.childPhoto)
                                         .resizable()
                                         .foregroundColor(.blue)
                                         .padding([.horizontal, .bottom])
@@ -164,7 +162,7 @@ struct SubActivitiesView: View {
                             
                             
                             Button(action: {
-                                self.env.profile = .parent
+                                env.isShowingChangeProfile = true
                             }, label: {
                                 VStack(alignment: .center){
                                     
@@ -212,7 +210,7 @@ struct SubActivitiesView: View {
                                     
                                     ForEach(Array(self.subActivities.enumerated()), id: \.offset) { index, subactivity in
                                         VStack {
-                                            SubActivityView(colorTheme: colorTheme, subActivityName: subactivity.name, completed: self.completes[index])
+                                            SubActivityView(colorTheme: env.childColorTheme, subActivityName: subactivity.name, completed: self.completes[index])
                                                 .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
                                                 .cornerRadius(21)
                                                 .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
@@ -266,7 +264,7 @@ struct SubActivitiesView: View {
                                     .padding()
                                     .padding(.horizontal)
                                     .frame(width: 0.25*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
-                                    .background(colorTheme)
+                                    .background(env.childColorTheme)
                                     .cornerRadius(28)
                                     .padding(.trailing)
                                 
@@ -290,7 +288,7 @@ struct SubActivitiesView: View {
                                     .padding()
                                     .padding(.horizontal)
                                     .frame(width: 0.25*geometry.size.width ,height: 0.07*geometry.size.height, alignment: .center)
-                                    .background(colorTheme)
+                                    .background(env.childColorTheme)
                                     .cornerRadius(28)
                                     .padding(.leading)
                             })
@@ -303,10 +301,10 @@ struct SubActivitiesView: View {
                     }
                 }
                 
-                
+                // Feedback Pop-Up
                 VStack(alignment: .center) {
                     if let activity = currentActivityReference {
-                        FeedbackChildView(env: env, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, star: $star, currentActivity: activity, colorTheme: colorTheme)
+                        FeedbackChildView(env: env, showFeedbackPopUp: $showFeedbackPopUp, selectedEmotion: $emotion, star: $star, currentActivity: activity)
                             .frame(width: 0.6*geometry.size.width, height: 0.6*geometry.size.height, alignment: .center)
                             .opacity(showFeedbackPopUp ? 1 : 0)
                     }
@@ -316,6 +314,17 @@ struct SubActivitiesView: View {
                 .background(VisualEffectView(effect: UIBlurEffect(style: .dark))
                                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 .opacity((self.showFeedbackPopUp ? 1 : 0)))
+                    
+                // Change Profile Pop-Up
+                VStack(alignment: .center) {
+                    ChangeProfileView(env: _env)
+                        .frame(width: 0.5*geometry.size.width, height: 0.5*geometry.size.height, alignment: .center)
+                        .opacity(env.isShowingChangeProfile ? 1 : 0)
+                }
+                .background(VisualEffectView(effect: UIBlurEffect(style: .dark))
+                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .opacity((env.isShowingChangeProfile ? 1 : 0))                                )
+                
             }
             .onAppear {
                 self.subActivitiesManager.activityReference = currentActivityReference?.id

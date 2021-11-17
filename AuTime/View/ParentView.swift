@@ -13,10 +13,24 @@ struct ParentView: View {
     
     var body: some View {
         GeometryReader{ geometry in
-            NavigationView{
-                NativeSideBarView(env: env)
-                ScheduleView()
-            }            
+            ZStack {
+                NavigationView{
+                    NativeSideBarView(env: env)
+                    ScheduleView()
+                }
+                
+                // Change Profile Pop-Up
+                VStack(alignment: .center) {
+                    ChangeProfileView(env: _env)
+                        .frame(width: 0.5*geometry.size.width, height: 0.5*geometry.size.height, alignment: .center)
+                        .opacity(env.isShowingChangeProfile ? 1 : 0)
+                }
+                .background(VisualEffectView(effect: UIBlurEffect(style: .dark))
+                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .opacity((env.isShowingChangeProfile ? 1 : 0))
+                                .edgesIgnoringSafeArea(.all))                
+
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ class AppEnvironment: ObservableObject {
     
     @Published var profile: ProfileType = .parent
     @Published var showSubActivities: Bool = false
+    @Published var isShowingChangeProfile: Bool = false
     @Published var scheduleIsOpen: Bool = false
     @Published var parentColorTheme: Color = .blue
     @Published var childColorTheme: Color = .greenColor

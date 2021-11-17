@@ -10,7 +10,6 @@ import UIKit
 
 struct NativeSideBarView: View {
     @ObservedObject var env: AppEnvironment
-    @State var isShowingChangeProfile: Bool = false
     var colorTheme: Color = .blue
     
     var body: some View {
@@ -25,7 +24,7 @@ struct NativeSideBarView: View {
             })
             
             Button(action: {
-                self.isShowingChangeProfile.toggle()
+                env.isShowingChangeProfile = true
             }, label: {
                 Label("Change profile", systemImage: "person.crop.circle")
             })
@@ -41,12 +40,7 @@ struct NativeSideBarView: View {
                 }
             let tableView = UITableView.appearance(whenContainedInInstancesOf: [type(of: sidebarViewController)])
             tableView.backgroundColor = UIColor(Color.white)
-        }
-        .alert(isPresented: $isShowingChangeProfile) { () -> Alert in
-            Alert(title: Text("Change Profile"), message: Text("Are you sure you want to switch to \(env.childName) profile?"), primaryButton: .default(Text("Change Profile"), action: {
-                    env.changeProfile()
-            }), secondaryButton: .destructive(Text("Cancel")))
-        }
+        }        
     }
 }
 

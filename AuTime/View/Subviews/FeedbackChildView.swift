@@ -19,7 +19,6 @@ struct FeedbackChildView: View {
     var currentActivity: Activity
     
     let emotions: [String] = ["Upset", "Sad", "Happy", "Joyful"]
-    var colorTheme: Color
     
     var body: some View {
         GeometryReader { geometry in
@@ -30,7 +29,7 @@ struct FeedbackChildView: View {
                     
                     if showEmotions {
                     
-                        Text("João, how are you feeling?")
+                        Text("\(env.childName), how are you feeling?")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.black100Color)
@@ -46,7 +45,7 @@ struct FeedbackChildView: View {
                                         .frame(width: 0.15*geometry.size.width, height: 0.15*geometry.size.width, alignment: .center)
                                         .padding()
                                         .background( emotion == selectedEmotion ?
-                                                        colorTheme
+                                                     env.childColorTheme
                                                         :
                                                         Color.clear
                                         )
@@ -141,7 +140,7 @@ struct FeedbackChildView: View {
                                 .padding()
                                 .frame(width: 0.3*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 .foregroundColor(.white)
-                                .background(colorTheme)
+                                .background(env.childColorTheme)
                                 .cornerRadius(21)
                         })
                         
@@ -165,7 +164,7 @@ struct FeedbackChildView: View {
                             Text(showEmotions ? "Skip" : "Exit")
                                 .font(.title3)
                                 .fontWeight(.bold)
-                                .foregroundColor(colorTheme)
+                                .foregroundColor(env.childColorTheme)
                             
                         })
                         .padding()
