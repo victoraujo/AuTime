@@ -13,6 +13,7 @@ struct ChildView: View {
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var env: AppEnvironment
     @ObservedObject var premiumManager = PremiumViewModel.shared
+    
     @State var IconImage: Image = Image("")
     @State var visualization: ChildViewMode = .day
     @State var currentActivityReference: Activity? = nil
@@ -21,10 +22,11 @@ struct ChildView: View {
     @State var currentHour = DateHelper.getHoursAndMinutes(from: Date())
     @State var star: Int = 0
     
-    var profile = UIImage(imageLiteralResourceName: "JoaoMemoji.png")
-    var colorTheme: Color = .greenColor
-    var subActivitiesCount: Int = 5
-    
+    // Change profile alert variables
+    @State var isShowingChangeProfile: Bool = false
+    @State var passwordWrited: String = ""
+    @State var message: String = "Enter the password to access the parental control center."
+        
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     public enum ChildViewMode: Int {
@@ -76,11 +78,11 @@ struct ChildView: View {
                                 Text("Day")
                                     .foregroundColor(.black)
                             })
-                            .frame(width: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            .padding(.horizontal)
-                            .padding(.vertical, 12)
-                            .background(self.visualization == .day ? Color.greenColor : Color.clear)
-                            .cornerRadius(7)
+                                .frame(width: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .padding(.horizontal)
+                                .padding(.vertical, 12)
+                                .background(self.visualization == .day ? Color.greenColor : Color.clear)
+                                .cornerRadius(7)
                             
                             Button(action: {
                                 self.visualization = .week
@@ -89,11 +91,11 @@ struct ChildView: View {
                                     .foregroundColor(.black)
                                 
                             })
-                            .frame(width: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            .padding(.horizontal)
-                            .padding(.vertical, 12)
-                            .background(self.visualization == .week ? Color.greenColor : Color.clear)
-                            .cornerRadius(7)
+                                .frame(width: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .padding(.horizontal)
+                                .padding(.vertical, 12)
+                                .background(self.visualization == .week ? Color.greenColor : Color.clear)
+                                .cornerRadius(7)
                         }
                         .padding(.vertical, 5)
                         .padding(.horizontal, 8)
@@ -113,7 +115,7 @@ struct ChildView: View {
                                     .cornerRadius(21)
                                     .offset(x: -2, y: 8)
                                 
-                                Image(uiImage: profile)
+                                Image(uiImage: env.childPhoto)
                                     .resizable()
                                     .foregroundColor(.blue)
                                     .padding([.horizontal, .bottom])
@@ -132,8 +134,7 @@ struct ChildView: View {
                         
                         
                         Button(action: {
-//                            self.userManager.signOut()
-                            env.profile = .parent
+                            self.isShowingChangeProfile.toggle()
                         }, label: {
                             VStack(alignment: .center){
                                 
@@ -170,15 +171,15 @@ struct ChildView: View {
                     Spacer()
                     
                     if self.visualization == .day {
-                        DailyActivitiesView(currentActivity: self.$currentActivityIndex, activityReference: self.$currentActivityReference)
+                        DailyActivitiesView(currentActivity: self.$currentActivityIndex, activityReference: self.$currentActivityReference, env: _env)
                         
                         Divider()
                             .frame(height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             .padding(.bottom)
                             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                                                
+                        
                         Spacer()
-
+                        
                         if let premium = activitiesManager.hasPremiumActivity() {
                             
                             PremiumActivityView(activity: premium, starCount: $premiumManager.premiumCount)
@@ -202,7 +203,6 @@ struct ChildView: View {
                 }
                 
             }
-            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             .onAppear {
                 self.activitiesManager.fetchData()
                 self.env.showSubActivities = false
@@ -225,6 +225,25 @@ struct ChildView: View {
             .fullScreenCover(isPresented: $env.showSubActivities){
                 SubActivitiesView(env: _env, activity: $currentActivityReference, star: $star)
             }
+            .alert(isPresented: $isShowingChangeProfile,
+                   TextAlert(title: "Change Profile",
+                             message: message,
+                             keyboardType: .default) { result in
+                if let text = result {
+                    if text == self.env.parentControlPassword {
+                        env.changeProfile()
+                        isShowingChangeProfile = false
+                    } else {
+                        message = "Wrong password! Enter the password to access the parental control center."
+                        isShowingChangeProfile = true
+                    }
+                } else {
+                    message = "Enter the password to access the parental control center."
+                    isShowingChangeProfile = false
+                }
+            })
+            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+
             
         }
     }
