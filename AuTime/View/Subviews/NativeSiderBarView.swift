@@ -24,7 +24,7 @@ struct NativeSideBarView: View {
             })
             
             Button(action: {
-                env.profile = .child
+                env.isShowingChangeProfile = true
             }, label: {
                 Label("Change profile", systemImage: "person.crop.circle")
             })
@@ -40,7 +40,7 @@ struct NativeSideBarView: View {
                 }
             let tableView = UITableView.appearance(whenContainedInInstancesOf: [type(of: sidebarViewController)])
             tableView.backgroundColor = UIColor(Color.white)
-        }
+        }        
     }
 }
 

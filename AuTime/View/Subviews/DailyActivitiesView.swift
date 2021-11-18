@@ -10,11 +10,13 @@ import SwiftUI
 struct DailyActivitiesView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var premiumManager = PremiumViewModel.shared
+    @ObservedObject var env: AppEnvironment
     @State var todayActivities: [Activity] = []
     @Binding var currentActivity: Int?
     @Binding var activityReference: Activity?
     
-    init(currentActivity: Binding<Int?>, activityReference: Binding<Activity?>) {
+    init(currentActivity: Binding<Int?>, activityReference: Binding<Activity?>, env: ObservedObject<AppEnvironment>) {
+        self._env = env
         self._currentActivity = currentActivity
         self._activityReference = activityReference
         self.todayActivities = self.activitiesManager.todayActivities
@@ -34,7 +36,7 @@ struct DailyActivitiesView: View {
                         ForEach(Array(self.todayActivities.enumerated()), id: \.offset) { index, activity in
                             VStack {
                                 if (activity.category != "Prêmio" || premiumManager.premiumCount == 3 || DateHelper.datesMatch(activity.lastCompletionDate(), Date())){
-                                ActivityView(activity: activity, colorTheme: .greenColor)
+                                    ActivityView(activity: activity, colorTheme: env.childColorTheme)
                                     .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
                                     .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
                                     .onTapGesture {
