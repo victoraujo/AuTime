@@ -18,7 +18,7 @@ struct FeedbackChildView: View {
     @Binding var star: Int
     var currentActivity: Activity
     
-    let emotions: [String] = ["Upset", "Sad", "Happy", "Joyful"]
+    let emotions: [String] = ["Upset", "Sad", "Happy"]
     
     var body: some View {
         GeometryReader { geometry in
@@ -40,15 +40,10 @@ struct FeedbackChildView: View {
                         HStack(alignment: .top){
                             ForEach(emotions, id: \.self) { emotion in
                                 VStack(alignment: .center) {
-                                    Image("\(emotion)")
-                                        .resizable()
-                                        .frame(width: 0.15*geometry.size.width, height: 0.15*geometry.size.width, alignment: .center)
+                                    Activity.getFeedbackEmoji(from: emotion)
+                                        .font(.system(size: 0.1*geometry.size.width))
                                         .padding()
-                                        .background( emotion == selectedEmotion ?
-                                                     env.childColorTheme
-                                                        :
-                                                        Color.clear
-                                        )
+                                        .background( emotion == selectedEmotion ? env.childColorTheme : Color.clear)
                                         .cornerRadius(21)
 
                                       
@@ -86,6 +81,8 @@ struct FeedbackChildView: View {
                             .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             .padding([.horizontal, .bottom])
                         
+                        // TO DO: CHANGE IMAGE FOR WON STAR!!
+                        // current image is a João's memoji
                         Image("WonStar")
                             .resizable()
                             .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: .center)
@@ -106,6 +103,8 @@ struct FeedbackChildView: View {
                             .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             .padding([.horizontal, .bottom])
                         
+                        // TO DO: CHANGE IMAGE FOR CONGRATULATIONS!!
+                        // current image is a João's memoji
                         Image("Congratulations")
                             .resizable()
                             .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: .center)
@@ -135,10 +134,10 @@ struct FeedbackChildView: View {
                             
                         }, label: {
                             Text("Confirm")
-                                .font(.title3)
+                                .font(.title)
                                 .fontWeight(.bold)
                                 .padding()
-                                .frame(width: 0.3*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .frame(width: 0.4*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 .foregroundColor(.white)
                                 .background(env.childColorTheme)
                                 .cornerRadius(21)

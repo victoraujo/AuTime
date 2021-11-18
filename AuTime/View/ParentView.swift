@@ -16,8 +16,8 @@ struct ParentView: View {
             ZStack {
                 NavigationView{
                     NativeSideBarView(env: env)
-                    ScheduleView()
-                }
+                    ScheduleView(_env: _env)
+                }.accentColor(env.parentColorTheme)
                 
                 // Change Profile Pop-Up
                 VStack(alignment: .center) {

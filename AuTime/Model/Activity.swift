@@ -67,4 +67,20 @@ struct Activity: Identifiable, Codable, Hashable {
         }
     }
     
+    static func getFeedbackEmoji(from emotion: String) -> Text {
+        switch emotion {
+        case "Upset":
+            return Text("😠")
+        case "Sad":
+            return Text("😢")
+        case "Happy":
+            return Text("😁")
+        case "Joyful":
+            return Text("😁")
+        default:
+            return Text("")
+
+        }
+    }
+    
 }
