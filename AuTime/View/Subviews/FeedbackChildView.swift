@@ -18,7 +18,7 @@ struct FeedbackChildView: View {
     @Binding var star: Int
     var currentActivity: Activity
     
-    let emotions: [String] = ["Upset", "Sad", "Happy", "Joyful"]
+    let emotions: [String] = ["Upset", "Sad", "Happy"]
     
     var body: some View {
         GeometryReader { geometry in
