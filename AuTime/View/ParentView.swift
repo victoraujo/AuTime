@@ -15,7 +15,7 @@ struct ParentView: View {
         GeometryReader{ geometry in
             ZStack {
                 NavigationView{
-                    NativeSideBarView(env: env)
+                    NativeSideBarView(env: env)                        
                     ScheduleView(_env: _env)
                 }.accentColor(env.parentColorTheme)
                 

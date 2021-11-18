@@ -13,9 +13,14 @@ class AppEnvironment: ObservableObject {
     }
     
     @Published var profile: ProfileType = .parent
-    @Published var showSubActivities: Bool = false
+    
+    @Published var isShowingSubActivities: Bool = false
     @Published var isShowingChangeProfile: Bool = false
-    @Published var scheduleIsOpen: Bool = false
+    @Published var isShowingProfileSettings: Bool = false
+    
+    @Published var scheduleIsOpen: Bool = false    
+    @Published var activitiesLibraryIsOpen: Bool = false
+    
     @Published var parentColorTheme: Color = .blue
     @Published var childColorTheme: Color = .greenColor
     @Published var parentControlPassword = "senha"
@@ -24,7 +29,7 @@ class AppEnvironment: ObservableObject {
     
     func reset() {
         profile = .parent
-        showSubActivities = false
+        isShowingSubActivities = false
         scheduleIsOpen = false
     }
     

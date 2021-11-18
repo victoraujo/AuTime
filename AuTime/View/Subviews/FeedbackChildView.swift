@@ -128,7 +128,7 @@ struct FeedbackChildView: View {
                                 
                                 self.showFeedbackPopUp = false
                                 self.showEmotions = true
-                                self.env.showSubActivities = false
+                                self.env.isShowingSubActivities = false
                                 self.selectedEmotion = ""
                             }
                             
@@ -157,7 +157,7 @@ struct FeedbackChildView: View {
                                 self.selectedEmotion = ""
                                 self.showFeedbackPopUp = false
                                 self.showEmotions = true
-                                self.env.showSubActivities = false
+                                self.env.isShowingSubActivities = false
                             }
                         }, label: {
                             Text(showEmotions ? "Skip" : "Exit")

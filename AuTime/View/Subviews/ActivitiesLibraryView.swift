@@ -109,7 +109,6 @@ struct ActivitiesLibraryView: View {
                     }, label: {
                         Text("Create activity")
                     })
-                        .padding()
                 }
                 
             }
@@ -268,8 +267,7 @@ struct ActivityImageView: View {
 
 
 struct SearchBar: View {
-    @Binding var text: String
-    
+    @Binding var text: String    
     @State private var isEditing = false
     
     var body: some View {

@@ -83,4 +83,17 @@ struct Activity: Identifiable, Codable, Hashable {
         }
     }
     
+    static func getSystemImage(from category: String) -> String {
+        switch category {
+        case "Education", "Educação":
+            return "book"
+        case "Premium", "Prêmio":
+            return "star"
+        case "Health", "Saúde":
+            return "heart"
+        default:
+            return "star"
+        }
+    }
+    
 }
