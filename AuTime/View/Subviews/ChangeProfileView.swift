@@ -34,7 +34,7 @@ struct ChangeProfileView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.black100Color)
-                        .multilineTextAlignment(.leading)
+                        .multilineTextAlignment(.center)
                         .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .padding()
                     
@@ -100,7 +100,7 @@ struct ChangeProfileView: View {
                                 .font(.title3)
                                 .fontWeight(.bold)
                                 .padding()
-                                .frame(width: 0.3*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .frame(width: 0.4*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 .foregroundColor(.white)
                                 .background(env.profile == .child ? env.childColorTheme : env.parentColorTheme)
                                 .cornerRadius(21)

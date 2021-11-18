@@ -134,10 +134,10 @@ struct FeedbackChildView: View {
                             
                         }, label: {
                             Text("Confirm")
-                                .font(.title3)
+                                .font(.title)
                                 .fontWeight(.bold)
                                 .padding()
-                                .frame(width: 0.3*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .frame(width: 0.4*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 .foregroundColor(.white)
                                 .background(env.childColorTheme)
                                 .cornerRadius(21)
