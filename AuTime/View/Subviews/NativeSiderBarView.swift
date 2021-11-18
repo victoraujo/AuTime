@@ -15,7 +15,7 @@ struct NativeSideBarView: View {
     var body: some View {
         
         List {
-            NavigationLink(destination: ScheduleView(), label: {
+            NavigationLink(destination: ScheduleView(_env: _env), label: {
                 Label("Schedule", systemImage: "calendar")
             })
             
@@ -39,7 +39,7 @@ struct NativeSideBarView: View {
                     return
                 }
             let tableView = UITableView.appearance(whenContainedInInstancesOf: [type(of: sidebarViewController)])
-            tableView.backgroundColor = UIColor(Color.white)
+            tableView.backgroundColor = UIColor(Color.white)            
         }        
     }
 }

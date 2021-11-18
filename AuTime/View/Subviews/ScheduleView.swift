@@ -9,15 +9,16 @@ import SwiftUI
 
 struct ScheduleView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
+    @ObservedObject var env: AppEnvironment
     @State var currentActivity: Int = 0
     @State var visualization: ScheduleViewMode = .today
-    var colorTheme: Color = .blue
     
     public enum ScheduleViewMode: Int {
         case today, week
     }
     
-    init() {
+    init(_env: ObservedObject<AppEnvironment>) {
+        self._env = _env
         currentActivity = self.activitiesManager.getCurrentActivityIndex(offset: 0)
     }
     
@@ -28,7 +29,7 @@ struct ScheduleView: View {
                 Spacer()
                 
                 ScrollView(.vertical) {
-                    VStack(alignment: .center, spacing: 0.1*UIScreen.main.bounds.height){
+                    VStack(alignment: .center, spacing: 0.05*UIScreen.main.bounds.height){
                         
                         ForEach(Array(self.activitiesManager.todayActivities.enumerated()), id: \.offset) {  index, activity in
                             HStack(alignment: .center) {
@@ -43,8 +44,8 @@ struct ScheduleView: View {
                                 
                                 Spacer()
                                 
-                                ActivityView(activity: activity, colorTheme: colorTheme)
-                                    .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                ActivityView(activity: activity, colorTheme: env.parentColorTheme)
+                                    .frame(width: UIScreen.main.bounds.width*0.325, height: UIScreen.main.bounds.height*0.325, alignment: .center)
                                     .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
                                     .padding()
                                 
@@ -52,20 +53,19 @@ struct ScheduleView: View {
                                 
                                 VStack(alignment: .leading) {
                                     HStack (alignment: .center){
-                                        Image(systemName: "clock")
-                                            .resizable()
-                                            .frame(width: 0.04*geometry.size.width, height: 0.04*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                            .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
+                                        Text("⏰")
+                                            .font(.system(size: 0.04*geometry.size.width))
                                             .padding()
+                                            .opacity(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? 1 : 0)
                                         
                                         VStack (alignment: .leading){
                                             Text("Completion time")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
+                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? env.parentColorTheme : .clear)
                                                 .font(.callout)
                                                 .fontWeight(.regular)
                                             
                                             Text(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? "\(DateHelper.getHoursAndMinutes(from: activity.lastCompletionDate()))" : "")
-                                                .foregroundColor(colorTheme)
+                                                .foregroundColor(.black100Color)
                                                 .font(.title3)
                                                 .fontWeight(.bold)
                                         }
@@ -79,12 +79,12 @@ struct ScheduleView: View {
                                                                                 
                                         VStack (alignment: .leading){
                                             Text("Emotion feedback")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
+                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? env.parentColorTheme : .clear)
                                                 .font(.callout)
                                                 .fontWeight(.regular)
                                             
                                             Text(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? activity.lastCompletionFeedback() : "")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
+                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? .black100Color : .clear)
                                                 .font(.title3)
                                                 .fontWeight(.bold)
                                         }
