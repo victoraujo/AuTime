@@ -10,18 +10,18 @@ import SwiftUI
 struct ChangeProfileView: View {
     
     @ObservedObject var env: AppEnvironment
-    
-    @State var message: String = ""
     @State var showPassword: Bool = false
     @State var passwordText: String = ""
     @State var errorMessage: String = ""
         
+    var childMessage = "Enter password to get access for parent control."
+    var parentMessage = "Are you sure you want to switch to child's profile?"
+    
     init(env: ObservedObject<AppEnvironment>) {
         self._env = env
         
-        let childMessage = "Enter password to get access for parent control."
-        let parentMessage = "Are you sure you want to switch to \(self.env.childName)'s profile?"
-        self.message = self.env.profile == .child ? childMessage : parentMessage
+        childMessage = "Enter password to get access for parent control."
+        parentMessage = "Are you sure you want to switch to \(self.env.childName)'s profile?"
     }
     
     var body: some View {
@@ -38,10 +38,10 @@ struct ChangeProfileView: View {
                         .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .padding()
                     
-                    Text("\(message)")
+                    Text("\(self.env.profile == .child ? childMessage : parentMessage)")
                         .font(.title3)
                         .fontWeight(.bold)
-                        .foregroundColor(.black100Color)
+                        .foregroundColor(.black90Color)
                         .multilineTextAlignment(.leading)
                         .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .padding([.horizontal, .bottom])
@@ -51,11 +51,18 @@ struct ChangeProfileView: View {
                         VStack {
                             HStack(alignment: .center) {
                                 if showPassword {
-                                    TextField("Password", text: $passwordText)
-                                        .cornerRadius(10)
+                                    TextField("  Password", text: $passwordText)
+                                        .frame(width: 0.6*geometry.size.width, height: 40, alignment: .center)
+                                        .border(env.childColorTheme)
+                                        .cornerRadius(5)
+                                        .padding()
+                                    
                                 } else {
-                                    SecureField("Password", text: $passwordText)
-                                        .cornerRadius(10)
+                                    SecureField("  Password", text: $passwordText)
+                                        .frame(width: 0.6*geometry.size.width, height: 40, alignment: .center)
+                                        .border(env.childColorTheme)
+                                        .cornerRadius(5)
+                                        .padding()
                                 }
                                 
                                 Image(systemName: showPassword ? "eye" : "eye.slash")
@@ -69,11 +76,10 @@ struct ChangeProfileView: View {
                                 .font(.caption)
                                 .foregroundColor(.red)
                         }
+                        .padding()
                         
                     }
-                    
-                    Spacer()
-                                                            
+                                                                                
                     VStack(alignment: .center){
                         Button(action: {
                             if env.profile == .child {
@@ -96,23 +102,26 @@ struct ChangeProfileView: View {
                                 .padding()
                                 .frame(width: 0.3*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 .foregroundColor(.white)
-                                .background(env.childColorTheme)
+                                .background(env.profile == .child ? env.childColorTheme : env.parentColorTheme)
                                 .cornerRadius(21)
                         })
                         .padding()
                         
                         Button(action: {
                             env.isShowingChangeProfile = false
+                            passwordText = ""
                             errorMessage = ""
                         }, label: {
                             Text("Cancel")
                                 .font(.title3)
                                 .fontWeight(.bold)
-                                .foregroundColor(env.childColorTheme)
+                                .foregroundColor(env.profile == .child ? env.childColorTheme : env.parentColorTheme)
                             
                         })
                         .padding()
                     }
+                    .padding(.top)
+                    
                     Spacer()
                     
                 }
