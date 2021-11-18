@@ -54,7 +54,7 @@ struct ScheduleView: View {
                                     HStack (alignment: .center){
                                         Image(systemName: "clock")
                                             .resizable()
-                                            .frame(width: 35, height: 35, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                            .frame(width: 0.04*geometry.size.width, height: 0.04*geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                             .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
                                             .padding()
                                         
@@ -72,12 +72,11 @@ struct ScheduleView: View {
                                     }
                                     
                                     HStack (alignment: .center){
-                                        Image(systemName: "face.smiling")
-                                            .resizable()
-                                            .frame(width: 35, height: 35, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                            .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)
+                                        Activity.getFeedbackEmoji(from: activity.lastCompletionFeedback())
+                                            .font(.system(size: 0.04*geometry.size.width))
                                             .padding()
-                                        
+                                            .opacity(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? 1 : 0)
+                                                                                
                                         VStack (alignment: .leading){
                                             Text("Emotion feedback")
                                                 .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? colorTheme : .clear)

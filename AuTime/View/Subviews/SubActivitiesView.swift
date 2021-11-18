@@ -277,8 +277,6 @@ struct SubActivitiesView: View {
                                 if(currentActivityReference?.category == "Prêmio"){
                                     premiumManager.resetStars()
                                 }
-                                print("Atividade concluída")
-                                //self.showSubActivitiesView = false
                                 self.showFeedbackPopUp = true
                             }, label: {
                                 Text("Complete activity")
