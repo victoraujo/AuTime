@@ -60,7 +60,7 @@ struct ScheduleView: View {
                                         
                                         VStack (alignment: .leading){
                                             Text("Completion time")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? env.parentColorTheme : .clear)
+                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? .black90Color : .clear)
                                                 .font(.callout)
                                                 .fontWeight(.regular)
                                             
@@ -79,7 +79,7 @@ struct ScheduleView: View {
                                                                                 
                                         VStack (alignment: .leading){
                                             Text("Emotion feedback")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? env.parentColorTheme : .clear)
+                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? .black90Color : .clear)
                                                 .font(.callout)
                                                 .fontWeight(.regular)
                                             
