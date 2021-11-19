@@ -20,6 +20,10 @@
 		3E901C892731C6E1002FE8A2 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E901C882731C6E1002FE8A2 /* PhotoPicker.swift */; };
 		3EC6F3B6274543790048458C /* ChangeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC6F3B5274543790048458C /* ChangeProfileView.swift */; };
 		3ED8D18226B0565D00B50A94 /* PremiumActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8D18126B0565D00B50A94 /* PremiumActivityView.swift */; };
+		3EE441BD2747DB88003E6305 /* ActivitiesByCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE441BC2747DB87003E6305 /* ActivitiesByCategory.swift */; };
+		3EE441BF2747DC10003E6305 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE441BE2747DC10003E6305 /* SearchBarView.swift */; };
+		3EE441C12747DD3A003E6305 /* ActivityImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE441C02747DD3A003E6305 /* ActivityImageView.swift */; };
+		3EE441C32747DD69003E6305 /* NewActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE441C22747DD69003E6305 /* NewActivityView.swift */; };
 		3EECA74D2732DDC400181E1F /* NativeSiderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA74C2732DDC400181E1F /* NativeSiderBarView.swift */; };
 		3EECA7512732E8D800181E1F /* NavigationConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA7502732E8D800181E1F /* NavigationConfigurator.swift */; };
 		3EECA7532732FB9700181E1F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA7522732FB9700181E1F /* RootView.swift */; };
@@ -59,6 +63,10 @@
 		3E901C882731C6E1002FE8A2 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		3EC6F3B5274543790048458C /* ChangeProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileView.swift; sourceTree = "<group>"; };
 		3ED8D18126B0565D00B50A94 /* PremiumActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumActivityView.swift; sourceTree = "<group>"; };
+		3EE441BC2747DB87003E6305 /* ActivitiesByCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesByCategory.swift; sourceTree = "<group>"; };
+		3EE441BE2747DC10003E6305 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		3EE441C02747DD3A003E6305 /* ActivityImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityImageView.swift; sourceTree = "<group>"; };
+		3EE441C22747DD69003E6305 /* NewActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityView.swift; sourceTree = "<group>"; };
 		3EECA74C2732DDC400181E1F /* NativeSiderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeSiderBarView.swift; sourceTree = "<group>"; };
 		3EECA7502732E8D800181E1F /* NavigationConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationConfigurator.swift; sourceTree = "<group>"; };
 		3EECA7522732FB9700181E1F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -142,6 +150,10 @@
 				3E1D23DD26C1EE3A0055D3EC /* FeedbackChildView.swift */,
 				3EECA74C2732DDC400181E1F /* NativeSiderBarView.swift */,
 				3EC6F3B5274543790048458C /* ChangeProfileView.swift */,
+				3EE441BC2747DB87003E6305 /* ActivitiesByCategory.swift */,
+				3EE441BE2747DC10003E6305 /* SearchBarView.swift */,
+				3EE441C02747DD3A003E6305 /* ActivityImageView.swift */,
+				3EE441C22747DD69003E6305 /* NewActivityView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -348,6 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EE441C12747DD3A003E6305 /* ActivityImageView.swift in Sources */,
 				3EECA7512732E8D800181E1F /* NavigationConfigurator.swift in Sources */,
 				3E070DC926BF3C6600A0AA6C /* BlurEffect.swift in Sources */,
 				3EC6F3B6274543790048458C /* ChangeProfileView.swift in Sources */,
@@ -363,11 +376,13 @@
 				3EECA74D2732DDC400181E1F /* NativeSiderBarView.swift in Sources */,
 				3E8E53CA26B4362100D3853F /* WeekActivitiesView.swift in Sources */,
 				3E3CFC4E26A714F7007C2646 /* ActivityView.swift in Sources */,
+				3EE441BF2747DC10003E6305 /* SearchBarView.swift in Sources */,
 				3EECA7532732FB9700181E1F /* RootView.swift in Sources */,
 				3E1CE92026B977E700BF0867 /* DateHelper.swift in Sources */,
 				3E901C892731C6E1002FE8A2 /* PhotoPicker.swift in Sources */,
 				3E3CFC4926A6F69A007C2646 /* ColorExtension.swift in Sources */,
 				57FCA34726A85D3500A57732 /* SignUpView.swift in Sources */,
+				3EE441C32747DD69003E6305 /* NewActivityView.swift in Sources */,
 				5779035826A5B4E300D856BD /* UserViewModel.swift in Sources */,
 				5779035326A5B4D800D856BD /* User.swift in Sources */,
 				57622FA52733468C00275FCE /* ActivitiesLibraryView.swift in Sources */,
@@ -377,6 +392,7 @@
 				3E3CFC4626A6F0C5007C2646 /* ChildView.swift in Sources */,
 				3E19547526B8374E0036B1FC /* ScheduleView.swift in Sources */,
 				57423BD5273AAA33007D5C75 /* PremiumViewModel.swift in Sources */,
+				3EE441BD2747DB88003E6305 /* ActivitiesByCategory.swift in Sources */,
 				5779035926A5B4E300D856BD /* ActivityViewModel.swift in Sources */,
 				3E3CFC4B26A70000007C2646 /* CornerRadiusExtension.swift in Sources */,
 				5708DA5526B4342B007DFB66 /* ParentView.swift in Sources */,
