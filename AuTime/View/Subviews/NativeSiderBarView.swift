@@ -10,26 +10,24 @@ import UIKit
 
 struct NativeSideBarView: View {
     @ObservedObject var env: AppEnvironment
-    var colorTheme: Color = .blue
-    
-    let categories: [String] = ["Education", "Health"]
-    
+    @ObservedObject var activitiesManager: ActivityViewModel = ActivityViewModel.shared
+     
     var body: some View {
         
         List {
             NavigationLink(destination: ScheduleView(_env: _env), label: {
-                Label("Schedule", systemImage: "calendar")
+                Label("\(env.childName)'s Schedule", systemImage: "calendar")
             })
             
             Section(header: Text("Activities"), content: {
                 
-                NavigationLink(destination: ActivitiesLibraryView(), label: {
-                    Label("Activities Library", systemImage: "books.vertical")
+                NavigationLink(destination: ActivitiesLibraryView(env: env), label: {
+                    Label("All Activities", systemImage: "")
                 })
                 
-                ForEach(categories, id: \.self) { category in
-                    NavigationLink(destination: ActivitiesLibraryView(), label: {
-                        Label("\(category)", systemImage: Activity.getSystemImage(from: category))
+                ForEach(env.categories, id: \.self) { category in
+                    NavigationLink(destination: ActivitiesByCategoryView(category: category, activities: activitiesManager.getActivitiesByCategory(category: category)), label: {
+                        Label("\(category)", systemImage: "")
                     })
                 }
                                 

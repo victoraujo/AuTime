@@ -21,6 +21,7 @@ class AppEnvironment: ObservableObject {
     @Published var scheduleIsOpen: Bool = false    
     @Published var activitiesLibraryIsOpen: Bool = false
     
+    @Published var categories: [String] = ["Education", "Health", "Premium"]
     @Published var parentColorTheme: Color = .blue
     @Published var childColorTheme: Color = .greenColor
     @Published var parentControlPassword = "senha"
