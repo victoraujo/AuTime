@@ -22,12 +22,14 @@ struct NativeSideBarView: View {
             Section(header: Text("Activities"), content: {
                 
                 NavigationLink(destination: ActivitiesLibraryView(env: env), label: {
-                    Label("All Activities", systemImage: "")
+                    //Label("All Activities", systemImage: "")
+                    Text("All Activities")
                 })
                 
                 ForEach(env.categories, id: \.self) { category in
                     NavigationLink(destination: ActivitiesByCategoryView(category: category, activities: activitiesManager.getActivitiesByCategory(category: category)), label: {
-                        Label("\(category)", systemImage: "")
+                        //Label("\(category)", systemImage: "")
+                        Text("\(category)")
                     })
                 }
                                 

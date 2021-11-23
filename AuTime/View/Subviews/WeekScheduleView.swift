@@ -14,92 +14,58 @@ struct WeekScheduleView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .center){
-                Spacer()
-                
-                ScrollView(.vertical) {
-                    VStack(alignment: .center, spacing: 0.05*UIScreen.main.bounds.height){
-                        
-                        ForEach(Array(self.activitiesManager.todayActivities.enumerated()), id: \.offset) {  index, activity in
-                            HStack(alignment: .center) {
-                                
-                                Spacer()
-                                
-                                Text("\(DateHelper.getHoursAndMinutes(from: activity.time))")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.black90Color)
-                                    .padding(.vertical)
-                                
-                                Spacer()
-                                
-                                ActivityView(activity: activity, colorTheme: env.parentColorTheme)
-                                    .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
-                                    .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
-                                    .padding()
-                                
-                                Spacer()
-                                
-                                VStack(alignment: .leading) {
-                                    HStack (alignment: .center){
-                                        Text("⏰")
-                                            .font(.system(size: 0.04*geometry.size.width))
-                                            .padding()
-                                            .opacity(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? 1 : 0)
-                                        
-                                        VStack (alignment: .leading){
-                                            Text("Completion time")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? .black90Color : .clear)
-                                                .font(.callout)
-                                                .fontWeight(.regular)
-                                            
-                                            Text(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? "\(DateHelper.getHoursAndMinutes(from: activity.lastCompletionDate()))" : "")
-                                                .foregroundColor(.black100Color)
-                                                .font(.title3)
-                                                .fontWeight(.bold)
-                                        }
-                                    }
-                                    
-                                    HStack (alignment: .center){
-                                        Activity.getFeedbackEmoji(from: activity.lastCompletionFeedback())
-                                            .font(.system(size: 0.04*geometry.size.width))
-                                            .padding()
-                                            .opacity(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? 1 : 0)
-                                        
-                                        VStack (alignment: .leading){
-                                            Text("Emotion feedback")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? .black90Color : .clear)
-                                                .font(.callout)
-                                                .fontWeight(.regular)
-                                            
-                                            Text(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? activity.lastCompletionFeedback() : "")
-                                                .foregroundColor(DateHelper.datesMatch(Date(), activity.lastCompletionDate()) ? .black100Color : .clear)
-                                                .font(.title3)
-                                                .fontWeight(.bold)
-                                        }
-                                    }
-                                    
-                                }
-                                .padding()
-                                
-                                Spacer()
-                                
-                            }
-                            .id(index)
+                ScrollView(.vertical, showsIndicators: false) {
+                    ForEach(0..<7, id: \.self){ dayCount in
+                        HStack{
+                            Text(DateHelper.getDateString(from: DateHelper.addNumberOfDaysToDate(date: Date(), count: dayCount)))
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding([.top,.leading])
+                                .foregroundColor(.black)
+                            Spacer()
                         }
-                        
-                        Rectangle()
-                            .frame(width: 314, height: 252, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            .foregroundColor(.clear)
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack{
+                                let weekActivities = self.activitiesManager.weekActivities[DateHelper.dayWeekIndex(offset: dayCount)]
+                                
+                                ForEach(weekActivities){ activity in
+                                    VStack(alignment: .leading){
+                                        ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.2, height: geometry.size.height*0.2, alignment: . center)
+                                        Text(activity.category.uppercased())
+                                            .font(.subheadline)
+                                            .foregroundColor(.black90Color)
+                                            .bold()
+                                        
+                                        HStack(alignment: .center){
+                                            Text(activity.name)
+                                                .font(.title3)
+                                                .bold()
+                                            Spacer()
+                                            Text(DateHelper.getHoursAndMinutes(from: activity.time))
+                                                .font(.body)
+                                                .foregroundColor(.black90Color)
+                                        }
+                                        
+                                        HStack(alignment: .center){
+                                            Text("\(activity.stepsCount) steps")
+                                                .font(.body)
+                                                .foregroundColor(.black90Color)
+                                            Spacer()
+                                            Text(activity.lastCompletionFeedback())
+                                                .font(.body)
+                                                .foregroundColor(.black90Color)
+                                                .opacity(DateHelper.datesMatch(activity.lastCompletionDate(), Date()) ? 1 : 0)
+                                        }                                        
+                                    }
+                                    .padding()
+                                }
+                            }
+                        }.padding(.bottom)
                     }
-                    .padding()
+                    
+                    Spacer()
                 }
             }
         }
-    }
-}
-
-struct WeekScheduleView_Previews: PreviewProvider {
-    static var previews: some View {
-        WeekScheduleView()
     }
 }
