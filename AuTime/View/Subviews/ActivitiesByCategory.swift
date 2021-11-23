@@ -22,7 +22,7 @@ struct ActivitiesByCategoryView: View {
                     ScrollView(.vertical) {
                         LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], alignment: .leading, spacing: geometry.size.width*0.05, pinnedViews: [], content: {
                             
-                            ForEach(activities.sorted(by: { $0.name < $1.name })){ activity in
+                            ForEach(activities.sorted(by: { $0.name.uppercased() < $1.name.uppercased() })){ activity in
                                 VStack(alignment: .leading){
                                     ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.275, height: geometry.size.height*0.275, alignment: . center)
                                     Text(activity.name)

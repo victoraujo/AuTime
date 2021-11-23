@@ -28,7 +28,7 @@ struct ActivitiesLibraryView: View {
                     }
                     ScrollView(.horizontal){
                         HStack{
-                            ForEach(activitiesVM.activities.sorted(by: { $0.name < $1.name })){ activity in
+                            ForEach(activitiesVM.activities.sorted(by: { $0.name.uppercased() < $1.name.uppercased() })){ activity in
                                 VStack(alignment: .leading){
                                     ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.3, height: geometry.size.height*0.3, alignment: . center)
                                     Text(activity.category)
