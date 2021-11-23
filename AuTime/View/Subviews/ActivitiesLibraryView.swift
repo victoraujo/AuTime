@@ -18,7 +18,7 @@ struct ActivitiesLibraryView: View {
         GeometryReader{ geometry in
             VStack{
                 SearchBar(text: .constant(""))
-                ScrollView(.vertical){
+                ScrollView(.vertical, showsIndicators: false){
                     HStack{
                         Text("All activities")
                             .font(.title)
@@ -26,7 +26,7 @@ struct ActivitiesLibraryView: View {
                             .padding([.top,.leading])
                         Spacer()
                     }
-                    ScrollView(.horizontal){
+                    ScrollView(.horizontal, showsIndicators: false){
                         HStack{
                             ForEach(activitiesVM.activities.sorted(by: { $0.name.uppercased() < $1.name.uppercased() })){ activity in
                                 VStack(alignment: .leading){
@@ -41,7 +41,7 @@ struct ActivitiesLibraryView: View {
                                 .padding()
                             }
                         }                        
-                    }.padding([.leading, .bottom])
+                    }.padding(.bottom)
                     
                     ForEach(env.categories, id: \.self){ category in
                         HStack{
@@ -51,7 +51,7 @@ struct ActivitiesLibraryView: View {
                                 .padding([.top,.leading])
                             Spacer()
                         }
-                        ScrollView(.horizontal){
+                        ScrollView(.horizontal, showsIndicators: false){
                             HStack{
                                 ForEach(activitiesVM.activities.filter{ $0.category.elementsEqual(category)}){ activity in
                                     VStack(alignment: .leading){
@@ -64,7 +64,7 @@ struct ActivitiesLibraryView: View {
                                     .padding()
                                 }
                             }
-                        }.padding([.leading, .bottom])
+                        }.padding(.bottom)
                     }
                     
                     Spacer()
