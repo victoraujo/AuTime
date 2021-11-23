@@ -45,7 +45,7 @@ struct ScheduleView: View {
                                 Spacer()
                                 
                                 ActivityView(activity: activity, colorTheme: env.parentColorTheme)
-                                    .frame(width: UIScreen.main.bounds.width*0.325, height: UIScreen.main.bounds.height*0.325, alignment: .center)
+                                    .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
                                     .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))
                                     .padding()
                                 
@@ -110,9 +110,9 @@ struct ScheduleView: View {
             .padding(.horizontal)
             
         }
-        .navigationTitle("João's Schedule")
+        .navigationTitle("\(env.childName)'s Schedule")
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
+            ToolbarItem(placement: .automatic) {
                 Button("Add Activity") {
                     print("Add activity on schedule!")
                 }

@@ -152,7 +152,7 @@ struct SubActivitiesView: View {
                                     
                                 }
                                 
-                                Text("João")
+                                Text("\(env.childName)")
                                     .foregroundColor(.white)
                                     .font(.title3)
                                     .fontWeight(.bold)
@@ -255,7 +255,7 @@ struct SubActivitiesView: View {
                         HStack(alignment: .center) {
                             
                             Button(action: {
-                                self.env.showSubActivities = false
+                                self.env.isShowingSubActivities = false
                             }, label: {
                                 Text("Back")
                                     .foregroundColor(.black100Color)

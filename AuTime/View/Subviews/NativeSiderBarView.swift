@@ -10,23 +10,27 @@ import UIKit
 
 struct NativeSideBarView: View {
     @ObservedObject var env: AppEnvironment
-    var colorTheme: Color = .blue
-    
+    @ObservedObject var activitiesManager: ActivityViewModel = ActivityViewModel.shared
+     
     var body: some View {
         
         List {
             NavigationLink(destination: ScheduleView(_env: _env), label: {
-                Label("Schedule", systemImage: "calendar")
+                Label("\(env.childName)'s Schedule", systemImage: "calendar")
             })
             
-            NavigationLink(destination: ActivitiesLibraryView(), label: {
-                Label("Activities Library", systemImage: "book")
-            })
-            
-            Button(action: {
-                env.isShowingChangeProfile = true
-            }, label: {
-                Label("Change profile", systemImage: "person.crop.circle")
+            Section(header: Text("Activities"), content: {
+                
+                NavigationLink(destination: ActivitiesLibraryView(env: env), label: {
+                    Label("All Activities", systemImage: "")
+                })
+                
+                ForEach(env.categories, id: \.self) { category in
+                    NavigationLink(destination: ActivitiesByCategoryView(category: category, activities: activitiesManager.getActivitiesByCategory(category: category)), label: {
+                        Label("\(category)", systemImage: "")
+                    })
+                }
+                                
             })
         }
         .navigationTitle("Parent's View")
@@ -39,8 +43,18 @@ struct NativeSideBarView: View {
                     return
                 }
             let tableView = UITableView.appearance(whenContainedInInstancesOf: [type(of: sidebarViewController)])
-            tableView.backgroundColor = UIColor(Color.white)            
-        }        
+            tableView.backgroundColor = UIColor(Color.white)
+        }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: {
+                    env.isShowingChangeProfile = true
+                    // env.isShowingProfileSettings = true
+                }, label: {
+                    Image(systemName: "person.circle")
+                })
+            }
+        }
     }
 }
 

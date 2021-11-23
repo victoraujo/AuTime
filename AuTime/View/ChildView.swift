@@ -120,7 +120,7 @@ struct ChildView: View {
                                     
                                 }
                                 
-                                Text("João")
+                                Text("\(env.childName)")
                                     .foregroundColor(.white)
                                     .font(.title3)
                                     .fontWeight(.bold)
@@ -215,7 +215,7 @@ struct ChildView: View {
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             .onAppear {
                 self.activitiesManager.fetchData()
-                self.env.showSubActivities = false
+                self.env.isShowingSubActivities = false
                 self.currentActivityReference = nil
             }
             .onChange(of: self.userManager.session, perform: { _ in
@@ -226,13 +226,13 @@ struct ChildView: View {
             })
             .onChange(of: currentActivityReference, perform: { value in
                 if value != nil {
-                    self.env.showSubActivities = true
+                    self.env.isShowingSubActivities = true
                 } else {
-                    self.env.showSubActivities = false
+                    self.env.isShowingSubActivities = false
                 }
                 
             })
-            .fullScreenCover(isPresented: $env.showSubActivities){
+            .fullScreenCover(isPresented: $env.isShowingSubActivities){
                 SubActivitiesView(env: _env, activity: $currentActivityReference, star: $star)
             }
             

@@ -218,4 +218,8 @@ class ActivityViewModel: ObservableObject {
         return photo
     }
     
+    func getActivitiesByCategory(category: String) -> [Activity] {
+        return self.activities.filter({$0.category == category})                
+    }
+    
 }

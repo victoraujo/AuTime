@@ -56,12 +56,12 @@ struct Activity: Identifiable, Codable, Hashable {
     
     static func getIconImage(from category: String) -> Image {
         switch category {
-        case "Educação":
+        case "Educação", "Education":
             return Image(systemName: "book.fill")
-        case "Alimentação":
-            return Image(systemName: "foof.fill")
-        case "Prêmio":
+        case "Prêmio", "Premium":
             return Image(systemName: "star.fill")
+        case "Health", "Saúde":
+            return Image(systemName: "heart.fill")
         default:
             return Image(systemName: "heart.fill")
         }
@@ -78,8 +78,21 @@ struct Activity: Identifiable, Codable, Hashable {
         case "Joyful":
             return Text("😁")
         default:
-            return Text("")
+            return Text("😐")
 
+        }
+    }
+    
+    static func getSystemImage(from category: String) -> String {
+        switch category {
+        case "Education", "Educação":
+            return "book"
+        case "Premium", "Prêmio":
+            return "star"
+        case "Health", "Saúde":
+            return "heart"
+        default:
+            return "star"
         }
     }
     
