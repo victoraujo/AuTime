@@ -30,6 +30,7 @@
 		3EECA7532732FB9700181E1F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA7522732FB9700181E1F /* RootView.swift */; };
 		3EECA7552732FBDE00181E1F /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA7542732FBDE00181E1F /* AppEnvironment.swift */; };
 		3EEF66CF274D1B1D00423E73 /* DailyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEF66CE274D1B1D00423E73 /* DailyScheduleView.swift */; };
+		3EF01E8E274FD79800D735AF /* DailyActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF01E8D274FD79800D735AF /* DailyActivityView.swift */; };
 		5708DA5526B4342B007DFB66 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708DA5426B4342B007DFB66 /* ParentView.swift */; };
 		57218E2126A5B25000D8F1E2 /* AuTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218E2026A5B25000D8F1E2 /* AuTimeApp.swift */; };
 		57218E2326A5B25000D8F1E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218E2226A5B25000D8F1E2 /* ContentView.swift */; };
@@ -75,6 +76,7 @@
 		3EECA7522732FB9700181E1F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		3EECA7542732FBDE00181E1F /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		3EEF66CE274D1B1D00423E73 /* DailyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleView.swift; sourceTree = "<group>"; };
+		3EF01E8D274FD79800D735AF /* DailyActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyActivityView.swift; sourceTree = "<group>"; };
 		5708DA5426B4342B007DFB66 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
 		57218E1D26A5B25000D8F1E2 /* AuTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57218E2026A5B25000D8F1E2 /* AuTimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuTimeApp.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				3EE441C22747DD69003E6305 /* NewActivityView.swift */,
 				3EEF66CE274D1B1D00423E73 /* DailyScheduleView.swift */,
 				3E6D9C8B274D1E3E00050491 /* WeekScheduleView.swift */,
+				3EF01E8D274FD79800D735AF /* DailyActivityView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				5779035426A5B4D800D856BD /* Activity.swift in Sources */,
 				577CCA7926BABA45006B7A9C /* CreateActivityView.swift in Sources */,
 				57A2F2F726AAEC12000A75AD /* SubActivity.swift in Sources */,
+				3EF01E8E274FD79800D735AF /* DailyActivityView.swift in Sources */,
 				3E1D23DE26C1EE3A0055D3EC /* FeedbackChildView.swift in Sources */,
 				3E8E53CC26B44E0000D3853F /* DailyActivitiesView.swift in Sources */,
 				3ED8D18226B0565D00B50A94 /* PremiumActivityView.swift in Sources */,
