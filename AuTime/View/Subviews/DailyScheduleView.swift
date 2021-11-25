@@ -20,7 +20,7 @@ struct DailyScheduleView: View {
                             .frame(width: geometry.size.width, height: geometry.size.width*0.425, alignment: .center)
                             .padding()
                     }
-                    
+                    .padding(.top)
                 }
             }
         }
