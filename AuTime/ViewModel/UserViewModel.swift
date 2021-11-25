@@ -25,7 +25,6 @@ class UserViewModel: ObservableObject {
     }
     
     func listen(){
-        print("Listening User")
         handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
             if let user = user {
                 self.session = UserSession(uid: user.uid, email: user.email)
@@ -43,7 +42,6 @@ class UserViewModel: ObservableObject {
             if let error = error {
                 print(error.localizedDescription)
             } else {
-                print("Signed Up!")
                 self.createUser()
             }
         })
@@ -55,7 +53,6 @@ class UserViewModel: ObservableObject {
                 print(error.localizedDescription)
             } else{
                 self.logged = true
-                print("Signed In!")
             }
         })
     }
@@ -63,7 +60,7 @@ class UserViewModel: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
-            print("Logged out!")
+            self.logged = false
         } catch let error {
             print("Logout error: \(error.localizedDescription)")
         }
@@ -78,7 +75,7 @@ class UserViewModel: ObservableObject {
     }
     
     func isLogged() -> Bool {
-        return logged//(Auth.auth().currentUser?.isEmailVerified ?? false)
+        return logged
     }
     
 }
