@@ -45,4 +45,20 @@ class AppEnvironment: ObservableObject {
             profile = .child
         }
     }
+    
+    func updateProfile(childName: String? = nil, parentName: String? = nil, parentControlPassword: String? = nil) {
+        if let child = childName {
+            self.childName = child
+        }
+        
+        if let parent = parentName {
+            self.parentName = parent
+        }
+        
+        if let password = parentControlPassword {
+            self.parentControlPassword = password
+        }
+        
+        
+    }
 }
