@@ -31,6 +31,7 @@
 		3EECA7552732FBDE00181E1F /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EECA7542732FBDE00181E1F /* AppEnvironment.swift */; };
 		3EEF66CF274D1B1D00423E73 /* DailyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEF66CE274D1B1D00423E73 /* DailyScheduleView.swift */; };
 		3EF01E8E274FD79800D735AF /* DailyActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF01E8D274FD79800D735AF /* DailyActivityView.swift */; };
+		3EEEE54627515CA100A2EB9F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEEE54527515CA100A2EB9F /* ProfileView.swift */; };
 		5708DA5526B4342B007DFB66 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708DA5426B4342B007DFB66 /* ParentView.swift */; };
 		57218E2126A5B25000D8F1E2 /* AuTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218E2026A5B25000D8F1E2 /* AuTimeApp.swift */; };
 		57218E2326A5B25000D8F1E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218E2226A5B25000D8F1E2 /* ContentView.swift */; };
@@ -77,6 +78,7 @@
 		3EECA7542732FBDE00181E1F /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		3EEF66CE274D1B1D00423E73 /* DailyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleView.swift; sourceTree = "<group>"; };
 		3EF01E8D274FD79800D735AF /* DailyActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyActivityView.swift; sourceTree = "<group>"; };
+		3EEEE54527515CA100A2EB9F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5708DA5426B4342B007DFB66 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
 		57218E1D26A5B25000D8F1E2 /* AuTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57218E2026A5B25000D8F1E2 /* AuTimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuTimeApp.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				3EEF66CE274D1B1D00423E73 /* DailyScheduleView.swift */,
 				3E6D9C8B274D1E3E00050491 /* WeekScheduleView.swift */,
 				3EF01E8D274FD79800D735AF /* DailyActivityView.swift */,
+				3EEEE54527515CA100A2EB9F /* ProfileView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				3E070DC926BF3C6600A0AA6C /* BlurEffect.swift in Sources */,
 				3EC6F3B6274543790048458C /* ChangeProfileView.swift in Sources */,
 				57A2F2F926AAECFD000A75AD /* SubActivityViewModel.swift in Sources */,
+				3EEEE54627515CA100A2EB9F /* ProfileView.swift in Sources */,
 				57218E2326A5B25000D8F1E2 /* ContentView.swift in Sources */,
 				57218E2126A5B25000D8F1E2 /* AuTimeApp.swift in Sources */,
 				5779035426A5B4D800D856BD /* Activity.swift in Sources */,

@@ -11,12 +11,22 @@ struct ParentView: View {
     @ObservedObject var userManager = UserViewModel.shared
     @ObservedObject var env: AppEnvironment
     
+    @State var isShowingProfileSettings: Bool = false
+    
     var body: some View {
         GeometryReader{ geometry in
             NavigationView{
                 NativeSideBarView(_env: _env)
                 ScheduleView(_env: _env)
-            }.accentColor(env.parentColorTheme)
+            }
+            .accentColor(env.parentColorTheme)
+            .sheet(isPresented: $isShowingProfileSettings, content: {
+                ProfileView(env: env)
+            })
+            .onChange(of: env.isShowingProfileSettings, perform: { value in
+                self.isShowingProfileSettings = value
+                
+            })
         }
     }
 }
