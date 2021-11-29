@@ -14,6 +14,11 @@ struct ProfileView: View {
     @State var parentName: String = ""
     @State var childName: String = ""
     @State var parentEmail: String = ""
+    
+    @State var currentPassword: String = ""
+    @State var newPassword: String = ""
+    @State var confirmPassword: String = ""
+    
     @State var showEmptyFieldAlert: Bool = false
     
     var body: some View {
@@ -27,7 +32,6 @@ struct ProfileView: View {
                             Image(uiImage: env.parentPhoto)
                                 .resizable()
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
-                                .padding()
                                 .clipShape(Circle())
                             
                             Text("\(env.parentName)")
@@ -41,7 +45,6 @@ struct ProfileView: View {
                             Image(uiImage: env.childPhoto)
                                 .resizable()
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
-                                .padding()
                                 .clipShape(Circle())
                             
                             Text("\(env.childName)")
@@ -50,20 +53,19 @@ struct ProfileView: View {
                         }
                         
                         Spacer()
-                    }
-                    .padding()
+                    }                    
                     
                     List {
                         Section{
                             NavigationLink(destination: {
                                 VStack {
                                     Form {
-                                        Section(header: Text("Parent Name"), content: {
-                                            TextField("Parent Name", text: $parentName)
+                                        Section(header: Text("Nome do Responsável"), content: {
+                                            TextField("Responsável", text: $parentName)
                                         })
                                         
-                                        Section(header: Text("Child Name"), content: {
-                                            TextField("Child Name", text: $childName)
+                                        Section(header: Text("Nome da Criança"), content: {
+                                            TextField("Criança", text: $childName)
                                         })
                                         
                                     }
@@ -72,8 +74,12 @@ struct ProfileView: View {
                                     self.parentName = env.parentName
                                     self.childName = env.childName
                                 }
-                                .navigationTitle("Names")
                                 .toolbar(content: {
+                                    ToolbarItem(placement: ToolbarItemPlacement.principal) {
+                                        Text("Nomes")
+                                            .bold()
+                                    }
+                                    
                                     ToolbarItem(placement: ToolbarItemPlacement.automatic) {
                                         Button(action: {
                                             if childName != "" && parentName != "" {
@@ -82,22 +88,62 @@ struct ProfileView: View {
                                                 self.showEmptyFieldAlert = true
                                             }
                                         }, label: {
-                                            Text("SAVE")
+                                            Text("Salvar")
                                                 .bold()
                                         })
-                                            .alert(isPresented: $showEmptyFieldAlert) { () -> Alert in
-                                                Alert(title: Text("Empty Fields"), message: Text("You must fill all the fields to change your profile informations"), dismissButton: .default(Text("OK")))
-                                            }
+                                        .alert(isPresented: $showEmptyFieldAlert) { () -> Alert in
+                                            Alert(title: Text("Campos Vazios"), message: Text("Você deve preencher todos os campos para poder alterar as suas informações pessoais."), dismissButton: .default(Text("OK")))
+                                        }
                                     }
                                 })
                             }, label: {
-                                Text("Names")
+                                Text("Nomes")
                             })
                             
                             NavigationLink(destination: {
-                                Text("Senhasss")
+                                VStack {
+                                    Form {
+                                        Section(header: Text("Senhas"), content: {
+                                            TextField("Senha Atual", text: $currentPassword)
+                                            TextField("Nova Senha", text: $newPassword)
+                                            TextField("Confirmar Senha", text: $confirmPassword)
+                                        })
+                                        
+                                    }
+                                }
+                                .onDisappear {
+                                    self.currentPassword = ""
+                                    self.newPassword = ""
+                                    self.confirmPassword = ""
+                                }
+                                .toolbar(content: {
+                                    ToolbarItem(placement: ToolbarItemPlacement.principal) {
+                                        Text("Alterar Senha")
+                                            .bold()
+                                    }
+                                    
+                                    ToolbarItem(placement: ToolbarItemPlacement.automatic) {
+                                        Button(action: {
+                                            if  currentPassword != "" && newPassword != "" && confirmPassword != "" {
+                                                // if currentPassword == SENHA {
+                                                //  CHANGE PASSWORD
+                                                // } else {
+                                                //  show POP-UP for wrong password
+                                                // }
+                                            } else {
+                                                self.showEmptyFieldAlert = true
+                                            }
+                                        }, label: {
+                                            Text("Alterar")
+                                                .bold()
+                                        })
+                                        .alert(isPresented: $showEmptyFieldAlert) { () -> Alert in
+                                            Alert(title: Text("Campos Vazios"), message: Text("Você deve preencher todos os campos para poder alterar as suas informações pessoais."), dismissButton: .default(Text("OK")))
+                                        }
+                                    }
+                                })
                             }, label: {
-                                Text("Passwords")
+                                Text("Senhas")
                             })
                         }
                         
@@ -106,7 +152,7 @@ struct ProfileView: View {
                                 env.isShowingProfileSettings = false
                                 userManager.signOut()
                             }, label: {
-                                Text("Sign Out")
+                                Text("Finalizar Sessão")
                                     .foregroundColor(.blue)
                             })
                         }
@@ -116,7 +162,7 @@ struct ProfileView: View {
                                 env.isShowingProfileSettings = false
                                 userManager.signOut()
                             }, label: {
-                                Text("Delete Account")
+                                Text("Excluir Conta")
                                     .foregroundColor(.red)
                             })
                         }
@@ -127,7 +173,7 @@ struct ProfileView: View {
                         env.isShowingProfileSettings = false
                         env.changeProfile()
                     }, label: {
-                        Text("Change Profile")
+                        Text("Alterar Perfil")
                             .font(.title3)
                             .fontWeight(.bold)
                             .padding()
@@ -152,7 +198,7 @@ struct ProfileView: View {
                     }
                     
                     ToolbarItem(placement: ToolbarItemPlacement.principal) {
-                        Text("Profile")
+                        Text("Perfil")
                             .font(.title2)
                             .bold()
                     }
