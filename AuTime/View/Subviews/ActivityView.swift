@@ -14,7 +14,6 @@ struct ActivityView: View {
     @State var image: UIImage = UIImage()
     
     var activity: Activity
-    var subActivitiesCount: Int = 0
     var colorTheme: Color
     var IconImage: Image
     
@@ -29,7 +28,6 @@ struct ActivityView: View {
         }
         
         self.image = self.imageManager.imageView.image ?? UIImage()
-        self.subActivitiesCount = self.activity.stepsCount
     }
     
     var body: some View {
@@ -75,7 +73,7 @@ struct ActivityView: View {
                             .fontWeight(.bold)
                             .foregroundColor(colorTheme)
                         
-                        Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "No") subactivit\(subActivitiesCount > 1 ? "ies" : "y")")
+                        Text("\(activity.stepsCount > 0 ? String(activity.stepsCount) : "No") subactivit\(activity.stepsCount > 1 ? "ies" : "y")")
                             .font(.subheadline)
                             .fontWeight(.bold)
                             .foregroundColor(.black90Color)
