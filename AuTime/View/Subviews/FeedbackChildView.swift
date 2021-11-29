@@ -18,7 +18,7 @@ struct FeedbackChildView: View {
     @Binding var star: Int
     var currentActivity: Activity
     
-    let emotions: [String] = ["Upset", "Sad", "Happy"]
+    let emotions: [String] = ["Irritado", "Triste", "Feliz"]
     
     var body: some View {
         GeometryReader { geometry in
@@ -29,7 +29,7 @@ struct FeedbackChildView: View {
                     
                     if showEmotions {
                     
-                        Text("\(env.childName), how are you feeling?")
+                        Text("\(env.childName), como você está se sentindo?")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.black100Color)
@@ -66,14 +66,14 @@ struct FeedbackChildView: View {
                         }
                         .padding()
                     } else if currentActivity.generateStar {
-                        Text("Congratulations!")
+                        Text("Parabéns!")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(.pinkColor)
                             .multilineTextAlignment(.center)
                             .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             
-                        Text("you have won a star for being so brave!")
+                        Text("você ganhou uma estrela por ter sido tão dedicado!")
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.black100Color)
@@ -88,14 +88,14 @@ struct FeedbackChildView: View {
                             .frame(width: 0.3*geometry.size.width, height: 0.3*geometry.size.height, alignment: .center)
                             .padding()
                     } else {
-                        Text("Congratulations!")
+                        Text("Parabéns!")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(.pinkColor)
                             .multilineTextAlignment(.center)
                             .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             
-                        Text("you have completed an activity")
+                        Text("você completou uma atividade")
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.black100Color)
@@ -133,7 +133,7 @@ struct FeedbackChildView: View {
                             }
                             
                         }, label: {
-                            Text("Confirm")
+                            Text("Confirmar")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .padding()
@@ -160,7 +160,7 @@ struct FeedbackChildView: View {
                                 self.env.isShowingSubActivities = false
                             }
                         }, label: {
-                            Text(showEmotions ? "Skip" : "Exit")
+                            Text(showEmotions ? "Pular" : "Sair")
                                 .font(.title3)
                                 .fontWeight(.bold)
                                 .foregroundColor(env.childColorTheme)

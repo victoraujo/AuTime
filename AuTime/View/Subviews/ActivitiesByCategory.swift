@@ -27,7 +27,7 @@ struct ActivitiesByCategoryView: View {
                                     ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.275, height: geometry.size.height*0.275, alignment: . center)
                                     Text(activity.name)
                                         .font(.title3)
-                                    Text("\(activity.stepsCount) steps")
+                                    Text("\(activity.stepsCount) passos")
                                         .foregroundColor(.gray)
                                 }
                             }
@@ -45,7 +45,7 @@ struct ActivitiesByCategoryView: View {
                     Button(action: {
                         showingPopover = true
                     }, label: {
-                        Text("Create activity")
+                        Text("Criar Atividade")
                     })
                 }
                 

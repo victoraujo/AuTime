@@ -20,14 +20,13 @@ struct NativeSideBarView: View {
         
         List {
             NavigationLink(destination: ScheduleView(_env: _env), label: {
-                Label("\(env.childName)'s Schedule", systemImage: "calendar")
+                Label("Cronograma de \(env.childName)", systemImage: "calendar")
             })
             
-            Section(header: Text("Activities"), content: {
+            Section(header: Text("Atividades"), content: {
                 
                 NavigationLink(destination: ActivitiesLibraryView(env: env), label: {
-                    //Label("All Activities", systemImage: "")
-                    Text("All Activities")
+                    Label("Todas Atividades", systemImage: "")
                 })
                 
                 ForEach(env.categories, id: \.self) { category in
@@ -39,7 +38,7 @@ struct NativeSideBarView: View {
                 
             })
         }
-        .navigationTitle("Parent's View")
+        .navigationTitle("Página do Responsável")
         .listStyle(SidebarListStyle())
         .onAppear {
             let rootViewController = UIApplication.shared.windows.first { $0.isKeyWindow }!.rootViewController

@@ -34,19 +34,19 @@ struct ScheduleView: View {
             }
             
         }
-        .navigationTitle("\(env.childName)'s Schedule")
+        .navigationTitle("Cronograma de \(env.childName)")
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button("Add Activity") {
-                    print("Add activity on schedule!")
+                Button("Adicionar Atividade") {
+                    print("Adicionar atividade ao cronograma")
                 }
             }
             
             ToolbarItem(placement: ToolbarItemPlacement.principal) {
                 VStack {
                     Picker("Visualization", selection: $visualization) {
-                        Text("Today").tag(ScheduleViewMode.today)
-                        Text("Week").tag(ScheduleViewMode.week)
+                        Text("Hoje").tag(ScheduleViewMode.today)
+                        Text("Semana").tag(ScheduleViewMode.week)
                     }
                     .pickerStyle(.segmented)
                 }

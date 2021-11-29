@@ -14,14 +14,14 @@ struct ChangeProfileView: View {
     @State var passwordText: String = ""
     @State var errorMessage: String = ""
         
-    var childMessage = "Enter password to get access for parent control."
-    var parentMessage = "Are you sure you want to switch to child's profile?"
+    var childMessage = "Insira a senha para acessar a Página do Responsável"
+    var parentMessage = "Você tem certeza que deseja ir para a Página de \(self.env.childName)?"
     
     init(env: ObservedObject<AppEnvironment>) {
         self._env = env
         
-        childMessage = "Enter password to get access for parent control."
-        parentMessage = "Are you sure you want to switch to \(self.env.childName)'s profile?"
+        childMessage = "Insira a senha para acessar a Página do Responsável"
+        parentMessage = "Você tem certeza que deseja ir para a Página de \(self.env.childName)?"
     }
     
     var body: some View {
@@ -30,7 +30,7 @@ struct ChangeProfileView: View {
                 VStack (alignment: .center) {
                     Spacer()
                     
-                    Text("Change Profile")
+                    Text("Trocar Perfil")
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.black100Color)
@@ -51,14 +51,14 @@ struct ChangeProfileView: View {
                         VStack {
                             HStack(alignment: .center) {
                                 if showPassword {
-                                    TextField("  Password", text: $passwordText)
+                                    TextField("  Senha", text: $passwordText)
                                         .frame(width: 0.6*geometry.size.width, height: 40, alignment: .center)
                                         .border(env.childColorTheme)
                                         .cornerRadius(5)
                                         .padding()
                                     
                                 } else {
-                                    SecureField("  Password", text: $passwordText)
+                                    SecureField("  Senha", text: $passwordText)
                                         .frame(width: 0.6*geometry.size.width, height: 40, alignment: .center)
                                         .border(env.childColorTheme)
                                         .cornerRadius(5)
@@ -87,7 +87,7 @@ struct ChangeProfileView: View {
                                     env.isShowingChangeProfile = false
                                     env.changeProfile()
                                 } else {
-                                    errorMessage = "Wrong password! Try again."
+                                    errorMessage = "Senha incorreta! Tente novamente"
                                 }
                             } else {
                                 env.isShowingChangeProfile = false
@@ -96,7 +96,7 @@ struct ChangeProfileView: View {
                             }
                             
                         }, label: {
-                            Text("Change Profile")
+                            Text("Trocar Perfil")
                                 .font(.title3)
                                 .fontWeight(.bold)
                                 .padding()
@@ -112,7 +112,7 @@ struct ChangeProfileView: View {
                             passwordText = ""
                             errorMessage = ""
                         }, label: {
-                            Text("Cancel")
+                            Text("Cancelar")
                                 .font(.title3)
                                 .fontWeight(.bold)
                                 .foregroundColor(env.profile == .child ? env.childColorTheme : env.parentColorTheme)

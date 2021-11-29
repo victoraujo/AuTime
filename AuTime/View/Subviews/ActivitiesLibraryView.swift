@@ -20,7 +20,7 @@ struct ActivitiesLibraryView: View {
                 SearchBar(text: .constant(""))
                 ScrollView(.vertical, showsIndicators: false){
                     HStack{
-                        Text("All activities")
+                        Text("Todas Atividades")
                             .font(.title)
                             .fontWeight(.bold)
                             .padding([.top,.leading])
@@ -35,7 +35,7 @@ struct ActivitiesLibraryView: View {
                                         .foregroundColor(.gray)
                                     Text(activity.name)
                                         .font(.title3)
-                                    Text("\(activity.stepsCount) steps")
+                                    Text("\(activity.stepsCount) passos")
                                         .foregroundColor(.gray)
                                 }
                                 .padding()
@@ -58,7 +58,7 @@ struct ActivitiesLibraryView: View {
                                         ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.2, height: geometry.size.height*0.2, alignment: . center)
                                         Text(activity.name)
                                             .font(.title3)
-                                        Text("\(activity.stepsCount) steps")
+                                        Text("\(activity.stepsCount) passos")
                                             .foregroundColor(.gray)
                                     }
                                     .padding()
@@ -71,7 +71,7 @@ struct ActivitiesLibraryView: View {
                 }
                 
             }
-            .navigationTitle("Activities Library")
+            .navigationTitle("Biblioteca de Atividades")
             .toolbar {
                 
                 ToolbarItem(placement: ToolbarItemPlacement.automatic) {
@@ -79,7 +79,7 @@ struct ActivitiesLibraryView: View {
                         showingPopover = true
                         //                        ActivityViewModel.shared.createActivity(category: "Teste", completions: [Completion(date: Date(), feedback: "Opa")], star: false, name: "Testinho 2", days: [1,2,3,4,5,6,7], steps: 2, time: Date(), handler: {})
                     }, label: {
-                        Text("Create activity")
+                        Text("Criar Atividade")
                     })
                 }
                 

@@ -49,7 +49,7 @@ struct ActivityView: View {
                             .frame(height: 0.05*UIScreen.main.bounds.height, alignment: .center)
                             .foregroundColor(.white)
                         
-                        Text("Activity completed!")
+                        Text("Atividade Completa!")
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
