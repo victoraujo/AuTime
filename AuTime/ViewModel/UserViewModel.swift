@@ -13,10 +13,11 @@ class UserViewModel: ObservableObject {
     public static var shared = UserViewModel()
     
     @Published var session: UserSession? {didSet {self.didChange.send(self)}}
+    @Published var profileInfo: Profile = Profile()
     @Published var logged = false
     
     var db = Firestore.firestore()
-
+    
     var didChange = PassthroughSubject<UserViewModel, Never>()
     var handle: AuthStateDidChangeListenerHandle?
     
@@ -66,7 +67,7 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func createUser() {        
+    func createUser() {
         if let session = self.session {
             self.db.collection("users").document(session.email!).setData([
                 "emails": [session.email!]
@@ -76,6 +77,50 @@ class UserViewModel: ObservableObject {
     
     func isLogged() -> Bool {
         return logged
+    }
+    
+    func updateProfile(parentName: String? = nil, childName: String? = nil)  {
+        var fields: [String:String] = [:]
+        
+        if let docId = self.session?.email {
+            if let parentName = parentName {
+                fields["parentName"] = parentName
+            }
+            
+            if let childName = childName {
+                fields["childName"] = childName
+            }
+            
+            self.db.collection("users").document(docId).updateData(fields, completion: { _ in
+                do {
+                    self.profileInfo = try JSONDecoder().decode(Profile.self, from: JSONSerialization.data(withJSONObject: fields))
+                } catch {
+                    print("Erro ao atualizar info de perfil!")
+                }
+            })
+        }
+    }
+    
+}
+
+struct Profile: Codable {
+    var childName: String
+    var parentName: String
+
+    init() {
+        self.childName = "João"
+        self.parentName = "Rilda"
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case childName
+        case parentName
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.childName = try container.decode(String.self, forKey: .childName)
+        self.parentName = try container.decode(String.self, forKey: .parentName)
     }
     
 }

@@ -83,7 +83,7 @@ struct ProfileView: View {
                                     ToolbarItem(placement: ToolbarItemPlacement.automatic) {
                                         Button(action: {
                                             if childName != "" && parentName != "" {
-                                                env.updateProfile(childName: childName, parentName: parentName)
+                                                userManager.updateProfile(parentName: parentName, childName: childName)
                                             } else {
                                                 self.showEmptyFieldAlert = true
                                             }
