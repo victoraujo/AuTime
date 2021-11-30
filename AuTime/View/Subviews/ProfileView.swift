@@ -9,8 +9,9 @@ import SwiftUI
 
 struct ProfileView: View {
     @ObservedObject var env: AppEnvironment
+    @ObservedObject var profileManager: ProfileViewModel = ProfileViewModel.shared
     @ObservedObject var userManager: UserViewModel = UserViewModel.shared
-    
+        
     @State var parentName: String = ""
     @State var childName: String = ""
     @State var parentEmail: String = ""
@@ -34,7 +35,7 @@ struct ProfileView: View {
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
                                 .clipShape(Circle())
                             
-                            Text("\(env.parentName)")
+                            Text("\(profileManager.getParentName())")
                                 .font(.title3)
                                 .bold()
                         }
@@ -47,7 +48,7 @@ struct ProfileView: View {
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
                                 .clipShape(Circle())
                             
-                            Text("\(env.childName)")
+                            Text("\(profileManager.getChildName())")
                                 .font(.title3)
                                 .bold()
                         }
@@ -71,8 +72,8 @@ struct ProfileView: View {
                                     }
                                 }
                                 .onDisappear {
-                                    self.parentName = env.parentName
-                                    self.childName = env.childName
+                                    self.parentName = profileManager.getParentName()
+                                    self.childName = profileManager.getChildName()
                                 }
                                 .toolbar(content: {
                                     ToolbarItem(placement: ToolbarItemPlacement.principal) {
@@ -83,7 +84,8 @@ struct ProfileView: View {
                                     ToolbarItem(placement: ToolbarItemPlacement.automatic) {
                                         Button(action: {
                                             if childName != "" && parentName != "" {
-                                                userManager.updateProfile(parentName: parentName, childName: childName)
+                                                //userManager.updateProfile(parentName: parentName, childName: childName)
+                                                profileManager.updateProfile(parentName: parentName, childName: childName)
                                             } else {
                                                 self.showEmptyFieldAlert = true
                                             }
@@ -207,9 +209,13 @@ struct ProfileView: View {
         }
         .accentColor(env.parentColorTheme)
         .onAppear {
-            self.parentName = env.parentName
-            self.childName = env.childName
+            self.parentName = profileManager.getParentName()
+            self.childName = profileManager.getChildName()
         }
+        .onChange(of: profileManager.profileInfo, perform: { profile in
+            self.parentName = profileManager.getParentName()
+            self.childName = profileManager.getChildName()
+        })
         .onDisappear {
             env.isShowingProfileSettings = false
         }
