@@ -11,7 +11,9 @@ struct ProfileView: View {
     @ObservedObject var env: AppEnvironment
     @ObservedObject var profileManager: ProfileViewModel = ProfileViewModel.shared
     @ObservedObject var userManager: UserViewModel = UserViewModel.shared
-        
+    @ObservedObject var parentImageManager: ImageViewModel = ImageViewModel()
+    @ObservedObject var childImageManager: ImageViewModel = ImageViewModel()
+    
     @State var parentPhoto: UIImage = UIImage()
     @State var childPhoto: UIImage = UIImage()
     
@@ -251,13 +253,33 @@ struct ProfileView: View {
         }
         .onChange(of: profileManager.profileInfo, perform: { profile in
             self.parentName = profileManager.getParentName()
-            self.childName = profileManager.getChildName()                        
+            self.childName = profileManager.getChildName()
+            
+            if let email = userManager.session?.email {
+                let parentPath = "users/\(email)/Profile/parent"
+                self.parentImageManager.downloadImage(from: parentPath)
+                
+                let childPath = "users/\(email)/Profile/child"
+                self.childImageManager.downloadImage(from: childPath)
+                
+            }
+            self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
+            self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+
         })
-        .onChange(of: profileManager.profileInfo.parentPhoto, perform: { photo in
-            self.parentPhoto = photo
+        .onChange(of: parentImageManager.imageView.image, perform: { _ in
+            if let email = userManager.session?.email {
+                let filePath = "users/\(email)/Profile/parent"
+                self.parentImageManager.downloadImage(from: filePath)
+            }
+            self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
         })
-        .onChange(of: profileManager.profileInfo.childPhoto, perform: { photo in
-            self.childPhoto = photo
+        .onChange(of: childImageManager.imageView.image, perform: { _ in
+            if let email = userManager.session?.email {
+                let filePath = "users/\(email)/Profile/child"
+                self.childImageManager.downloadImage(from: filePath)
+            }
+            self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
         })
         .onDisappear {
             env.isShowingProfileSettings = false

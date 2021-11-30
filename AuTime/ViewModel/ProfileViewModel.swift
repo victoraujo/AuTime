@@ -62,8 +62,6 @@ class ProfileViewModel: ObservableObject {
     }
     
     func getImage(from photoName: String) -> UIImage {
-        print("OIiiiii")
-        
         guard let email = self.userManager.session?.email else {
             print("Email was nil when call download image on SubActivityViewModel.")
             return UIImage()
