@@ -12,6 +12,9 @@ struct ProfileView: View {
     @ObservedObject var profileManager: ProfileViewModel = ProfileViewModel.shared
     @ObservedObject var userManager: UserViewModel = UserViewModel.shared
         
+    @State var parentPhoto: UIImage = UIImage()
+    @State var childPhoto: UIImage = UIImage()
+    
     @State var parentName: String = ""
     @State var childName: String = ""
     @State var parentEmail: String = ""
@@ -20,7 +23,17 @@ struct ProfileView: View {
     @State var newPassword: String = ""
     @State var confirmPassword: String = ""
     
-    @State var showEmptyFieldAlert: Bool = false
+    enum AlertType {
+        case none
+        case emptyField
+        case deleteAccount
+        case confirmDeleteAccount
+    }
+    
+    @State var showAlert: Bool = false
+    @State var showConfirmDeleteAccount: Bool = false
+    @State var alertType: AlertType = .none
+
     
     var body: some View {
         GeometryReader { geometry in
@@ -30,7 +43,7 @@ struct ProfileView: View {
                         Spacer()
                         
                         VStack {
-                            Image(uiImage: env.parentPhoto)
+                            Image(uiImage: parentPhoto)
                                 .resizable()
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
                                 .clipShape(Circle())
@@ -43,7 +56,7 @@ struct ProfileView: View {
                         Spacer()
                         
                         VStack {
-                            Image(uiImage: env.childPhoto)
+                            Image(uiImage: childPhoto)
                                 .resizable()
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
                                 .clipShape(Circle())
@@ -87,15 +100,13 @@ struct ProfileView: View {
                                                 //userManager.updateProfile(parentName: parentName, childName: childName)
                                                 profileManager.updateProfile(parentName: parentName, childName: childName)
                                             } else {
-                                                self.showEmptyFieldAlert = true
+                                                self.alertType = .emptyField
+                                                showAlert = true
                                             }
                                         }, label: {
                                             Text("Salvar")
                                                 .bold()
                                         })
-                                        .alert(isPresented: $showEmptyFieldAlert) { () -> Alert in
-                                            Alert(title: Text("Campos Vazios"), message: Text("Você deve preencher todos os campos para poder alterar as suas informações pessoais."), dismissButton: .default(Text("OK")))
-                                        }
                                     }
                                 })
                             }, label: {
@@ -133,15 +144,13 @@ struct ProfileView: View {
                                                 //  show POP-UP for wrong password
                                                 // }
                                             } else {
-                                                self.showEmptyFieldAlert = true
+                                                self.alertType = .emptyField
+                                                showAlert = true
                                             }
                                         }, label: {
                                             Text("Alterar")
                                                 .bold()
                                         })
-                                        .alert(isPresented: $showEmptyFieldAlert) { () -> Alert in
-                                            Alert(title: Text("Campos Vazios"), message: Text("Você deve preencher todos os campos para poder alterar as suas informações pessoais."), dismissButton: .default(Text("OK")))
-                                        }
                                     }
                                 })
                             }, label: {
@@ -161,10 +170,10 @@ struct ProfileView: View {
                         
                         Section {
                             Button(action: {
-                                env.isShowingProfileSettings = false
-                                userManager.signOut()
+                                alertType = .deleteAccount
+                                showAlert = true
                             }, label: {
-                                Text("Excluir Conta")
+                                Text("Excluir Cadastro")
                                     .foregroundColor(.red)
                             })
                         }
@@ -186,6 +195,34 @@ struct ProfileView: View {
                     })
                     
                     Spacer()
+                }
+                .onChange(of: showAlert, perform: { _ in
+                    print("CONFIRM: \(showConfirmDeleteAccount)")
+                    
+                    if showConfirmDeleteAccount {
+                        showAlert = true
+                    } else {
+                        showConfirmDeleteAccount = false
+                    }
+                })
+                .alert(isPresented: $showAlert) {
+                 
+                    print("ALERT: \(alertType)")
+                    
+                    if alertType == .emptyField {
+                        return Alert(title: Text("Campos Vazios"), message: Text("Você deve preencher todos os campos para poder alterar as suas informações pessoais."), dismissButton: .default(Text("OK")))
+                    } else if alertType == .deleteAccount {
+                        return Alert(title: Text("Deletar Cadastro"), message: Text("Você deseja excluir permanentemente o seu cadastro? Essa é uma ação definitiva!"), primaryButton: .cancel(Text("Canceler")), secondaryButton: .destructive(Text("Excluir")) {
+                            self.alertType = .confirmDeleteAccount
+                            self.showConfirmDeleteAccount = true
+                        })
+                    } else if alertType == .confirmDeleteAccount {
+                        return Alert(title: Text("Deletar Cadastro"), message: Text("Você precisa inserir sua senha para deleter permanentemente o seu cadastro."), primaryButton: .cancel(Text("Cancelar")), secondaryButton: .destructive(Text("Excluir")) {
+                            // TO DO: USER MANAGER -> DELETE ACCOUNT
+                        })
+                    }
+                         
+                    return Alert(title: Text(""))
                 }
                 .listStyle(.insetGrouped)
                 .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.all))
@@ -214,7 +251,13 @@ struct ProfileView: View {
         }
         .onChange(of: profileManager.profileInfo, perform: { profile in
             self.parentName = profileManager.getParentName()
-            self.childName = profileManager.getChildName()
+            self.childName = profileManager.getChildName()                        
+        })
+        .onChange(of: profileManager.profileInfo.parentPhoto, perform: { photo in
+            self.parentPhoto = photo
+        })
+        .onChange(of: profileManager.profileInfo.childPhoto, perform: { photo in
+            self.childPhoto = photo
         })
         .onDisappear {
             env.isShowingProfileSettings = false

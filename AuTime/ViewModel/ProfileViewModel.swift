@@ -27,9 +27,13 @@ class ProfileViewModel: ObservableObject {
                 guard let document = snapshot else {
                     return
                 }
-                let data  = document.data()
-                self.profileInfo.parentName = data!["parentName"] as? String ?? ""
-                self.profileInfo.childName = data!["childName"] as? String ?? ""                
+                
+                if let data = document.data() {
+                    self.profileInfo.parentName = data["parentName"] as? String ?? ""
+                    self.profileInfo.childName = data["childName"] as? String ?? ""
+                    self.profileInfo.parentPhoto = self.getImage(from: "parent")
+                    self.profileInfo.childPhoto = self.getImage(from: "child")
+                }                                
             }
         }
 
@@ -57,6 +61,27 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+    func getImage(from photoName: String) -> UIImage {
+        print("OIiiiii")
+        
+        guard let email = self.userManager.session?.email else {
+            print("Email was nil when call download image on SubActivityViewModel.")
+            return UIImage()
+        }
+        
+        let filePath = "users/\(String(describing: email))/Profile/\(photoName)"
+        let imageManager = ImageViewModel()
+        imageManager.downloadImage(from: filePath)
+        
+        var photo: UIImage!
+        if let data = imageManager.imageView.image?.pngData() {
+            photo = UIImage(data: data)
+        } else {
+            photo = UIImage()
+        }
+        return photo
+    }
+    
     func getParentName() -> String {
         return self.profileInfo.parentName
     }
@@ -64,15 +89,28 @@ class ProfileViewModel: ObservableObject {
     func getChildName() -> String {
         return self.profileInfo.childName
     }
+    
+    func getParentPhoto() -> UIImage {
+        return self.profileInfo.parentPhoto
+    }
+    
+    func getChildPhoto() -> UIImage {
+        return self.profileInfo.childPhoto
+    }
 }
 
 struct Profile: Codable, Equatable {
     var childName: String
+    var childPhoto: UIImage
+    
     var parentName: String
+    var parentPhoto: UIImage
 
     init() {
         self.childName = ""
         self.parentName = ""
+        self.childPhoto = UIImage()
+        self.parentPhoto = UIImage()
     }
     
     enum CodingKeys: String, CodingKey {
@@ -84,6 +122,9 @@ struct Profile: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.childName = try container.decode(String.self, forKey: .childName)
         self.parentName = try container.decode(String.self, forKey: .parentName)
+        
+        self.childPhoto = UIImage()
+        self.parentPhoto = UIImage()
     }
     
 }

@@ -41,9 +41,7 @@ class ImageViewModel: ObservableObject{
         guard let _ = userManager.session?.email else {
             print("Email is nil during download file.")
             return
-        }
-        
-        //print("Download image from \(filePath)")
+        }                
         
         let storage = Storage.storage()
         let storageRef = storage.reference()
