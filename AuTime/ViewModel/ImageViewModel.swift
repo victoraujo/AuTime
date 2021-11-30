@@ -36,7 +36,7 @@ class ImageViewModel: ObservableObject{
         
     }
     
-    func downloadImage(from filePath: String) {
+    func downloadImage(from filePath: String, _ completion: @escaping () -> Void) {
         
         guard let _ = userManager.session?.email else {
             print("Email is nil during download file.")
@@ -48,6 +48,7 @@ class ImageViewModel: ObservableObject{
         DispatchQueue.main.async {
             let photoRef = storageRef.child(filePath)
             self.imageView.sd_setImage(with: photoRef, placeholderImage: UIImage(), completion: { _ , _ , _ , _ in
+                completion()
                 self.objectWillChange.send()
             })
         }

@@ -84,7 +84,7 @@ class SubActivityViewModel: ObservableObject {
             return UIImage()
         }
         let filePath = "users/\(String(describing: email))/SubActivities/\(subActivityName)"
-        self.imageManager.downloadImage(from: filePath)
+        self.imageManager.downloadImage(from: filePath){}
         
         var photo: UIImage!
         if let data = self.imageManager.imageView.image?.pngData() {

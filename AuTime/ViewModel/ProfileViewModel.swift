@@ -69,7 +69,7 @@ class ProfileViewModel: ObservableObject {
         
         let filePath = "users/\(String(describing: email))/Profile/\(photoName)"
         let imageManager = ImageViewModel()
-        imageManager.downloadImage(from: filePath)
+        imageManager.downloadImage(from: filePath) {}
         
         var photo: UIImage!
         if let data = imageManager.imageView.image?.pngData() {

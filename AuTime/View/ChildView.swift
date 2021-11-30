@@ -10,10 +10,13 @@ import SwiftUI
 struct ChildView: View {
     
     @ObservedObject var activitiesManager = ActivityViewModel.shared
-    @ObservedObject var userManager = UserViewModel.shared
-    @ObservedObject var env: AppEnvironment
+    @ObservedObject var profileManager = ProfileViewModel.shared
     @ObservedObject var premiumManager = PremiumViewModel.shared
+    @ObservedObject var userManager = UserViewModel.shared
+    @ObservedObject var childImageManager = ImageViewModel()
+    @ObservedObject var env: AppEnvironment
     
+    @State var childPhoto: UIImage = UIImage()
     @State var IconImage: Image = Image("")
     @State var visualization: ChildViewMode = .day
     @State var currentActivityReference: Activity? = nil
@@ -71,7 +74,7 @@ struct ChildView: View {
                                 Button(action: {
                                     self.visualization = .day
                                 }, label: {
-                                    Text("Day")
+                                    Text("Hoje")
                                         .foregroundColor(.black)
                                 })
                                     .frame(width: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -83,7 +86,7 @@ struct ChildView: View {
                                 Button(action: {
                                     self.visualization = .week
                                 }, label: {
-                                    Text("Week")
+                                    Text("Semana")
                                         .foregroundColor(.black)
                                     
                                 })
@@ -103,56 +106,48 @@ struct ChildView: View {
                         Spacer()
                         
                         HStack (alignment: .center){
+                            Spacer()
+                            
                             VStack {
-                                ZStack {
-                                    Rectangle()
-                                        .frame(width: 80, height: 80, alignment: .center)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(21)
-                                        .offset(x: -2, y: 8)
-                                    
-                                    Image(uiImage: env.childPhoto)
-                                        .resizable()
-                                        .foregroundColor(.blue)
-                                        .padding([.horizontal, .bottom])
-                                        .frame(width: 120, height: 120, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                        .background(Color.clear)
-                                    
-                                }
+                                Image(uiImage: childPhoto)
+                                    .resizable()
+                                    .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
+                                    .clipShape(Circle())
                                 
-                                Text("\(env.childName)")
+                                Text("\(profileManager.getChildName())")
                                     .foregroundColor(.white)
                                     .font(.title3)
                                     .fontWeight(.bold)
                             }
-                            .padding([.horizontal, .bottom])
-                            .padding(.horizontal)
+                            .padding([.horizontal, .bottom])                            
                             
+                            Spacer()
                             
                             Button(action: {
                                 env.isShowingChangeProfile = true
                             }, label: {
                                 VStack(alignment: .center){
-                                    
                                     Image(systemName: "arrow.left.arrow.right.circle.fill")
                                         .resizable()
                                         .foregroundColor(.white)
                                         .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                     
-                                    Text("Change Profile")
+                                    Text("Alterar Perfil")
                                         .foregroundColor(.white)
-                                        .font(.subheadline)
+                                        .font(.system(size: geometry.size.width*0.0125, weight: .bold))
                                         .fontWeight(.bold)
                                         .multilineTextAlignment(.center)
                                 }
                                 .padding()
                             })
+                            
+                            Spacer()
                         }
                         .padding()
+                        .padding(.top)
                         .frame(width: 0.27*geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .background(Rectangle().fill(Color.greenColor).cornerRadius(21, [.bottomLeft]))
                     }
-                    .padding(.bottom)
                     
                     Spacer()
                     
@@ -217,6 +212,13 @@ struct ChildView: View {
                 self.activitiesManager.fetchData()
                 self.env.isShowingSubActivities = false
                 self.currentActivityReference = nil
+                
+                if let email = userManager.session?.email {
+                    let childPath = "users/\(email)/Profile/child"
+                    self.childImageManager.downloadImage(from: childPath) {
+                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                    }
+                }
             }
             .onChange(of: self.userManager.session, perform: { _ in
                 self.activitiesManager.fetchData()
@@ -231,6 +233,22 @@ struct ChildView: View {
                     self.env.isShowingSubActivities = false
                 }
                 
+            })
+            .onChange(of: profileManager.profileInfo, perform: { profile in
+                if let email = userManager.session?.email {
+                    let childPath = "users/\(email)/Profile/child"
+                    self.childImageManager.downloadImage(from: childPath) {
+                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                    }
+                }
+            })
+            .onChange(of: childImageManager.imageView.image, perform: { _ in
+                if let email = userManager.session?.email {
+                    let filePath = "users/\(email)/Profile/child"
+                    self.childImageManager.downloadImage(from: filePath) {
+                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                    }
+                }
             })
             .fullScreenCover(isPresented: $env.isShowingSubActivities){
                 SubActivitiesView(env: _env, activity: $currentActivityReference, star: $star)

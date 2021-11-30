@@ -250,6 +250,18 @@ struct ProfileView: View {
         .onAppear {
             self.parentName = profileManager.getParentName()
             self.childName = profileManager.getChildName()
+            
+            if let email = userManager.session?.email {
+                let parentPath = "users/\(email)/Profile/parent"
+                self.parentImageManager.downloadImage(from: parentPath){
+                    self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
+                }
+                
+                let childPath = "users/\(email)/Profile/child"
+                self.childImageManager.downloadImage(from: childPath){
+                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                }
+            }
         }
         .onChange(of: profileManager.profileInfo, perform: { profile in
             self.parentName = profileManager.getParentName()
@@ -257,29 +269,32 @@ struct ProfileView: View {
             
             if let email = userManager.session?.email {
                 let parentPath = "users/\(email)/Profile/parent"
-                self.parentImageManager.downloadImage(from: parentPath)
+                self.parentImageManager.downloadImage(from: parentPath){
+                    self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
+                }
                 
                 let childPath = "users/\(email)/Profile/child"
-                self.childImageManager.downloadImage(from: childPath)
+                self.childImageManager.downloadImage(from: childPath){
+                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                }
                 
             }
-            self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
-            self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
 
         })
         .onChange(of: parentImageManager.imageView.image, perform: { _ in
             if let email = userManager.session?.email {
                 let filePath = "users/\(email)/Profile/parent"
-                self.parentImageManager.downloadImage(from: filePath)
+                self.parentImageManager.downloadImage(from: filePath){}
             }
             self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
         })
         .onChange(of: childImageManager.imageView.image, perform: { _ in
             if let email = userManager.session?.email {
                 let filePath = "users/\(email)/Profile/child"
-                self.childImageManager.downloadImage(from: filePath)
+                self.childImageManager.downloadImage(from: filePath){
+                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                }
             }
-            self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
         })
         .onDisappear {
             env.isShowingProfileSettings = false
