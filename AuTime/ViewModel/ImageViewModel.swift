@@ -48,8 +48,8 @@ class ImageViewModel: ObservableObject{
         DispatchQueue.main.async {
             let photoRef = storageRef.child(filePath)
             self.imageView.sd_setImage(with: photoRef, placeholderImage: UIImage(), completion: { _ , _ , _ , _ in
-                completion()
                 self.objectWillChange.send()
+                completion()
             })
         }
 

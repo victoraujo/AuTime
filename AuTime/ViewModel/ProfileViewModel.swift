@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import CoreMIDI
+import AVFoundation
 
 class ProfileViewModel: ObservableObject {
     public static var shared = ProfileViewModel()
@@ -60,23 +61,44 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func updateProfilePhoto(photo: UIImage, endpoint: String) {
-        guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(endpoint)") else {
-            return
-        }
+    func updateProfilePhoto(photo: UIImage, endpoint: String, completion: @escaping () -> Void) {
+                
+        let dir = NSURL(fileURLWithPath: NSTemporaryDirectory())
+        var url: URL!
         
-        do {
-            if let email = userManager.session?.email {
-                try photo.pngData()?.write(to: imageURL)
-                ImageViewModel().uploadImage(urlFile: imageURL, filePath: "users/\(email)/Profile/\(endpoint)") {
-                    var tempDir = NSTemporaryDirectory()
-                    tempDir.removeAll()
+        if let dirPath = dir.path {
+            let filePath = "\(dirPath)/\(endpoint).png"
+            print(filePath)
+            
+            if FileManager.default.fileExists(atPath: filePath) {
+                url = URL(fileURLWithPath: filePath)
+            } else {
+                guard let imageURL = dir.appendingPathComponent("\(endpoint).png") else {
+                    return
                 }
+                url = imageURL
             }
             
-        } catch let error {
-            print(error.localizedDescription)
+            do {
+                if let email = userManager.session?.email {
+                    try photo.pngData()?.write(to: url)
+                    ImageViewModel().uploadImage(urlFile: url, filePath: "users/\(email)/Profile/\(endpoint)") {
+                        if let url = URL(string: dirPath) {
+                            do {
+                            let _ = try FileManager.default.removeItem(at: url)
+                            }
+                            catch {}
+                        }
+                        completion()
+                    }
+                }
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
         }
+        
+        
     }
     
     func getParentName() -> String {

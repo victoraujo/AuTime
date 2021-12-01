@@ -42,7 +42,21 @@ struct ProfileView: View {
     @State var showConfirmDeleteAccount: Bool = false
     @State var showPhotoPicker: Bool = false
     @State var alertType: AlertType = .none
-
+    
+    
+    func downloadImage() {
+        if let email = userManager.session?.email {
+            let parentPath = "users/\(email)/Profile/parent"
+            self.parentImageManager.downloadImage(from: parentPath){
+                self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
+            }
+            
+            let childPath = "users/\(email)/Profile/child"
+            self.childImageManager.downloadImage(from: childPath){
+                self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+            }
+        }
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -58,7 +72,7 @@ struct ProfileView: View {
                                 .clipShape(Circle())
                                 .onTapGesture {
                                     let photos = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-                                                                        
+                                    
                                     // TO DO: Separate access for limited and authorized
                                     if photos == .limited || photos == .authorized {
                                         photoToPicker = "parent"
@@ -97,7 +111,7 @@ struct ProfileView: View {
                                 .clipShape(Circle())
                                 .onTapGesture {
                                     let photos = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-                                                                        
+                                    
                                     // TO DO: Separate access for limited and authorized
                                     if photos == .limited || photos == .authorized {
                                         photoToPicker = "child"
@@ -128,7 +142,7 @@ struct ProfileView: View {
                         }
                         
                         Spacer()
-                    }                    
+                    }
                     
                     List {
                         Section{
@@ -265,12 +279,6 @@ struct ProfileView: View {
                         showConfirmDeleteAccount = false
                     }
                 })
-                .sheet(isPresented: $showPhotoPicker, content: {
-                    PhotoPicker(activityImage: $pickerPhoto)
-                })
-                .onChange(of: pickerPhoto, perform: { image in
-                    profileManager.updateProfilePhoto(photo: image, endpoint: photoToPicker)
-                })
                 .alert(isPresented: $showAlert) {
                     if alertType == .emptyField {
                         return Alert(title: Text("Campos Vazios"), message: Text("Você deve preencher todos os campos para poder alterar as suas informações pessoais."), dismissButton: .default(Text("OK")))
@@ -297,7 +305,7 @@ struct ProfileView: View {
                             
                         }))
                     }
-                         
+                    
                     return Alert(title: Text(""))
                 }
                 .listStyle(.insetGrouped)
@@ -321,57 +329,41 @@ struct ProfileView: View {
             }
         }
         .accentColor(env.parentColorTheme)
+        .sheet(isPresented: $showPhotoPicker, content: {
+            PhotoPicker(activityImage: $pickerPhoto)
+        })
+        .onChange(of: pickerPhoto, perform: { image in
+            print("endpoint: \(photoToPicker)")
+            profileManager.updateProfilePhoto(photo: image, endpoint: photoToPicker) {
+                print("baixando tudoooo")
+                self.downloadImage()
+            }
+        })
         .onAppear {
             self.parentName = profileManager.getParentName()
             self.childName = profileManager.getChildName()
-            
-            if let email = userManager.session?.email {
-                let parentPath = "users/\(email)/Profile/parent"
-                self.parentImageManager.downloadImage(from: parentPath){
-                    self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
-                }
-                
-                let childPath = "users/\(email)/Profile/child"
-                self.childImageManager.downloadImage(from: childPath){
-                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
-                }
-            }
+            self.downloadImage()
         }
         .onChange(of: profileManager.profileInfo, perform: { profile in
             self.parentName = profileManager.getParentName()
             self.childName = profileManager.getChildName()
+            self.downloadImage()
             
-            if let email = userManager.session?.email {
-                let parentPath = "users/\(email)/Profile/parent"
-                self.parentImageManager.downloadImage(from: parentPath){
-                    self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
-                }
-                
-                let childPath = "users/\(email)/Profile/child"
-                self.childImageManager.downloadImage(from: childPath){
-                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
-                }
-                
-            }
-
         })
-        .onChange(of: parentImageManager.imageView.image, perform: { _ in
-            if let email = userManager.session?.email {
-                let filePath = "users/\(email)/Profile/parent"
-                self.parentImageManager.downloadImage(from: filePath){}
+        .onChange(of: parentImageManager.imageView.image, perform: { image in
+            print("parent mudou")
+            if let image = image {
+                self.parentPhoto = image
             }
-            self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
         })
-        .onChange(of: childImageManager.imageView.image, perform: { _ in
-            if let email = userManager.session?.email {
-                let filePath = "users/\(email)/Profile/child"
-                self.childImageManager.downloadImage(from: filePath){
-                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
-                }
+        .onChange(of: childImageManager.imageView.image, perform: { image in
+            print("parent mudou")
+            if let image = image {
+                self.childPhoto = image
             }
         })
         .onDisappear {
-            env.isShowingProfileSettings = false            
+            env.isShowingProfileSettings = false
         }
     }
 }
