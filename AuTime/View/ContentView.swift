@@ -72,7 +72,7 @@ struct ContentView: View {
                 do {
                     if let email = userManager.session?.email{
                         try UIImage(named: "\(imageName)")!.pngData()?.write(to: imageURL)
-                        imageVM.uploadImage(urlFile: imageURL, filePath: "users/\(email)/SubActivities/\(imageName)")
+                        imageVM.uploadImage(urlFile: imageURL, filePath: "users/\(email)/SubActivities/\(imageName)") {}
                     }
                     
                 } catch { }

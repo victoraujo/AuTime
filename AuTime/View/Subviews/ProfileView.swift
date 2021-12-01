@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Photos
 
 struct ProfileView: View {
     @ObservedObject var env: AppEnvironment
@@ -16,6 +17,8 @@ struct ProfileView: View {
     
     @State var parentPhoto: UIImage = UIImage()
     @State var childPhoto: UIImage = UIImage()
+    @State var pickerPhoto: UIImage = UIImage()
+    @State var photoToPicker: String = ""
     
     @State var parentName: String = ""
     @State var childName: String = ""
@@ -25,15 +28,19 @@ struct ProfileView: View {
     @State var newPassword: String = ""
     @State var confirmPassword: String = ""
     
+    let alertMessage = String(describing: Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription")!) + " Abra as Configurações e permita ao AuTime acessar suas fotos."
+    
     enum AlertType {
         case none
         case emptyField
         case deleteAccount
         case confirmDeleteAccount
+        case accessPhotosDenied
     }
     
     @State var showAlert: Bool = false
     @State var showConfirmDeleteAccount: Bool = false
+    @State var showPhotoPicker: Bool = false
     @State var alertType: AlertType = .none
 
     
@@ -49,6 +56,32 @@ struct ProfileView: View {
                                 .resizable()
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
                                 .clipShape(Circle())
+                                .onTapGesture {
+                                    let photos = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+                                                                        
+                                    // TO DO: Separate access for limited and authorized
+                                    if photos == .limited || photos == .authorized {
+                                        photoToPicker = "parent"
+                                        showPhotoPicker = true
+                                        showAlert = false
+                                    }
+                                    else {
+                                        PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
+                                            
+                                            // TO DO: Separate access for limited and authorized
+                                            if status == .limited || status == .authorized {
+                                                photoToPicker = "parent"
+                                                showPhotoPicker = true
+                                                showAlert = false
+                                            }
+                                            else {
+                                                showPhotoPicker = false
+                                                alertType = .accessPhotosDenied
+                                                showAlert = true
+                                            }
+                                        })
+                                    }
+                                }
                             
                             Text("\(profileManager.getParentName())")
                                 .font(.title3)
@@ -62,6 +95,32 @@ struct ProfileView: View {
                                 .resizable()
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
                                 .clipShape(Circle())
+                                .onTapGesture {
+                                    let photos = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+                                                                        
+                                    // TO DO: Separate access for limited and authorized
+                                    if photos == .limited || photos == .authorized {
+                                        photoToPicker = "child"
+                                        showPhotoPicker = true
+                                        showAlert = false
+                                    }
+                                    else {
+                                        PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
+                                            
+                                            // TO DO: Separate access for limited and authorized
+                                            if status == .limited || status == .authorized {
+                                                photoToPicker = "child"
+                                                showPhotoPicker = true
+                                                showAlert = false
+                                            }
+                                            else {
+                                                showPhotoPicker = false
+                                                alertType = .accessPhotosDenied
+                                                showAlert = true
+                                            }
+                                        })
+                                    }
+                                }
                             
                             Text("\(profileManager.getChildName())")
                                 .font(.title3)
@@ -99,7 +158,6 @@ struct ProfileView: View {
                                     ToolbarItem(placement: ToolbarItemPlacement.automatic) {
                                         Button(action: {
                                             if childName != "" && parentName != "" {
-                                                //userManager.updateProfile(parentName: parentName, childName: childName)
                                                 profileManager.updateProfile(parentName: parentName, childName: childName)
                                             } else {
                                                 self.alertType = .emptyField
@@ -207,10 +265,13 @@ struct ProfileView: View {
                         showConfirmDeleteAccount = false
                     }
                 })
+                .sheet(isPresented: $showPhotoPicker, content: {
+                    PhotoPicker(activityImage: $pickerPhoto)
+                })
+                .onChange(of: pickerPhoto, perform: { image in
+                    profileManager.updateProfilePhoto(photo: image, endpoint: photoToPicker)
+                })
                 .alert(isPresented: $showAlert) {
-                 
-                    print("ALERT: \(alertType)")
-                    
                     if alertType == .emptyField {
                         return Alert(title: Text("Campos Vazios"), message: Text("Você deve preencher todos os campos para poder alterar as suas informações pessoais."), dismissButton: .default(Text("OK")))
                     } else if alertType == .deleteAccount {
@@ -222,6 +283,19 @@ struct ProfileView: View {
                         return Alert(title: Text("Deletar Cadastro"), message: Text("Você precisa inserir sua senha para deleter permanentemente o seu cadastro."), primaryButton: .cancel(Text("Cancelar")), secondaryButton: .destructive(Text("Excluir")) {
                             // TO DO: USER MANAGER -> DELETE ACCOUNT
                         })
+                    } else if alertType == .accessPhotosDenied {
+                        return Alert(title: Text("AuTime Would deseja acessar as suas fotos"), message: Text(self.alertMessage), primaryButton: .default(Text("Cancelar")), secondaryButton: .default(Text("Abrir Configurações"), action: {
+                            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                                return
+                            }
+                            
+                            if UIApplication.shared.canOpenURL(settingsUrl) {
+                                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                                    print("Settings opened: \(success)")
+                                })
+                            }
+                            
+                        }))
                     }
                          
                     return Alert(title: Text(""))
@@ -297,7 +371,7 @@ struct ProfileView: View {
             }
         })
         .onDisappear {
-            env.isShowingProfileSettings = false
+            env.isShowingProfileSettings = false            
         }
     }
 }

@@ -14,7 +14,7 @@ class ImageViewModel: ObservableObject{
         
     var userManager = UserViewModel.shared
 
-    func uploadImage(urlFile: URL, filePath: String){
+    func uploadImage(urlFile: URL, filePath: String, completion: @escaping () -> Void){
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let localFile = urlFile
@@ -31,7 +31,7 @@ class ImageViewModel: ObservableObject{
                 print("Error in upload: \(err!.localizedDescription)")
                 return
             }
-            print("Photo Uploaded")
+            completion()
         }
         
     }

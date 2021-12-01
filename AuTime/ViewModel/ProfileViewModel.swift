@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import CoreMIDI
 
 class ProfileViewModel: ObservableObject {
     public static var shared = ProfileViewModel()
@@ -31,12 +32,10 @@ class ProfileViewModel: ObservableObject {
                 if let data = document.data() {
                     self.profileInfo.parentName = data["parentName"] as? String ?? ""
                     self.profileInfo.childName = data["childName"] as? String ?? ""
-                    self.profileInfo.parentPhoto = self.getImage(from: "parent")
-                    self.profileInfo.childPhoto = self.getImage(from: "child")
-                }                                
+                }
             }
         }
-
+        
     }
     
     func updateProfile(parentName: String? = nil, childName: String? = nil)  {
@@ -61,23 +60,23 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func getImage(from photoName: String) -> UIImage {
-        guard let email = self.userManager.session?.email else {
-            print("Email was nil when call download image on SubActivityViewModel.")
-            return UIImage()
+    func updateProfilePhoto(photo: UIImage, endpoint: String) {
+        guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(endpoint)") else {
+            return
         }
         
-        let filePath = "users/\(String(describing: email))/Profile/\(photoName)"
-        let imageManager = ImageViewModel()
-        imageManager.downloadImage(from: filePath) {}
-        
-        var photo: UIImage!
-        if let data = imageManager.imageView.image?.pngData() {
-            photo = UIImage(data: data)
-        } else {
-            photo = UIImage()
+        do {
+            if let email = userManager.session?.email {
+                try photo.pngData()?.write(to: imageURL)
+                ImageViewModel().uploadImage(urlFile: imageURL, filePath: "users/\(email)/Profile/\(endpoint)") {
+                    var tempDir = NSTemporaryDirectory()
+                    tempDir.removeAll()
+                }
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
         }
-        return photo
     }
     
     func getParentName() -> String {
@@ -87,28 +86,15 @@ class ProfileViewModel: ObservableObject {
     func getChildName() -> String {
         return self.profileInfo.childName
     }
-    
-    func getParentPhoto() -> UIImage {
-        return self.profileInfo.parentPhoto
-    }
-    
-    func getChildPhoto() -> UIImage {
-        return self.profileInfo.childPhoto
-    }
 }
 
 struct Profile: Codable, Equatable {
     var childName: String
-    var childPhoto: UIImage
-    
     var parentName: String
-    var parentPhoto: UIImage
-
+    
     init() {
         self.childName = ""
         self.parentName = ""
-        self.childPhoto = UIImage()
-        self.parentPhoto = UIImage()
     }
     
     enum CodingKeys: String, CodingKey {
@@ -120,9 +106,6 @@ struct Profile: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.childName = try container.decode(String.self, forKey: .childName)
         self.parentName = try container.decode(String.self, forKey: .parentName)
-        
-        self.childPhoto = UIImage()
-        self.parentPhoto = UIImage()
     }
     
 }
