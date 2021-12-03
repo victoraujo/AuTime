@@ -63,7 +63,8 @@ struct NewActivity: View {
                                     }
                                 Spacer()
                             }
-                        }.onTapGesture {
+                        }
+                        .onTapGesture {
                             isShowingPhotoPicker = true
                         }
                         
@@ -106,8 +107,10 @@ struct NewActivity: View {
                         Button(action: {
                             if checkFields() {
                                 ActivityViewModel.shared.createActivity(category: selectedCategory, completions: [], star: activityStar, name: activityName, days: [], steps: 0, time: Date(), image: activityImage, handler: {
-                                    showingPopover = false
+                                    ActivityViewModel.shared.fetchData()
                                 })
+                                
+                                showingPopover = false
                             } else {
                                 print("Campos vazios")
                             }

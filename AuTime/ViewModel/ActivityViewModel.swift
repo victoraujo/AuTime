@@ -35,39 +35,39 @@ class ActivityViewModel: ObservableObject {
     ///   - time: The time the activity is scheduled
     ///   - handler: Function to execute after create procedure
     func createActivity(category: String, completions: [Completion], star: Bool, name: String, days: [Int], steps: Int, time: Date, image: UIImage, handler: @escaping () -> Void?) {
-        
-        let activityCompletions: [[String:String]] = completions.map{ ["date": DateHelper.dateToString(from: $0.date), "feedback": $0.feedback]}
+                
+        guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(name)") else {
+            return
+        }
         
         if let docId = userManager.session?.email {
-            _ = db.collection("users").document(docId).collection("activities").addDocument(data: [
-                "category": category,
-                "completions": activityCompletions,
-                "generateStar": star,
-                "name": name,
-                "repeatDays": days,
-                "steps": steps,
-                "time": DateHelper.getHoursAndMinutes(from: time)
-            ]) { err in
-                if let err = err {
-                    print("Error adding document on createActivity: \(err)")
-                }
-                else {
-                    guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(name)") else {
-                        return
-                    }
+            do {
+                try image.pngData()?.write(to: imageURL)
+                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(docId)/Activities/\(name.unaccent())", completion: {
+                    let activityCompletions: [[String:String]] = completions.map{ ["date": DateHelper.dateToString(from: $0.date), "feedback": $0.feedback]}
                     
-                    do {
-                        if let email = self.userManager.session?.email {
-                            try image.pngData()?.write(to: imageURL)
-                            self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(email)/Activities/\(name)", completion: {
-                                handler()
-                            })
+                    _ = self.db.collection("users").document(docId).collection("activities").addDocument(data: [
+                        "category": category,
+                        "completions": activityCompletions,
+                        "generateStar": star,
+                        "name": name,
+                        "repeatDays": days,
+                        "steps": steps,
+                        "time": DateHelper.getHoursAndMinutes(from: time)
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document on createActivity: \(err)")
+                            
                         }
-                    } catch {
-                        print("Can't upload the image \(name) to Activities folder.")
+                        else {
+                            handler()
+                        }
                     }
                     
-                }
+                })
+                
+            } catch let error {
+                print("Can't upload the image \(name) to Activities folder. Error: \(error.localizedDescription)")
             }
         }
     }
