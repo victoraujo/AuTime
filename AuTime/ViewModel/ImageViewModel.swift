@@ -44,7 +44,7 @@ class ImageViewModel: ObservableObject{
             return
         }
         
-        let photoRef = storageRef.child(filePath)
+        let photoRef = storageRef.child(filePath.unaccent())
         if let data = image.pngData() {
             
             let uploadTask = photoRef.putData(data, metadata: nil) { (metadata, error) in
@@ -76,7 +76,7 @@ class ImageViewModel: ObservableObject{
         let storage = Storage.storage()
         let storageRef = storage.reference()
         DispatchQueue.main.async {
-            let photoRef = storageRef.child(filePath)
+            let photoRef = storageRef.child(filePath.unaccent())
             self.imageView.sd_setImage(with: photoRef, placeholderImage: UIImage(), completion: { _ , _ , _ , _ in
                 self.objectWillChange.send()
                 completion()
@@ -87,7 +87,7 @@ class ImageViewModel: ObservableObject{
     func deleteImage(filePath: String, completion: @escaping () -> Void) {
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let desertRef = storageRef.child("\(filePath)")
+        let desertRef = storageRef.child("\(filePath.unaccent())")
         
         // Delete the file
         desertRef.delete { error in
