@@ -26,7 +26,7 @@ class DateHelper {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM"
         
-        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        let days = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
         let calendar = Calendar(identifier: .gregorian)
         let weekDay = calendar.component(.weekday, from: date)
         

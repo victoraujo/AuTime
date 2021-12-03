@@ -64,7 +64,7 @@ struct ChildView: View {
                         
                         VStack(alignment: .center) {
                             
-                            Text("Visualization")
+                            Text("Visualização")
                                 .font(.title3)
                                 .fontWeight(.bold)
                                 .foregroundColor(.black90Color)
@@ -74,7 +74,7 @@ struct ChildView: View {
                                 Button(action: {
                                     self.visualization = .day
                                 }, label: {
-                                    Text("Hoje")
+                                    Text("Dia")
                                         .foregroundColor(.black)
                                 })
                                     .frame(width: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -132,7 +132,7 @@ struct ChildView: View {
                                         .foregroundColor(.white)
                                         .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                     
-                                    Text("Alterar Perfil")
+                                    Text("Trocar Perfil")
                                         .foregroundColor(.white)
                                         .font(.system(size: geometry.size.width*0.0125, weight: .bold))
                                         .fontWeight(.bold)
@@ -151,7 +151,7 @@ struct ChildView: View {
                     
                     Spacer()
                     
-                    Text("What I will do \(visualization == .day ? "today" : "this week")?")
+                    Text("O que eu farei \(visualization == .day ? "hoje" : "essa semana")?")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(.black90Color)

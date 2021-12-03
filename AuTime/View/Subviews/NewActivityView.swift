@@ -14,25 +14,25 @@ struct NewActivity: View {
     @State var activityImage = UIImage(named: "Breakfast") ?? UIImage()
     @State var isShowingPhotoPicker = false
     @State var isShowingAccessDeniedAlert = false
-    let categories = ["Health", "Education", "Family"]
-    let alertMessage = String(describing: Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription")!) + " Abra as Configurações e permita ao AuTime acessar suas fotos."
+    let categories = ["Saúde", "Educação", "Família"]
+    let alertMessage = String(describing: Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription")!) + " Vá em Configurações e libere o acesso de AuTime a sua Galeria de Fotos."
     
     var body: some View{
         
         GeometryReader{ geometry in
             VStack{
                 HStack{
-                    Button(action: {showingPopover.toggle()}, label: {Text("Cancel")})
+                    Button(action: {showingPopover.toggle()}, label: {Text("Cancelar")})
                         .padding()
                     Spacer()
-                    Text("New Activity")
+                    Text("Nova Atividade")
                         .font(.title3)
                         .padding()
                     Spacer()
-                    Button(action: {showingPopover.toggle()}, label: {Text("Add")})
+                    Button(action: {showingPopover.toggle()}, label: {Text("Adicionar")})
                         .padding()
                 }
-                TextField("title", text: .constant(""))
+                TextField("Título", text: .constant(""))
                     .padding()
                     .padding(.horizontal)
                     .background(Color(.systemGray6))
@@ -41,13 +41,13 @@ struct NewActivity: View {
                 
                 Form {
                     Section {
-                        Picker("Category", selection: $selectedCategory) {
+                        Picker("Categoria", selection: $selectedCategory) {
                             ForEach(categories, id: \.self) {
                                 Text($0)
                             }
                         }
                     }
-                    Text("Generate Star")
+                    Text("Gerar Estrela")
                     Section{
                         HStack{
                             Spacer()
@@ -92,7 +92,7 @@ struct NewActivity: View {
                 PhotoPicker(activityImage: $activityImage)
             })
             .alert(isPresented: $isShowingAccessDeniedAlert) { () -> Alert in
-                Alert(title: Text("AuTime Would deseja acessar as suas fotos"), message: Text(self.alertMessage), primaryButton: .default(Text("Cancelar")), secondaryButton: .default(Text("Abrir Configurações"), action: {
+                Alert(title: Text("AuTime gostaria de ter acesso a suas fotos"), message: Text(self.alertMessage), primaryButton: .default(Text("Cancelar")), secondaryButton: .default(Text("Ir para configurações"), action: {
                     guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                         return
                     }

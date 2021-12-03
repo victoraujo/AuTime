@@ -93,7 +93,7 @@ struct SubActivitiesView: View {
                         
                         VStack(alignment: .center) {
                             
-                            Text("What I am doing")
+                            Text("O que eu estou fazendo?")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundColor(.black90Color)
@@ -113,12 +113,12 @@ struct SubActivitiesView: View {
                                 
                                 VStack(alignment: .leading){
                                     VStack(alignment: .leading){
-                                        Text(self.currentActivityReference?.name ?? "Unamed Subactivity")
+                                        Text(self.currentActivityReference?.name ?? "Subatividade sem nome")
                                             .font(.title3)
                                             .fontWeight(.bold)
                                             .foregroundColor(env.childColorTheme)
                                         
-                                        Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "No") subactivit\(subActivitiesCount > 1 ? "ies" : "y")")
+                                        Text("\(subActivitiesCount > 0 ? String(subActivitiesCount) : "Nenhuma") subatividade\(subActivitiesCount > 1 ? "s" : "")")
                                             .font(.subheadline)
                                             .fontWeight(.bold)
                                             .foregroundColor(.black90Color)
@@ -164,7 +164,7 @@ struct SubActivitiesView: View {
                                         .foregroundColor(.white)
                                         .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                     
-                                    Text("Alterar Perfil")
+                                    Text("Trocar Perfil")
                                         .foregroundColor(.white)
                                         .font(.system(size: geometry.size.width*0.0125, weight: .bold))
                                         .fontWeight(.bold)
@@ -215,7 +215,7 @@ struct SubActivitiesView: View {
                                                     self.completes[index].toggle()
                                                 }
                                             
-                                            Text("Step \(index + 1)")
+                                            Text("Passo \(index + 1)")
                                                 .font(.title2)
                                                 .fontWeight(.bold)
                                                 .foregroundColor(.black90Color)
@@ -253,7 +253,7 @@ struct SubActivitiesView: View {
                             Button(action: {
                                 self.env.isShowingSubActivities = false
                             }, label: {
-                                Text("Back")
+                                Text("Voltar")
                                     .foregroundColor(.black100Color)
                                     .font(.title3)
                                     .fontWeight(.bold)
@@ -275,7 +275,7 @@ struct SubActivitiesView: View {
                                 }
                                 self.showFeedbackPopUp = true
                             }, label: {
-                                Text("Complete activity")
+                                Text("Atividade Completada")
                                     .foregroundColor(.black100Color)
                                     .font(.title3)
                                     .fontWeight(.bold)
@@ -419,7 +419,7 @@ struct SubActivityView: View {
                         .frame(height: 0.05*UIScreen.main.bounds.height, alignment: .center)
                         .foregroundColor(.white)
                     
-                    Text("Step completed!")
+                    Text("Passo Completado!")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
