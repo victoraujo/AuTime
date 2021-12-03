@@ -47,7 +47,7 @@ struct WeekScheduleView: View {
                                         }
                                         
                                         HStack(alignment: .center){
-                                            Text("\(activity.stepsCount) steps")
+                                            Text("\(activity.stepsCount) passo\(activity.stepsCount > 1 ? "s" : "")")
                                                 .font(.body)
                                                 .foregroundColor(.black90Color)
                                             Spacer()

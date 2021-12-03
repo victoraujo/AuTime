@@ -11,6 +11,7 @@ import UIKit
 struct NativeSideBarView: View {
     @ObservedObject var env: AppEnvironment
     @ObservedObject var activitiesManager: ActivityViewModel = ActivityViewModel.shared
+    @ObservedObject var profileManager: ProfileViewModel = ProfileViewModel.shared
     
     init(_env: ObservedObject<AppEnvironment>) {
         self._env = _env
@@ -26,7 +27,7 @@ struct NativeSideBarView: View {
             Section(header: Text("Atividades"), content: {
                 
                 NavigationLink(destination: ActivitiesLibraryView(env: env), label: {
-                    Label("Todas Atividades", systemImage: "")
+                    Text("Todas Atividades")
                 })
                 
                 ForEach(env.categories, id: \.self) { category in
@@ -38,7 +39,7 @@ struct NativeSideBarView: View {
                 
             })
         }
-        .navigationTitle("Página do Responsável")
+        .navigationTitle("Tela de \(profileManager.getParentName())")
         .listStyle(SidebarListStyle())
         .onAppear {
             let rootViewController = UIApplication.shared.windows.first { $0.isKeyWindow }!.rootViewController

@@ -15,13 +15,10 @@ struct ChangeProfileView: View {
     @State var errorMessage: String = ""
         
     var childMessage = "Insira a senha para acessar a Página do Responsável"
-    var parentMessage = "Você tem certeza que deseja ir para a Página de \(self.env.childName)?"
     
     init(env: ObservedObject<AppEnvironment>) {
         self._env = env
-        
         childMessage = "Insira a senha para acessar a Página do Responsável"
-        parentMessage = "Você tem certeza que deseja ir para a Página de \(self.env.childName)?"
     }
     
     var body: some View {
@@ -38,7 +35,7 @@ struct ChangeProfileView: View {
                         .frame(width: geometry.size.width, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .padding()
                     
-                    Text("\(self.env.profile == .child ? childMessage : parentMessage)")
+                    Text("\(childMessage)")
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.black90Color)

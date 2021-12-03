@@ -48,7 +48,7 @@ struct DailyActivityView: View {
                         .font(.title)
                         .bold()
                     
-                    Text("\(activity.stepsCount) steps")
+                    Text("\(activity.stepsCount) passo\(activity.stepsCount > 1 ? "s" : "")")
                         .font(.subheadline)
                         .foregroundColor(.black90Color)
                     
@@ -62,7 +62,7 @@ struct DailyActivityView: View {
                             .padding(.trailing)
                         
                         VStack (alignment: .leading){
-                            Text("TIME SET")
+                            Text("HORÁRIO AGENDADO")
                                 .foregroundColor(.black90Color)
                                 .font(.callout)
                                 .fontWeight(.regular)
@@ -81,7 +81,7 @@ struct DailyActivityView: View {
                             .padding(.trailing)
                         
                         VStack (alignment: .leading){
-                            Text("CONCLUSION TIME")
+                            Text("HORÁRIO DE CONCLUSÃO")
                                 .foregroundColor(.black90Color)
                                 .font(.callout)
                                 .fontWeight(.regular)
@@ -101,7 +101,7 @@ struct DailyActivityView: View {
                             .padding(.trailing)
                         
                         VStack (alignment: .leading){
-                            Text("EMOTION FEEDBACK")
+                            Text("FEEDBACK DE EMOÇÃO")
                                 .foregroundColor(.black90Color)
                                 .font(.callout)
                                 .fontWeight(.regular)
