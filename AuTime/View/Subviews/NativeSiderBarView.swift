@@ -11,7 +11,11 @@ import UIKit
 struct NativeSideBarView: View {
     @ObservedObject var env: AppEnvironment
     @ObservedObject var activitiesManager: ActivityViewModel = ActivityViewModel.shared
-     
+    
+    init(_env: ObservedObject<AppEnvironment>) {
+        self._env = _env
+    }
+    
     var body: some View {
         
         List {
@@ -32,7 +36,7 @@ struct NativeSideBarView: View {
                         Text("\(category)")
                     })
                 }
-                                
+                
             })
         }
         .navigationTitle("Parent's View")
@@ -47,27 +51,17 @@ struct NativeSideBarView: View {
             let tableView = UITableView.appearance(whenContainedInInstancesOf: [type(of: sidebarViewController)])
             tableView.backgroundColor = UIColor(Color.white)
         }
+        .onDisappear {
+            env.isShowingProfileSettings = false
+        }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button(action: {
-                    env.isShowingChangeProfile = true
-                    // env.isShowingProfileSettings = true
+                    env.isShowingProfileSettings = true
                 }, label: {
                     Image(systemName: "person.circle")
                 })
             }
-        }
-    }
-}
-
-struct NativeSideBar_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            NativeSideBarView(env: AppEnvironment())
-                .previewLayout(.fixed(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
-                .environment(\.horizontalSizeClass, .compact)
-                .environment(\.verticalSizeClass, .compact)
-            
-        }
+        }        
     }
 }

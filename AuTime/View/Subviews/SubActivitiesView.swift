@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct SubActivitiesView: View {
-    @ObservedObject var activitiesManager = ActivityViewModel.shared
     @ObservedObject var subActivitiesManager = SubActivityViewModel()
+    @ObservedObject var activitiesManager = ActivityViewModel.shared
+    @ObservedObject var premiumManager = PremiumViewModel.shared
     @ObservedObject var userManager = UserViewModel.shared
+    @ObservedObject var profileManager = ProfileViewModel.shared
+    @ObservedObject var childImageManager = ImageViewModel()
     @ObservedObject var imageManager = ImageViewModel()
     @ObservedObject var env: AppEnvironment
-    @ObservedObject var premiumManager = PremiumViewModel.shared
     
+    @State var childPhoto: UIImage = UIImage()
     @State var subActivities: [SubActivity] = []
     @State var IconImage: Image = Image("")
     @State var currentDate = DateHelper.getDateString(from: Date())
@@ -43,7 +46,7 @@ struct SubActivitiesView: View {
         
         if let email = userManager.session?.email , let name = currentActivityReference?.name {
             let filePath = "users/\(email)/Activities/\(name)"
-            self.imageManager.downloadImage(from: filePath)
+            self.imageManager.downloadImage(from: filePath){}
         }
         
         self.subActivities = self.subActivitiesManager.subActivities
@@ -135,52 +138,45 @@ struct SubActivitiesView: View {
                         Spacer()
                         
                         HStack (alignment: .center){
+                            Spacer()
+                            
                             VStack {
-                                ZStack {
-                                    Rectangle()
-                                        .frame(width: 80, height: 80, alignment: .center)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(21)
-                                        .offset(x: -2, y: 8)
-                                    
-                                    Image(uiImage: env.childPhoto)
-                                        .resizable()
-                                        .foregroundColor(.blue)
-                                        .padding([.horizontal, .bottom])
-                                        .frame(width: 120, height: 120, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                        .background(Color.clear)
-                                    
-                                }
+                                Image(uiImage: childPhoto)
+                                    .resizable()
+                                    .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
+                                    .clipShape(Circle())
                                 
-                                Text("\(env.childName)")
+                                Text("\(profileManager.getChildName())")
                                     .foregroundColor(.white)
                                     .font(.title3)
                                     .fontWeight(.bold)
                             }
                             .padding([.horizontal, .bottom])
-                            .padding(.horizontal)
                             
+                            Spacer()
                             
                             Button(action: {
                                 env.isShowingChangeProfile = true
                             }, label: {
                                 VStack(alignment: .center){
-                                    
                                     Image(systemName: "arrow.left.arrow.right.circle.fill")
                                         .resizable()
                                         .foregroundColor(.white)
                                         .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                     
-                                    Text("Change Profile")
+                                    Text("Alterar Perfil")
                                         .foregroundColor(.white)
-                                        .font(.subheadline)
+                                        .font(.system(size: geometry.size.width*0.0125, weight: .bold))
                                         .fontWeight(.bold)
                                         .multilineTextAlignment(.center)
                                 }
                                 .padding()
                             })
+                            
+                            Spacer()
                         }
                         .padding()
+                        .padding(.top)
                         .frame(width: 0.27*geometry.size.width, height: 0.24*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .background(Rectangle().fill(Color.greenColor).cornerRadius(21, [.bottomLeft]))
                         
@@ -270,7 +266,7 @@ struct SubActivitiesView: View {
                                 
                             })
                             
-                            Button(action: {                                
+                            Button(action: {
                                 if(currentActivityReference?.generateStar == true) {
                                     premiumManager.gainStar()
                                 }
@@ -312,7 +308,7 @@ struct SubActivitiesView: View {
                 .background(VisualEffectView(effect: UIBlurEffect(style: .dark))
                                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                                 .opacity((self.showFeedbackPopUp ? 1 : 0)))
-                    
+                
                 // Change Profile Pop-Up
                 VStack(alignment: .center) {
                     ChangeProfileView(env: _env)
@@ -341,6 +337,15 @@ struct SubActivitiesView: View {
                 for _ in 0..<self.subActivitiesCount {
                     self.completes.append(false)
                 }
+                
+                if let email = userManager.session?.email {
+                    var childImageName: String = "\(profileManager.profileInfo.lastUpdateChildPhoto)"
+                    childImageName += "-child.png"
+                    let childPath = "users/\(email)/Profile/\(childImageName)"
+                    self.childImageManager.downloadImage(from: childPath, {
+                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                    })
+                }
             }
             .onChange(of: self.subActivitiesManager.subActivities, perform: { _ in
                 self.subActivities = self.subActivitiesManager.subActivities
@@ -349,6 +354,21 @@ struct SubActivitiesView: View {
                 self.completes = []
                 for _ in 0..<self.subActivitiesCount {
                     self.completes.append(false)
+                }
+            })
+            .onChange(of: profileManager.profileInfo, perform: { profile in
+                if let email = userManager.session?.email {
+                    var childImageName: String = "\(profileManager.profileInfo.lastUpdateChildPhoto)"
+                    childImageName += "-child.png"
+                    let childPath = "users/\(email)/Profile/\(childImageName)"
+                    self.childImageManager.downloadImage(from: childPath) {
+                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                    }
+                }
+            })
+            .onChange(of: childImageManager.imageView.image, perform: { image in
+                if let image = image {
+                    self.childPhoto = image
                 }
             })
             .onDisappear {
@@ -376,7 +396,7 @@ struct SubActivityView: View {
         
         if let email = userManager.session?.email {
             let filePath = "users/\(email)/SubActivities/\(subActivityName)"
-            self.imageManager.downloadImage(from: filePath)
+            self.imageManager.downloadImage(from: filePath){}
         }
     }
     
@@ -421,16 +441,18 @@ struct SubActivityView: View {
         .onAppear{
             if let email = userManager.session?.email {
                 let filePath = "users/\(email)/SubActivities/\(subActivityName)"
-                self.imageManager.downloadImage(from: filePath)
+                self.imageManager.downloadImage(from: filePath){
+                    self.image = self.imageManager.imageView.image ?? UIImage()
+                }
             }
-            self.image = self.imageManager.imageView.image ?? UIImage()
         }
         .onChange(of: imageManager.imageView.image, perform: { value in
             if let email = userManager.session?.email {
                 let filePath = "users/\(email)/SubActivities/\(subActivityName)"
-                self.imageManager.downloadImage(from: filePath)
+                self.imageManager.downloadImage(from: filePath) {
+                    self.image = self.imageManager.imageView.image ?? UIImage()
+                }
             }
-            self.image = self.imageManager.imageView.image ?? UIImage()
         })
     }
 }

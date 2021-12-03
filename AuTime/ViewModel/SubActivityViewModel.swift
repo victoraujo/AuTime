@@ -43,7 +43,7 @@ class SubActivityViewModel: ObservableObject {
             // Save image to URL
             do {
                 try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
-                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/SubActivities/\(name)")
+                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/SubActivities/\(name)") {}
             } catch {
                 print("Can't upload the image \(name) to SubActivities folder.")
             }
@@ -84,7 +84,7 @@ class SubActivityViewModel: ObservableObject {
             return UIImage()
         }
         let filePath = "users/\(String(describing: email))/SubActivities/\(subActivityName)"
-        self.imageManager.downloadImage(from: filePath)
+        self.imageManager.downloadImage(from: filePath){}
         
         var photo: UIImage!
         if let data = self.imageManager.imageView.image?.pngData() {

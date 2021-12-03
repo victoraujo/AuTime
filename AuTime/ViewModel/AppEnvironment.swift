@@ -22,11 +22,15 @@ class AppEnvironment: ObservableObject {
     @Published var activitiesLibraryIsOpen: Bool = false
     
     @Published var categories: [String] = ["Education", "Health", "Premium"]
-    @Published var parentColorTheme: Color = .blue
-    @Published var childColorTheme: Color = .greenColor
-    @Published var parentControlPassword = "senha"
+    
     @Published var childName = "João"
     @Published var childPhoto = UIImage(imageLiteralResourceName: "JoaoMemoji.png")
+    @Published var childColorTheme: Color = .greenColor
+    
+    @Published var parentName = "Rilda"
+    @Published var parentPhoto = UIImage(imageLiteralResourceName: "RildaMemoji.png")
+    @Published var parentColorTheme: Color = .blue
+    @Published var parentControlPassword = "senha"
     
     func reset() {
         profile = .parent
@@ -40,5 +44,21 @@ class AppEnvironment: ObservableObject {
         } else {
             profile = .child
         }
+    }
+    
+    func updateProfile(childName: String? = nil, parentName: String? = nil, parentControlPassword: String? = nil) {
+        if let child = childName {
+            self.childName = child
+        }
+        
+        if let parent = parentName {
+            self.parentName = parent
+        }
+        
+        if let password = parentControlPassword {
+            self.parentControlPassword = password
+        }
+        
+        
     }
 }

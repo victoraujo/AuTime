@@ -21,7 +21,7 @@ struct DailyActivityView: View {
         
         if let email = userManager.session?.email {
             let filePath = "users/\(email)/Activities/\(activity.name)"
-            self.imageManager.downloadImage(from: filePath)
+            self.imageManager.downloadImage(from: filePath){}
         }
         
         self.image = self.imageManager.imageView.image ?? UIImage()

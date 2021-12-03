@@ -15,7 +15,7 @@ struct NewActivity: View {
     @State var isShowingPhotoPicker = false
     @State var isShowingAccessDeniedAlert = false
     let categories = ["Health", "Education", "Family"]
-    let alertMessage = String(describing: Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription")!) + " Go to Settings and allow AuTime to access your photos."
+    let alertMessage = String(describing: Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription")!) + " Abra as Configurações e permita ao AuTime acessar suas fotos."
     
     var body: some View{
         
@@ -92,7 +92,7 @@ struct NewActivity: View {
                 PhotoPicker(activityImage: $activityImage)
             })
             .alert(isPresented: $isShowingAccessDeniedAlert) { () -> Alert in
-                Alert(title: Text("AuTime Would Like to Access Your Photos"), message: Text(self.alertMessage), primaryButton: .default(Text("Cancel")), secondaryButton: .default(Text("Go to Settings"), action: {
+                Alert(title: Text("AuTime Would deseja acessar as suas fotos"), message: Text(self.alertMessage), primaryButton: .default(Text("Cancelar")), secondaryButton: .default(Text("Abrir Configurações"), action: {
                     guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                         return
                     }

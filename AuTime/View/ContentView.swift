@@ -24,7 +24,7 @@ struct ContentView: View {
     
     init(show: Binding<Bool>) {
         self._showContentView = show
-        self.imageVM.downloadImage(from: "users/\(String(describing: userManager.session?.email))/Activities/ocapi")
+        self.imageVM.downloadImage(from: "users/\(String(describing: userManager.session?.email))/Activities/ocapi"){}
         
         var photo: UIImage!
         
@@ -72,7 +72,7 @@ struct ContentView: View {
                 do {
                     if let email = userManager.session?.email{
                         try UIImage(named: "\(imageName)")!.pngData()?.write(to: imageURL)
-                        imageVM.uploadImage(urlFile: imageURL, filePath: "users/\(email)/SubActivities/\(imageName)")
+                        imageVM.uploadImage(urlFile: imageURL, filePath: "users/\(email)/SubActivities/\(imageName)") {}
                     }
                     
                 } catch { }
@@ -83,7 +83,7 @@ struct ContentView: View {
             .padding()
             
             Button(action: {
-                let _ = imageVM.downloadImage(from: "users/\(String(describing: userManager.session?.email))/SubActivities/ocapi")
+                let _ = imageVM.downloadImage(from: "users/\(String(describing: userManager.session?.email))/SubActivities/ocapi"){}
             }, label: {
                 Text("DOWNLOAD")
                     .foregroundColor(.red)

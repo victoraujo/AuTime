@@ -16,7 +16,7 @@ class UserViewModel: ObservableObject {
     @Published var logged = false
     
     var db = Firestore.firestore()
-
+    
     var didChange = PassthroughSubject<UserViewModel, Never>()
     var handle: AuthStateDidChangeListenerHandle?
     
@@ -25,7 +25,6 @@ class UserViewModel: ObservableObject {
     }
     
     func listen(){
-        print("Listening User")
         handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
             if let user = user {
                 self.session = UserSession(uid: user.uid, email: user.email)
@@ -43,7 +42,6 @@ class UserViewModel: ObservableObject {
             if let error = error {
                 print(error.localizedDescription)
             } else {
-                print("Signed Up!")
                 self.createUser()
             }
         })
@@ -55,7 +53,6 @@ class UserViewModel: ObservableObject {
                 print(error.localizedDescription)
             } else{
                 self.logged = true
-                print("Signed In!")
             }
         })
     }
@@ -63,13 +60,13 @@ class UserViewModel: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
-            print("Logged out!")
+            self.logged = false
         } catch let error {
             print("Logout error: \(error.localizedDescription)")
         }
     }
     
-    func createUser() {        
+    func createUser() {
         if let session = self.session {
             self.db.collection("users").document(session.email!).setData([
                 "emails": [session.email!]
@@ -78,7 +75,7 @@ class UserViewModel: ObservableObject {
     }
     
     func isLogged() -> Bool {
-        return logged//(Auth.auth().currentUser?.isEmailVerified ?? false)
+        return logged
     }
     
 }
