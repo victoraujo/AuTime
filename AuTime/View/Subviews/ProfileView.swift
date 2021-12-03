@@ -197,7 +197,20 @@ struct ProfileView: View {
                                             TextField("Nova Senha", text: $newPassword)
                                             TextField("Confirmar Senha", text: $confirmPassword)
                                         })
+                                        
+                                        HStack {
+                                            
+                                            Text("Esqueceu a Senha?")
+                                                .foregroundColor(.blue)
+                                                .onTapGesture(perform: {
+                                                    // TO DO:
+                                                    // LINK TO FORGOT PASSWORD PAGE!
+                                                })
+                                            
+                                            Spacer()
+                                        }
                                     }
+                                    
                                 }
                                 .onDisappear {
                                     self.currentPassword = ""
@@ -213,6 +226,7 @@ struct ProfileView: View {
                                     ToolbarItem(placement: ToolbarItemPlacement.automatic) {
                                         Button(action: {
                                             if  currentPassword != "" && newPassword != "" && confirmPassword != "" {
+                                                // TO DO
                                                 // if currentPassword == SENHA {
                                                 //  CHANGE PASSWORD
                                                 // } else {
