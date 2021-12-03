@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ActivitiesByCategoryView: View {
+    @ObservedObject var env: AppEnvironment
     @State private var showingPopover = false
     
     var category: String
@@ -51,7 +52,7 @@ struct ActivitiesByCategoryView: View {
                 
             }
             .sheet(isPresented: $showingPopover){
-                NewActivity(showingPopover: $showingPopover)
+                NewActivity(env: env, showingPopover: $showingPopover)
             }
         }
     }

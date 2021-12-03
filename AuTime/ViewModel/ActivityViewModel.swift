@@ -34,7 +34,7 @@ class ActivityViewModel: ObservableObject {
     ///   - days: Activity repeat days
     ///   - time: The time the activity is scheduled
     ///   - handler: Function to execute after create procedure
-    func createActivity(category: String, completions: [Completion], star: Bool, name: String, days: [Int], steps: Int, time: Date, handler: @escaping () -> Void?) {
+    func createActivity(category: String, completions: [Completion], star: Bool, name: String, days: [Int], steps: Int, time: Date, image: UIImage, handler: @escaping () -> Void?) {
         
         let activityCompletions: [[String:String]] = completions.map{ ["date": DateHelper.dateToString(from: $0.date), "feedback": $0.feedback]}
         
@@ -46,27 +46,29 @@ class ActivityViewModel: ObservableObject {
                 "name": name,
                 "repeatDays": days,
                 "steps": steps,
-                "time": DateHelper.dateToString(from: time)
+                "time": DateHelper.getHoursAndMinutes(from: time)
             ]) { err in
                 if let err = err {
                     print("Error adding document on createActivity: \(err)")
                 }
-                else{
-                    handler()
+                else {
+                    guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(name)") else {
+                        return
+                    }
+                    
+                    do {
+                        if let email = self.userManager.session?.email {
+                            try image.pngData()?.write(to: imageURL)
+                            self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(email)/Activities/\(name)", completion: {
+                                handler()
+                            })
+                        }
+                    } catch {
+                        print("Can't upload the image \(name) to Activities folder.")
+                    }
+                    
                 }
             }
-            
-            //            guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
-            //                return
-            //            }
-            //
-            //            // Save image to URL
-            //            do {
-            //                try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
-            //                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/Activities/\(name)")
-            //            } catch {
-            //                print("Can't upload the image \(name) to Activities folder.")
-            //            }
         }
     }
     
@@ -219,7 +221,7 @@ class ActivityViewModel: ObservableObject {
     }
     
     func getActivitiesByCategory(category: String) -> [Activity] {
-        return self.activities.filter({$0.category == category})                
+        return self.activities.filter({$0.category == category})
     }
     
 }

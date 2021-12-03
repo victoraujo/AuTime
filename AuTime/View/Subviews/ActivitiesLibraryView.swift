@@ -85,7 +85,7 @@ struct ActivitiesLibraryView: View {
                 
             }
             .sheet(isPresented: $showingPopover){
-                NewActivity(showingPopover: $showingPopover)
+                NewActivity(env: env, showingPopover: $showingPopover)
             }
         }
     }
