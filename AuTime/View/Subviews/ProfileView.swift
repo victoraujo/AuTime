@@ -343,9 +343,9 @@ struct ProfileView: View {
                 self.childImageManager.downloadImage(from: childPath, {
                     self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
                 })
-                                                
+                
                 var parentImageName: String = "\(profileManager.profileInfo.lastUpdateParentPhoto)"
-                parentImageName += "-child.png"
+                parentImageName += "-parent.png"
                 let parentPath = "users/\(email)/Profile/\(parentImageName)"
                 self.parentImageManager.downloadImage(from: parentPath) {
                     self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
@@ -367,7 +367,7 @@ struct ProfileView: View {
                     }
                     
                     var parentImageName: String = "\(profileManager.profileInfo.lastUpdateParentPhoto)"
-                    parentImageName += "-child.png"
+                    parentImageName += "-parent.png"
                     let parentPath = "users/\(email)/Profile/\(parentImageName)"
                     self.parentImageManager.downloadImage(from: parentPath) {
                         self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
@@ -390,31 +390,21 @@ struct ProfileView: View {
                 }
                 
                 var parentImageName: String = "\(profileManager.profileInfo.lastUpdateParentPhoto)"
-                parentImageName += "-child.png"
-                let parentPath = "users/\(email)/Profile/\(parentImageName)"
-                self.parentImageManager.downloadImage(from: parentPath) {
-                    self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
-                }
-            }
-        })
-        .onChange(of: childImageManager.imageView.image, perform: { _ in
-            if let email = userManager.session?.email {
-                var childImageName: String = "\(profileManager.profileInfo.lastUpdateChildPhoto)"
-                childImageName += "-child.png"
-                let childPath = "users/\(email)/Profile/\(childImageName)"
-                self.childImageManager.downloadImage(from: childPath) {
-                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
-                }
-            }
-        })
-        .onChange(of: parentImageManager.imageView.image, perform: { _ in
-            if let email = userManager.session?.email {
-                var parentImageName: String = "\(profileManager.profileInfo.lastUpdateParentPhoto)"
                 parentImageName += "-parent.png"
                 let parentPath = "users/\(email)/Profile/\(parentImageName)"
                 self.parentImageManager.downloadImage(from: parentPath) {
                     self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
                 }
+            }
+        })
+        .onChange(of: childImageManager.imageView.image, perform: { image in
+            if let image = image {
+                self.childPhoto = image
+            }
+        })
+        .onChange(of: parentImageManager.imageView.image, perform: { image in
+            if let image = image {
+                self.parentPhoto = image
             }
         })
         .onDisappear {
