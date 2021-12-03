@@ -214,10 +214,12 @@ struct ChildView: View {
                 self.currentActivityReference = nil
                 
                 if let email = userManager.session?.email {
-                    let childPath = "users/\(email)/Profile/child"
-                    self.childImageManager.downloadImage(from: childPath) {
+                    var childImageName: String = "\(profileManager.profileInfo.lastUpdateChildPhoto)"
+                    childImageName += "-child.png"
+                    let childPath = "users/\(email)/Profile/\(childImageName)"
+                    self.childImageManager.downloadImage(from: childPath, {
                         self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
-                    }
+                    })
                 }
             }
             .onChange(of: self.userManager.session, perform: { _ in
@@ -236,18 +238,17 @@ struct ChildView: View {
             })
             .onChange(of: profileManager.profileInfo, perform: { profile in
                 if let email = userManager.session?.email {
-                    let childPath = "users/\(email)/Profile/child"
+                    var childImageName: String = "\(profileManager.profileInfo.lastUpdateChildPhoto)"
+                    childImageName += "-child.png"
+                    let childPath = "users/\(email)/Profile/\(childImageName)"
                     self.childImageManager.downloadImage(from: childPath) {
                         self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
                     }
                 }
             })
-            .onChange(of: childImageManager.imageView.image, perform: { _ in
-                if let email = userManager.session?.email {
-                    let filePath = "users/\(email)/Profile/child"
-                    self.childImageManager.downloadImage(from: filePath) {
-                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
-                    }
+            .onChange(of: childImageManager.imageView.image, perform: { image in
+                if let image = image {
+                    self.childPhoto = image
                 }
             })
             .fullScreenCover(isPresented: $env.isShowingSubActivities){

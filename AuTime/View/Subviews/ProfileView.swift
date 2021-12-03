@@ -350,9 +350,6 @@ struct ProfileView: View {
                 self.parentImageManager.downloadImage(from: parentPath) {
                     self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
                 }
-                
-                print("CHILD PATH: \(childPath)")
-                print("PARENT PATH: \(parentPath)")
             }
             
         }
