@@ -13,6 +13,7 @@ struct ActivitiesLibraryView: View {
     @ObservedObject var imageManager = ImageViewModel()
     @ObservedObject var env: AppEnvironment
     @State private var showingPopover = false
+    @State var activities: [Activity] = []
     
     var body: some View {
         GeometryReader{ geometry in
@@ -85,8 +86,14 @@ struct ActivitiesLibraryView: View {
                 
             }
             .sheet(isPresented: $showingPopover){
-                NewActivity(showingPopover: $showingPopover)
+                NewActivity(env: env, showingPopover: $showingPopover)
             }
         }
+        .onAppear {
+            self.activities = self.activitiesVM.activities
+        }
+        .onChange(of: self.activitiesVM.activities, perform: { activities in
+            self.activities = activities            
+        })
     }
 }

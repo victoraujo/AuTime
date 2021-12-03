@@ -30,7 +30,7 @@ struct WeekScheduleView: View {
                                 
                                 ForEach(weekActivities){ activity in
                                     VStack(alignment: .leading){
-                                        ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.2, height: geometry.size.height*0.2, alignment: . center)
+                                        ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.25, height: geometry.size.height*0.25, alignment: . center)
                                         Text(activity.category.uppercased())
                                             .font(.subheadline)
                                             .foregroundColor(.black90Color)
@@ -54,7 +54,7 @@ struct WeekScheduleView: View {
                                             Text(activity.lastCompletionFeedback())
                                                 .font(.body)
                                                 .foregroundColor(.black90Color)
-                                                .opacity(DateHelper.datesMatch(activity.lastCompletionDate(), Date()) ? 1 : 0)
+                                                .opacity(DateHelper.datesMatch(activity.lastCompletionDate(), DateHelper.addNumberOfDaysToDate(date: Date(), count: dayCount)) ? 1 : 0)
                                         }                                        
                                     }
                                     .padding()

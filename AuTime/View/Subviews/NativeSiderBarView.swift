@@ -31,7 +31,7 @@ struct NativeSideBarView: View {
                 })
                 
                 ForEach(env.categories, id: \.self) { category in
-                    NavigationLink(destination: ActivitiesByCategoryView(category: category, activities: activitiesManager.getActivitiesByCategory(category: category)), label: {
+                    NavigationLink(destination: ActivitiesByCategoryView(env: env, category: category, activities: activitiesManager.getActivitiesByCategory(category: category)), label: {
                         //Label("\(category)", systemImage: "")
                         Text("\(category)")
                     })

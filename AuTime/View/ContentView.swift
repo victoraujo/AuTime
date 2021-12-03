@@ -49,7 +49,7 @@ struct ContentView: View {
             }
             Image(uiImage: self.image)
             Button(action: {
-                activitiesManager.createActivity(category: "Teste", completions: [Completion(date: Date(), feedback: "Joyful")], star: true, name: "Zaga", days: [1, 2, 4, 6], steps: 0, time: Date(), handler: {})
+                activitiesManager.createActivity(category: "Teste", completions: [Completion(date: Date(), feedback: "Joyful")], star: true, name: "Zaga", days: [1, 2, 4, 6], steps: 0, time: Date(), image: image, handler: {})
             }, label: {
                 Text("ADD ACTIVITY")
             })
