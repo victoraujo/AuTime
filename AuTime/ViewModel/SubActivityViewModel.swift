@@ -14,45 +14,42 @@ class SubActivityViewModel: ObservableObject {
     
     @Published var subActivities = [SubActivity]()
     @Published var activityReference: String?
-
+    
     //static var shared = SubActivityViewModel()
     
     var db = Firestore.firestore()
+    
+    func createSubActivity(name: String, order: Int, image: UIImage, handler: @escaping () -> Void?) {
+        guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(name)") else {
+            return
+        }
         
-    func createSubActivity(complete: Date, name: String, handler: @escaping () -> Void?) {
-        print("Get subs")
         if let docId = userManager.session?.email, let activityId = self.activityReference {
-            print("email: \(docId)    -       activity: \(activityId)")
-            let _ = db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addDocument(data: [
-                "complete": complete,
-                "name": name
-            ]) { err in
-                if let err = err {
-                    print("error adding document on CreateSubActivity:\(err)")
-                }
-                else{
-                    print("email: \(docId); id: \(activityId)")
-                    handler()
-                }
-            }
             
-            guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
-                return
-            }
-            
-            // Save image to URL
             do {
-                try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
-                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/SubActivities/\(name)") {}
-            } catch {
-                print("Can't upload the image \(name) to SubActivities folder.")
+                try image.pngData()?.write(to: imageURL)
+                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(docId)/SubActivities/\(name.unaccent())", completion: {
+                    let _ = self.db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").addDocument(data: [
+                        "name": name,
+                        "order": order
+                    ]) { err in
+                        if let err = err {
+                            print("error adding document on CreateSubActivity:\(err)")
+                        }
+                        else{
+                            handler()
+                        }
+                    }
+                })
+            }
+            catch let error {
+                print("Error \(error.localizedDescription) in Create SubActivity \(name)")
             }
         }
     }
     
+    
     func fetchData() {
-        print(userManager.session?.email ?? "Nenhum User")
-        
         if let docId = userManager.session?.email, let activityId = self.activityReference {
             print("email: \(docId); id: \(activityId)")
             
@@ -96,3 +93,4 @@ class SubActivityViewModel: ObservableObject {
     }
     
 }
+

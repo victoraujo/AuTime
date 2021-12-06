@@ -173,6 +173,10 @@ struct NewActivity: View {
                                                 subActivityImage = subactivity.image
                                                 subActivityName = subactivity.name
                                             }
+                                            .onDisappear {
+                                                self.subActivityName = ""
+                                                self.subActivityImage = UIImage(named: "PlaceholderImage.png") ?? UIImage()
+                                            }
                                             .toolbar {
                                                 ToolbarItem(placement: ToolbarItemPlacement.principal) {
                                                     Text("Editar Subatividade")
@@ -184,11 +188,9 @@ struct NewActivity: View {
                                                     Button(action: {
                                                         if checkFields() {
                                                             if let index = self.listSubactivities.firstIndex(where: {$0.name == subactivity.name}) {
-                                                                
                                                                 listSubactivities[index] = ListSubActivity(name: subActivityName, order: index, image: subActivityImage)
                                                             }
-                                                            
-                                                            
+                                                                                                                        
                                                             self.isCreatingSubActivity = false
                                                         } else {
                                                             print("Campos vazios")
@@ -332,9 +334,19 @@ struct NewActivity: View {
                     ToolbarItem(placement: ToolbarItemPlacement.automatic) {
                         Button(action: {
                             if checkFields() {
-                                ActivityViewModel.shared.createActivity(category: selectedCategory, completions: [], star: activityStar, name: activityName, days: [], steps: 0, time: Date(), image: activityImage, handler: {
+                                ActivityViewModel.shared.createActivity(category: selectedCategory, completions: [], star: activityStar, name: activityName, days: [], steps: listSubactivities.count, time: Date(), image: activityImage) {
                                     ActivityViewModel.shared.fetchData()
-                                })
+                                    if let activity = ActivityViewModel.shared.activities.first(where: {$0.name == activityName}), let id = activity.id {
+                                        for i in 0...listSubactivities.count-1 {
+                                            let sub = listSubactivities[i]
+                                            let subManager = SubActivityViewModel()
+                                            subManager.activityReference = id
+                                            subManager.createSubActivity(name: sub.name, order: i, image: sub.image) {}
+                                        }
+                                    }
+                                 
+                                    return nil
+                                }
                                 
                                 showingPopover = false
                             } else {
