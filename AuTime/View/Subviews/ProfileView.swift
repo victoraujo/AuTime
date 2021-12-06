@@ -28,15 +28,7 @@ struct ProfileView: View {
     @State var newPassword: String = ""
     @State var confirmPassword: String = ""
     
-    let alertMessage = String(describing: Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription")!) + " Abra as Configurações e permita ao AuTime acessar suas fotos."
-    
-    enum AlertType {
-        case none
-        case emptyField
-        case deleteAccount
-        case confirmDeleteAccount
-        case accessPhotosDenied
-    }
+    let alertMessage = String(describing: Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription")!) + " Abra as Configurações e permita ao AuTime acessar suas fotos."        
     
     @State var showAlert: Bool = false
     @State var showConfirmDeleteAccount: Bool = false
@@ -307,7 +299,7 @@ struct ProfileView: View {
                             // TO DO: USER MANAGER -> DELETE ACCOUNT
                         })
                     } else if alertType == .accessPhotosDenied {
-                        return Alert(title: Text("AuTime Would deseja acessar as suas fotos"), message: Text(self.alertMessage), primaryButton: .default(Text("Cancelar")), secondaryButton: .default(Text("Abrir Configurações"), action: {
+                        return Alert(title: Text("AuTime deseja acessar as suas fotos"), message: Text(self.alertMessage), primaryButton: .default(Text("Cancelar")), secondaryButton: .default(Text("Abrir Configurações"), action: {
                             guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                                 return
                             }
