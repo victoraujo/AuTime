@@ -120,11 +120,86 @@ struct NewActivity: View {
                             } else {
                                 List {
                                     ForEach(listSubactivities, id: \.self) { subactivity in
-//                                        NavigationLink(destination: {
-//                                            VStack {
-//                                                Text("OIIII")
-//                                            }
-//                                        }, label: {
+                                        NavigationLink(destination: {
+                                            VStack {
+                                                Form {
+                                                    Section {
+                                                        HStack{
+                                                            Spacer()
+                                                            Image(uiImage: subActivityImage)
+                                                                .resizable()
+                                                                .frame(width: geometry.size.width * 0.45, height: geometry.size.height * 0.3)
+                                                                .aspectRatio(contentMode: .fill)
+                                                                .cornerRadius(21)
+                                                                .padding()
+                                                                .onTapGesture {
+                                                                    let photos = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+                                                                    
+                                                                    // TO DO: Separate access for limited and authorized
+                                                                    if photos == .limited || photos == .authorized {
+                                                                        isShowingSubactivityPhotoPicker = true
+                                                                        isShowingAccessDeniedAlert = false
+                                                                    }
+                                                                    else {
+                                                                        PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
+                                                                            
+                                                                            // TO DO: Separate access for limited and authorized
+                                                                            if status == .limited || status == .authorized {
+                                                                                isShowingSubactivityPhotoPicker = true
+                                                                                isShowingAccessDeniedAlert = false
+                                                                            }
+                                                                            else {
+                                                                                isShowingSubactivityPhotoPicker = false
+                                                                                isShowingAccessDeniedAlert = true
+                                                                            }
+                                                                        })
+                                                                    }
+                                                                }
+                                                            Spacer()
+                                                        }
+                                                        
+                                                        Section {
+                                                            TextField("Título da Subatividade", text: $subActivityName)
+                                                                .padding()
+                                                                .cornerRadius(8)
+                                                        }
+                                                        .onAppear {
+                                                            subActivityName = subactivity.name
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            .onAppear {
+                                                subActivityImage = subactivity.image
+                                                subActivityName = subactivity.name
+                                            }
+                                            .toolbar {
+                                                ToolbarItem(placement: ToolbarItemPlacement.principal) {
+                                                    Text("Editar Subatividade")
+                                                        .font(.title2)
+                                                        .bold()
+                                                }
+                                                
+                                                ToolbarItem(placement: ToolbarItemPlacement.automatic) {
+                                                    Button(action: {
+                                                        if checkFields() {
+                                                            if let index = self.listSubactivities.firstIndex(where: {$0.name == subactivity.name}) {
+                                                                
+                                                                listSubactivities[index] = ListSubActivity(name: subActivityName, order: index, image: subActivityImage)
+                                                            }
+                                                            
+                                                            
+                                                            self.isCreatingSubActivity = false
+                                                        } else {
+                                                            print("Campos vazios")
+                                                        }
+                                                    }, label: {
+                                                        Text("Salvar")
+                                                            .bold()
+                                                    })
+                                                }
+                                            }
+                                        }, label: {
                                             HStack (alignment: .center){
                                                 Image(uiImage: subactivity.image)
                                                     .resizable()
@@ -137,7 +212,7 @@ struct NewActivity: View {
                                                     .font(.title3)
                                                     .padding()
                                             }
-                                        //})
+                                        })
                                     }
                                     .onDelete { (indexSet) in
                                         self.listSubactivities.remove(atOffsets: indexSet)
