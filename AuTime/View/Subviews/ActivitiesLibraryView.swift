@@ -13,6 +13,7 @@ struct ActivitiesLibraryView: View {
     @ObservedObject var imageManager = ImageViewModel()
     @ObservedObject var env: AppEnvironment
     @State private var showingPopover = false
+    @State var activities: [Activity] = []
     
     var body: some View {
         GeometryReader{ geometry in
@@ -40,7 +41,7 @@ struct ActivitiesLibraryView: View {
                                 }
                                 .padding()
                             }
-                        }                        
+                        }
                     }.padding(.bottom)
                     
                     ForEach(env.categories, id: \.self){ category in
@@ -52,18 +53,44 @@ struct ActivitiesLibraryView: View {
                             Spacer()
                         }
                         ScrollView(.horizontal, showsIndicators: false){
-                            HStack{
-                                ForEach(activitiesVM.activities.filter{ $0.category.elementsEqual(category)}){ activity in
-                                    VStack(alignment: .leading){
-                                        ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.2, height: geometry.size.height*0.2, alignment: . center)
-                                        Text(activity.name)
-                                            .font(.title3)
-                                        Text("\(activity.stepsCount) passos")
-                                            .foregroundColor(.gray)
+                            let filtered = activitiesVM.activities.filter{ $0.category.elementsEqual(category)}
+                            
+                            if filtered.count == 0 {
+                                HStack {
+                                    Spacer()
+                                    VStack (alignment: .center){
+                                        Text("Nenhuma Atividade")
+                                            .font(.title2)
+                                            .bold()
+                                            .padding()
+                                        
+                                        Text("Você ainda não adicionou nenhuma atividade a esta categoria.")
+                                            .font(.subheadline)
+                                            .foregroundColor(.black90Color)
+                                        
                                     }
-                                    .padding()
+                                    .frame(alignment: .center)
+                                    
+                                    Spacer()
+                                }
+                                .frame(idealWidth: geometry.size.width, minHeight: geometry.size.height*0.2)
+                            } else {
+                                
+                                HStack{
+                                    ForEach(filtered){ activity in
+                                        VStack(alignment: .leading){
+                                            ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.2, height: geometry.size.height*0.2, alignment: . center)
+                                            Text(activity.name)
+                                                .font(.title3)
+                                            Text("\(activity.stepsCount) passos")
+                                                .foregroundColor(.gray)
+                                        }
+                                        .padding()
+                                    }
                                 }
                             }
+                            
+                            
                         }.padding(.bottom)
                     }
                     
@@ -85,8 +112,14 @@ struct ActivitiesLibraryView: View {
                 
             }
             .sheet(isPresented: $showingPopover){
-                NewActivity(showingPopover: $showingPopover)
+                NewActivity(env: env, showingPopover: $showingPopover)
             }
         }
+        .onAppear {
+            self.activities = self.activitiesVM.activities
+        }
+        .onChange(of: self.activitiesVM.activities, perform: { activities in
+            self.activities = activities
+        })
     }
 }

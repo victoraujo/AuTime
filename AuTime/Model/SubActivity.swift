@@ -14,3 +14,9 @@ struct SubActivity: Identifiable, Codable, Hashable {
     var order: Int
     //var image: Data
 }
+
+struct ListSubActivity: Hashable {
+    var name: String
+    var order: Int
+    var image: UIImage
+}

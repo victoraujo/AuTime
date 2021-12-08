@@ -20,7 +20,7 @@ struct ActivityImageView: View {
         
         if let email = userManager.session?.email {
             let filePath = "users/\(email)/Activities/\(self.name)"
-            self.imageManager.downloadImage(from: filePath){}
+            self.imageManager.downloadImage(from: filePath) {}
         }
         
     }
@@ -34,9 +34,19 @@ struct ActivityImageView: View {
                     .frame(width: geometry.size.width, height: geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .onAppear {
-                self.image = self.imageManager.imageView.image ?? UIImage()
+            .onAppear {                
+                if let email = userManager.session?.email {
+                    let filePath = "users/\(email)/Activities/\(self.name)"
+                    self.imageManager.downloadImage(from: filePath) {
+                        self.image = self.imageManager.imageView.image ?? UIImage()
+                    }
+                }
             }
+            .onChange(of: self.imageManager.imageView.image, perform: { image in
+                if let image = image {
+                    self.image = image
+                }
+            })
         }
     }
 }

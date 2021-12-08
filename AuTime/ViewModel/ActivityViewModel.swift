@@ -34,39 +34,41 @@ class ActivityViewModel: ObservableObject {
     ///   - days: Activity repeat days
     ///   - time: The time the activity is scheduled
     ///   - handler: Function to execute after create procedure
-    func createActivity(category: String, completions: [Completion], star: Bool, name: String, days: [Int], steps: Int, time: Date, handler: @escaping () -> Void?) {
-        
-        let activityCompletions: [[String:String]] = completions.map{ ["date": DateHelper.dateToString(from: $0.date), "feedback": $0.feedback]}
+    func createActivity(category: String, completions: [Completion], star: Bool, name: String, days: [Int], steps: Int, time: Date, image: UIImage, handler: @escaping () -> Void?) {
+                
+        guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(name)") else {
+            return
+        }
         
         if let docId = userManager.session?.email {
-            _ = db.collection("users").document(docId).collection("activities").addDocument(data: [
-                "category": category,
-                "completions": activityCompletions,
-                "generateStar": star,
-                "name": name,
-                "repeatDays": days,
-                "steps": steps,
-                "time": DateHelper.dateToString(from: time)
-            ]) { err in
-                if let err = err {
-                    print("Error adding document on createActivity: \(err)")
-                }
-                else{
-                    handler()
-                }
+            do {
+                try image.pngData()?.write(to: imageURL)
+                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(docId)/Activities/\(name.unaccent())", completion: {
+                    let activityCompletions: [[String:String]] = completions.map{ ["date": DateHelper.dateToString(from: $0.date), "feedback": $0.feedback]}
+                    
+                    _ = self.db.collection("users").document(docId).collection("activities").addDocument(data: [
+                        "category": category,
+                        "completions": activityCompletions,
+                        "generateStar": star,
+                        "name": name,
+                        "repeatDays": days,
+                        "steps": steps,
+                        "time": DateHelper.getHoursAndMinutes(from: time)
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document on createActivity: \(err)")
+                            
+                        }
+                        else {
+                            handler()
+                        }
+                    }
+                    
+                })
+                
+            } catch let error {
+                print("Can't upload the image \(name) to Activities folder. Error: \(error.localizedDescription)")
             }
-            
-            //            guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("ocapi") else {
-            //                return
-            //            }
-            //
-            //            // Save image to URL
-            //            do {
-            //                try UIImage(named: "ocapi")!.pngData()?.write(to: imageURL)
-            //                self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(String(describing: userManager.session?.email))/Activities/\(name)")
-            //            } catch {
-            //                print("Can't upload the image \(name) to Activities folder.")
-            //            }
         }
     }
     
@@ -219,7 +221,7 @@ class ActivityViewModel: ObservableObject {
     }
     
     func getActivitiesByCategory(category: String) -> [Activity] {
-        return self.activities.filter({$0.category == category})                
+        return self.activities.filter({$0.category == category})
     }
     
 }
