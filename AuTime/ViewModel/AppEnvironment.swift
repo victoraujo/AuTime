@@ -21,7 +21,7 @@ class AppEnvironment: ObservableObject {
     @Published var scheduleIsOpen: Bool = false    
     @Published var activitiesLibraryIsOpen: Bool = false
     
-    @Published var categories: [String] = ["Educação", "Saúde", "Prêmio"]
+    @Published var categories: [String] = ["Amigos", "Casa", "Diversão", "Educação", "Família", "Higiene", "Prêmio", "Saúde", "Terapia"].sorted()
     
     @Published var childName = "João"
     @Published var childPhoto = UIImage(imageLiteralResourceName: "JoaoMemoji.png")

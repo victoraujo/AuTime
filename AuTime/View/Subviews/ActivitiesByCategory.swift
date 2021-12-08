@@ -16,29 +16,55 @@ struct ActivitiesByCategoryView: View {
     
     var body: some View {
         GeometryReader{ geometry in
-            VStack{
+            
+            
+            VStack {
                 SearchBar(text: .constant(""))
-                ScrollView(.vertical){
-                    
-                    ScrollView(.vertical) {
-                        LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], alignment: .leading, spacing: geometry.size.width*0.05, pinnedViews: [], content: {
-                            
-                            ForEach(activities.sorted(by: { $0.name.uppercased() < $1.name.uppercased() })){ activity in
-                                VStack(alignment: .leading){
-                                    ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.275, height: geometry.size.height*0.275, alignment: . center)
-                                    Text(activity.name)
-                                        .font(.title3)
-                                    Text("\(activity.stepsCount) passos")
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                        })
-                    }
-                    .padding()
-                                                            
-                    Spacer()
-                }
                 
+                if activities.count == 0 {
+                    Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        VStack (alignment: .center){
+                            Text("Nenhuma Atividade")
+                                .font(.largeTitle)
+                                .bold()
+                                .padding()
+                            
+                            Text("Você ainda não adicionou nenhuma atividade a esta categoria.")
+                                .font(.headline)
+                                .foregroundColor(.black90Color)
+                            
+                        }
+                        .frame(alignment: .center)
+                        
+                        Spacer()
+                    }
+                    
+                    Spacer()
+                } else {
+                    ScrollView(.vertical){
+                        
+                        ScrollView(.vertical) {
+                            LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], alignment: .leading, spacing: geometry.size.width*0.05, pinnedViews: [], content: {
+                                
+                                ForEach(activities.sorted(by: { $0.name.uppercased() < $1.name.uppercased() })){ activity in
+                                    VStack(alignment: .leading){
+                                        ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.275, height: geometry.size.height*0.275, alignment: . center)
+                                        Text(activity.name)
+                                            .font(.title3)
+                                        Text("\(activity.stepsCount) passos")
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                            })
+                        }
+                        .padding()
+                        
+                        Spacer()
+                    }
+                }
             }
             .navigationTitle("\(category)")
             .toolbar {
@@ -54,6 +80,7 @@ struct ActivitiesByCategoryView: View {
             .sheet(isPresented: $showingPopover){
                 NewActivity(env: env, showingPopover: $showingPopover)
             }
+            
         }
     }
 }
