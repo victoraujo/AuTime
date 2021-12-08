@@ -27,8 +27,11 @@ class PremiumViewModel: ObservableObject {
                 guard let document = snapshot else {
                     return
                 }
-                let data  = document.data()
-                self.premiumCount = data!["count"] as? Int ?? 0
+                if let data  = document.data(){
+                    self.premiumCount = data["count"] as? Int ?? 0}
+                else {
+                    self.premiumCount = 0
+                }
             }
         }
     }
