@@ -255,7 +255,7 @@ struct SubActivitiesView: View {
                             }, label: {
                                 Text("Voltar")
                                     .foregroundColor(.black100Color)
-                                    .font(.title3)
+                                    .font(.headline)
                                     .fontWeight(.bold)
                                     .padding()
                                     .padding(.horizontal)
@@ -277,7 +277,7 @@ struct SubActivitiesView: View {
                             }, label: {
                                 Text("Atividade Completada")
                                     .foregroundColor(.black100Color)
-                                    .font(.title3)
+                                    .font(.headline)
                                     .fontWeight(.bold)
                                     .padding()
                                     .padding(.horizontal)

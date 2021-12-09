@@ -7,25 +7,41 @@
 
 import SwiftUI
 import Firebase
-import CoreMIDI
-import AVFoundation
+import Combine
+import FirebaseAuth
 
 class ProfileViewModel: ObservableObject {
     public static var shared = ProfileViewModel()
     
     @ObservedObject var userManager = UserViewModel.shared
     @Published var profileInfo: Profile
+    var session: UserSession? {didSet {self.didChange.send(self)}}
     
     var db = Firestore.firestore()
     
+    var didChange = PassthroughSubject<ProfileViewModel, Never>()
+    var handle: AuthStateDidChangeListenerHandle?
+    
     init() {
         self.profileInfo = Profile()
-        self.listen()
+        self.listenUser()
+    }
+    
+    func listenUser() {
+        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
+            if let user = user {
+                self.session = UserSession(uid: user.uid, email: user.email)
+                self.listen()
+            }
+            else{
+                self.session = nil
+            }
+        })
     }
     
     func listen() {
-        if let docId = userManager.session?.email {
-            db.collection("users").document(docId).collection("profile").document("profile").addSnapshotListener { snapshot, err in
+        if let docId = self.session?.email {
+            db.collection("users").document(docId).addSnapshotListener { snapshot, err in
                 guard let document = snapshot else {
                     return
                 }
@@ -35,8 +51,6 @@ class ProfileViewModel: ObservableObject {
                     self.profileInfo.childName = data["childName"] as? String ?? ""
                     self.profileInfo.lastUpdateChildPhoto = data["lastUpdateChildPhoto"] as? Int ?? 0
                     self.profileInfo.lastUpdateParentPhoto = data["lastUpdateParentPhoto"] as? Int ?? 0
-                    
-                    print("PROFILE: \(self.profileInfo)")
                 }
             }
         }
@@ -65,11 +79,9 @@ class ProfileViewModel: ObservableObject {
             
             if let lastUpdateChildPhoto = lastUpdateChildPhoto {
                 fields["lastUpdateChildPhoto"] = lastUpdateChildPhoto
-            }                        
+            }                                                
             
-            print("FIELDS: \(fields)")
-            
-            self.db.collection("users").document(docId).collection("profile").document("profile").updateData(fields, completion: { _ in
+            self.db.collection("users").document(docId).updateData(fields, completion: { _ in
                 do {
                     self.profileInfo = try JSONDecoder().decode(Profile.self, from: JSONSerialization.data(withJSONObject: fields))
                 } catch let error {

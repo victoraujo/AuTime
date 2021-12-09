@@ -8,17 +8,25 @@
 import Foundation
 import Firebase
 import Combine
+import FirebaseAuth
 
 class UserViewModel: ObservableObject {
     public static var shared = UserViewModel()
     
     @Published var session: UserSession? {didSet {self.didChange.send(self)}}
     @Published var logged = false
+    var error: Error?
     
     var db = Firestore.firestore()
     
     var didChange = PassthroughSubject<UserViewModel, Never>()
     var handle: AuthStateDidChangeListenerHandle?
+    
+    enum erro {
+        case none
+        case invalid
+    }
+    
     
     public init() {
         self.listen()
@@ -37,23 +45,33 @@ class UserViewModel: ObservableObject {
         self.objectWillChange.send()
     }
     
-    func signUp(email: String, password: String) {
+    func signUp(email: String, password: String, parentName: String, childName: String, completion: (_ erro: Error?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (result, error) in
             if let error = error {
+                self.error = error
                 print(error.localizedDescription)
             } else {
-                self.createUser()
+                print("Signed Up!")
+                self.createUser(parentName: parentName, childName: childName)
+                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                changeRequest?.displayName = parentName
+                changeRequest?.commitChanges { (error) in
+                    print(error?.localizedDescription ?? "none")
+                }
+                self.confirmEmail()
             }
         })
+        completion(error)
     }
     
-    func signIn(email: String, password: String){
+    func signIn(email: String, password: String, completion: @escaping () -> Void){
         Auth.auth().signIn(withEmail: email, password: password, completion: { (result, error) in
             if let error = error {
                 print(error.localizedDescription)
-            } else{
+            } else{                
                 self.logged = true
             }
+            completion()
         })
     }
     
@@ -66,16 +84,32 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func createUser() {
+    func createUser(parentName: String, childName: String) {
         if let session = self.session {
             self.db.collection("users").document(session.email!).setData([
-                "emails": [session.email!]
+                "emails": [session.email!],
+                "parentName": parentName,
+                "childName": childName,
+                "lastUpdateChildPhoto": 0,
+                "lastUpdateParentPhoto": 0
             ])
         }
     }
     
-    func isLogged() -> Bool {
-        return logged
+    func isVerified() -> Bool {
+        return (Auth.auth().currentUser?.isEmailVerified ?? false)
     }
     
+    func confirmEmail(){
+        Auth.auth().currentUser?.sendEmailVerification(completion: { err in
+            guard let error = err else{ return }
+            print(error.localizedDescription)
+        })
+    }
+    
+    func resetPassword(email: String){
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+          // ...
+        }
+    }
 }

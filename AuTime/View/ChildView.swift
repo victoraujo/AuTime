@@ -16,7 +16,7 @@ struct ChildView: View {
     @ObservedObject var childImageManager = ImageViewModel()
     @ObservedObject var env: AppEnvironment
     
-    @State var childPhoto: UIImage = UIImage()
+    @State var childPhoto: UIImage = UIImage(named: "PlaceholderImage.png") ?? UIImage()
     @State var IconImage: Image = Image("")
     @State var visualization: ChildViewMode = .day
     @State var currentActivityReference: Activity? = nil
@@ -218,7 +218,7 @@ struct ChildView: View {
                     childImageName += "-child.png"
                     let childPath = "users/\(email)/Profile/\(childImageName)"
                     self.childImageManager.downloadImage(from: childPath, {
-                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage(named: "PlaceholderImage.png") ?? UIImage()
                     })
                 }
             }
@@ -242,7 +242,7 @@ struct ChildView: View {
                     childImageName += "-child.png"
                     let childPath = "users/\(email)/Profile/\(childImageName)"
                     self.childImageManager.downloadImage(from: childPath) {
-                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage(named: "PlaceholderImage.png") ?? UIImage()
                     }
                 }
             })

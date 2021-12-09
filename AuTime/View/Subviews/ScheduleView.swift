@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ScheduleView: View {
     @ObservedObject var activitiesManager = ActivityViewModel.shared
+    @ObservedObject var profileManager = ProfileViewModel.shared
     @ObservedObject var env: AppEnvironment
     @State var currentActivity: Int = 0
     @State var visualization: ScheduleViewMode = .today
@@ -34,7 +35,7 @@ struct ScheduleView: View {
             }
             
         }
-        .navigationTitle("Cronograma de \(env.childName)")
+        .navigationTitle("Cronograma de \(profileManager.getChildName())")
         .toolbar {
             ToolbarItem(placement: .automatic) {
                 Button("Adicionar Atividade") {

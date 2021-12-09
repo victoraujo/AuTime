@@ -12,8 +12,9 @@ struct RootView: View {
     @ObservedObject var userManager = UserViewModel.shared
     
     var body: some View {
-        if !userManager.isLogged() {
-            SignUpView(env: env)
+        
+        if !userManager.isVerified() {
+            SignView().ignoresSafeArea()
         } else if env.profile == .child {
             ChildView(env: env)
         } else {

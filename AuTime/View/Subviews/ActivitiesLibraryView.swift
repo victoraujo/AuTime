@@ -19,30 +19,53 @@ struct ActivitiesLibraryView: View {
         GeometryReader{ geometry in
             VStack{
                 SearchBar(text: .constant(""))
+                
+                HStack{
+                    Text("Todas Atividades")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding([.top,.leading])
+                    Spacer()
+                }
+                
                 ScrollView(.vertical, showsIndicators: false){
-                    HStack{
-                        Text("Todas Atividades")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .padding([.top,.leading])
-                        Spacer()
-                    }
-                    ScrollView(.horizontal, showsIndicators: false){
-                        HStack{
-                            ForEach(activitiesVM.activities.sorted(by: { $0.name.uppercased() < $1.name.uppercased() })){ activity in
-                                VStack(alignment: .leading){
-                                    ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.3, height: geometry.size.height*0.3, alignment: . center)
-                                    Text(activity.category)
-                                        .foregroundColor(.gray)
-                                    Text(activity.name)
-                                        .font(.title3)
-                                    Text("\(activity.stepsCount) passos")
-                                        .foregroundColor(.gray)
-                                }
-                                .padding()
+                    if activities.count == 0 {
+                        HStack {
+                            Spacer()
+                            VStack (alignment: .center){
+                                Text("Nenhuma Atividade")
+                                    .font(.title2)
+                                    .bold()
+                                    .padding()
+                                
+                                Text("Você ainda não adicionou nenhuma atividade a sua biblioteca.")
+                                    .font(.subheadline)
+                                    .foregroundColor(.black90Color)
+                                
                             }
+                            .frame(alignment: .center)
+                            
+                            Spacer()
                         }
-                    }.padding(.bottom)
+                        .frame(idealWidth: geometry.size.width, minHeight: geometry.size.height*0.2)
+                    } else {
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack{
+                                ForEach(activitiesVM.activities.sorted(by: { $0.name.uppercased() < $1.name.uppercased() })){ activity in
+                                    VStack(alignment: .leading){
+                                        ActivityImageView(name: activity.name).frame(width: geometry.size.width*0.3, height: geometry.size.height*0.3, alignment: . center)
+                                        Text(activity.category)
+                                            .foregroundColor(.gray)
+                                        Text(activity.name)
+                                            .font(.title3)
+                                        Text("\(activity.stepsCount) passos")
+                                            .foregroundColor(.gray)
+                                    }
+                                    .padding()
+                                }
+                            }
+                        }.padding(.bottom)
+                    }
                     
                     ForEach(env.categories, id: \.self){ category in
                         HStack{
@@ -52,30 +75,29 @@ struct ActivitiesLibraryView: View {
                                 .padding([.top,.leading])
                             Spacer()
                         }
-                        ScrollView(.horizontal, showsIndicators: false){
-                            let filtered = activitiesVM.activities.filter{ $0.category.elementsEqual(category)}
-                            
-                            if filtered.count == 0 {
-                                HStack {
-                                    Spacer()
-                                    VStack (alignment: .center){
-                                        Text("Nenhuma Atividade")
-                                            .font(.title2)
-                                            .bold()
-                                            .padding()
-                                        
-                                        Text("Você ainda não adicionou nenhuma atividade a esta categoria.")
-                                            .font(.subheadline)
-                                            .foregroundColor(.black90Color)
-                                        
-                                    }
-                                    .frame(alignment: .center)
+                        let filtered = activitiesVM.activities.filter{ $0.category.elementsEqual(category)}
+                        
+                        if filtered.count == 0 {
+                            HStack {
+                                Spacer()
+                                VStack (alignment: .center){
+                                    Text("Nenhuma Atividade")
+                                        .font(.title2)
+                                        .bold()
+                                        .padding()
                                     
-                                    Spacer()
+                                    Text("Você ainda não adicionou nenhuma atividade a esta categoria.")
+                                        .font(.subheadline)
+                                        .foregroundColor(.black90Color)
+                                    
                                 }
-                                .frame(idealWidth: geometry.size.width, minHeight: geometry.size.height*0.2)
-                            } else {
+                                .frame(alignment: .center)
                                 
+                                Spacer()
+                            }
+                            .frame(idealWidth: geometry.size.width, minHeight: geometry.size.height*0.2)
+                        } else {
+                            ScrollView(.horizontal, showsIndicators: false){
                                 HStack{
                                     ForEach(filtered){ activity in
                                         VStack(alignment: .leading){
@@ -89,10 +111,9 @@ struct ActivitiesLibraryView: View {
                                     }
                                 }
                             }
-                            
-                            
-                        }.padding(.bottom)
+                        }
                     }
+                    .padding(.bottom)
                     
                     Spacer()
                 }
