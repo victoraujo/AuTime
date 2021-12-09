@@ -55,7 +55,7 @@ struct SignInView: View {
                                 .background(RoundedRectangle(cornerRadius: 9))
                                 .foregroundColor(.black76Color)
                                 .padding(.top)
-                            SecureField("Password", text: $password)
+                            SecureField("Senha", text: $password)
                                 .foregroundColor(.black06Color)
                                 .padding()
                                 .font(Font.system(size: 17, weight: .medium, design: .rounded))

@@ -36,6 +36,7 @@ struct SignView: View {
                         }
                         if showForgotPassword {
                             ForgotPasswordView(showThisView: $showForgotPassword, showSignInView: $showSignIn)
+                                .cornerRadius(22)
                         }
                             
                         Spacer(minLength: geometry.size.width * 0.0625)

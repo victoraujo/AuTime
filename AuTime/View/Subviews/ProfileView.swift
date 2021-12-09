@@ -15,8 +15,8 @@ struct ProfileView: View {
     @ObservedObject var parentImageManager: ImageViewModel = ImageViewModel()
     @ObservedObject var childImageManager: ImageViewModel = ImageViewModel()
     
-    @State var parentPhoto: UIImage = UIImage()
-    @State var childPhoto: UIImage = UIImage()
+    @State var parentPhoto: UIImage = UIImage(named: "PlaceholderImage.png") ?? UIImage()
+    @State var childPhoto: UIImage = UIImage(named: "PlaceholderImage.png") ?? UIImage()
     @State var pickerPhoto: UIImage = UIImage()
     @State var photoToPicker: String = ""
     
@@ -347,14 +347,14 @@ struct ProfileView: View {
                 childImageName += "-child.png"
                 let childPath = "users/\(email)/Profile/\(childImageName)"
                 self.childImageManager.downloadImage(from: childPath, {
-                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage(named: "PlaceholderImage.png") ?? UIImage()
                 })
                 
                 var parentImageName: String = "\(profileManager.profileInfo.lastUpdateParentPhoto)"
                 parentImageName += "-parent.png"
                 let parentPath = "users/\(email)/Profile/\(parentImageName)"
                 self.parentImageManager.downloadImage(from: parentPath) {
-                    self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
+                    self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage(named: "PlaceholderImage.png") ?? UIImage()
                 }
             }
             
@@ -366,14 +366,14 @@ struct ProfileView: View {
                     childImageName += "-child.png"
                     let childPath = "users/\(email)/Profile/\(childImageName)"
                     self.childImageManager.downloadImage(from: childPath) {
-                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                        self.childPhoto = self.childImageManager.imageView.image ?? UIImage(named: "PlaceholderImage.png") ?? UIImage()
                     }
                     
                     var parentImageName: String = "\(profileManager.profileInfo.lastUpdateParentPhoto)"
                     parentImageName += "-parent.png"
                     let parentPath = "users/\(email)/Profile/\(parentImageName)"
                     self.parentImageManager.downloadImage(from: parentPath) {
-                        self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
+                        self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage(named: "PlaceholderImage.png") ?? UIImage()
                     }
                     
                     
@@ -389,14 +389,14 @@ struct ProfileView: View {
                 childImageName += "-child.png"
                 let childPath = "users/\(email)/Profile/\(childImageName)"
                 self.childImageManager.downloadImage(from: childPath) {
-                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage()
+                    self.childPhoto = self.childImageManager.imageView.image ?? UIImage(named: "PlaceholderImage.png") ?? UIImage()
                 }
                 
                 var parentImageName: String = "\(profileManager.profileInfo.lastUpdateParentPhoto)"
                 parentImageName += "-parent.png"
                 let parentPath = "users/\(email)/Profile/\(parentImageName)"
                 self.parentImageManager.downloadImage(from: parentPath) {
-                    self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage()
+                    self.parentPhoto = self.parentImageManager.imageView.image ?? UIImage(named: "PlaceholderImage.png") ?? UIImage()
                 }
             }
         })

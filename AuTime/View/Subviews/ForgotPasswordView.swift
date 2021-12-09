@@ -55,7 +55,7 @@ struct ForgotPasswordView: View {
                                         userManager.resetPassword(email: email)
                                     }
                                 }, label: {
-                                    Text("Recuperar senha")
+                                    Text("Recuperar Senha")
                                         .font(Font.system(size:20, design: .rounded))
                                         .fontWeight(.bold)
                                         .frame(maxWidth: geometry.size.width * 0.838)

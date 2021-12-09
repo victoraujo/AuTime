@@ -68,7 +68,7 @@ class UserViewModel: ObservableObject {
         Auth.auth().signIn(withEmail: email, password: password, completion: { (result, error) in
             if let error = error {
                 print(error.localizedDescription)
-            } else{
+            } else{                
                 self.logged = true
             }
             completion()
@@ -89,7 +89,9 @@ class UserViewModel: ObservableObject {
             self.db.collection("users").document(session.email!).setData([
                 "emails": [session.email!],
                 "parentName": parentName,
-                "childName": childName
+                "childName": childName,
+                "lastUpdateChildPhoto": 0,
+                "lastUpdateParentPhoto": 0
             ])
         }
     }

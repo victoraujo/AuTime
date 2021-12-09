@@ -22,17 +22,44 @@ struct WeekActivitiesView: View {
                             .padding(.vertical)
                             .foregroundColor(.black100Color)
                         
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack (alignment: .center, spacing: 0.025*geometry.size.width){
-                                ForEach(self.activitiesManager.weekActivities[DateHelper.dayWeekIndex(offset: dayCount)], id: \.self) { activity in
-                                    ActivityWeekView(name: activity.name)
-                                        .frame(width: 0.2*geometry.size.width, height: 0.32*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                        .padding(.bottom)
+                        let activitiesDay = self.activitiesManager.weekActivities[DateHelper.dayWeekIndex(offset: dayCount)]
+                        
+                        if activitiesDay.count == 0 {
+                            VStack {
+                                Spacer()
+                                HStack {
+                                    Spacer()
+                                    VStack (alignment: .center){
+                                        Text("Nenhuma Atividade")
+                                            .font(.title2)
+                                            .bold()
+                                            .padding()
+                                        
+                                        Text("O seu responsável ainda não adicionou nenhuma atividade para este dia.")
+                                            .font(.subheadline)
+                                            .foregroundColor(.black90Color)
+                                        
+                                    }
+                                    .frame(alignment: .center)
                                     
+                                    Spacer()
+                                }
+                                .frame(idealWidth: geometry.size.width, minHeight: geometry.size.height*0.2)
+                                Spacer()
+                            }
+                        } else {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack (alignment: .center, spacing: 0.025*geometry.size.width){
+                                    ForEach(activitiesDay, id: \.self) { activity in
+                                        ActivityWeekView(name: activity.name)
+                                            .frame(width: 0.2*geometry.size.width, height: 0.32*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                            .padding(.bottom)
+                                        
+                                    }
                                 }
                             }
+                            .padding([.vertical, .leading])
                         }
-                        .padding([.vertical, .leading])
                     }
                 }
             }
@@ -76,7 +103,7 @@ struct ActivityWeekView: View {
                     .padding()
                     .frame(width: geometry.size.width, height: 0.3*geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .padding(.top)
-
+                
             }
             .clipShape(RoundedRectangle(cornerRadius: 21))
             .background(Rectangle().fill(Color.white).cornerRadius(21).shadow(color: .black90Color, radius: 5, x: 0, y: 6))

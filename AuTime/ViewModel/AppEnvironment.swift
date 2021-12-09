@@ -13,7 +13,7 @@ class AppEnvironment: ObservableObject {
     }
     
     @Published var profile: ProfileType = .child
-    @Published var showSubActivities: Bool = false
+    @Published var isShowingSubActivities: Bool = false
     @Published var isShowingChangeProfile: Bool = false
     @Published var isShowingProfileSettings: Bool = false
     

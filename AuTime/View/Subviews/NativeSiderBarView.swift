@@ -21,7 +21,7 @@ struct NativeSideBarView: View {
         
         List {
             NavigationLink(destination: ScheduleView(_env: _env), label: {
-                Label("Cronograma de \(env.childName)", systemImage: "calendar")
+                Label("Cronograma de \(profileManager.getChildName())", systemImage: "calendar")
             })
             
             Section(header: Text("Atividades"), content: {
