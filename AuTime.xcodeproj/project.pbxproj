@@ -49,6 +49,7 @@
 		5779035926A5B4E300D856BD /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5779035726A5B4E300D856BD /* ActivityViewModel.swift */; };
 		5779035C26A5B6A200D856BD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5779035B26A5B6A200D856BD /* GoogleService-Info.plist */; };
 		577CCA7926BABA45006B7A9C /* CreateActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577CCA7826BABA45006B7A9C /* CreateActivityView.swift */; };
+		579134B9276220310069A3D7 /* KeyboardGuardian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579134B8276220310069A3D7 /* KeyboardGuardian.swift */; };
 		57A2F2F726AAEC12000A75AD /* SubActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2F2F626AAEC12000A75AD /* SubActivity.swift */; };
 		57A2F2F926AAECFD000A75AD /* SubActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2F2F826AAECFD000A75AD /* SubActivityViewModel.swift */; };
 		57A2F2FB26AAEF7B000A75AD /* SubActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2F2FA26AAEF7B000A75AD /* SubActivitiesView.swift */; };
@@ -104,6 +105,7 @@
 		5779035726A5B4E300D856BD /* ActivityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
 		5779035B26A5B6A200D856BD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		577CCA7826BABA45006B7A9C /* CreateActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityView.swift; sourceTree = "<group>"; };
+		579134B8276220310069A3D7 /* KeyboardGuardian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardGuardian.swift; sourceTree = "<group>"; };
 		57A2F2F626AAEC12000A75AD /* SubActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubActivity.swift; sourceTree = "<group>"; };
 		57A2F2F826AAECFD000A75AD /* SubActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubActivityViewModel.swift; sourceTree = "<group>"; };
 		57A2F2FA26AAEF7B000A75AD /* SubActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubActivitiesView.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				3E3CFC4826A6F69A007C2646 /* ColorExtension.swift */,
 				3E3CFC4A26A70000007C2646 /* CornerRadiusExtension.swift */,
 				574E7E42275A8E8100025377 /* StringsExtension.swift */,
+				579134B8276220310069A3D7 /* KeyboardGuardian.swift */,
 				3E070DC826BF3C6600A0AA6C /* BlurEffect.swift */,
 			);
 			path = Extensions;
@@ -430,6 +433,7 @@
 				57EA9D6926AEF75300439615 /* ImageViewModel.swift in Sources */,
 				3E3CFC4626A6F0C5007C2646 /* ChildView.swift in Sources */,
 				3E19547526B8374E0036B1FC /* ScheduleView.swift in Sources */,
+				579134B9276220310069A3D7 /* KeyboardGuardian.swift in Sources */,
 				57423BD5273AAA33007D5C75 /* PremiumViewModel.swift in Sources */,
 				57687207275E53AD003435CC /* ForgotPasswordView.swift in Sources */,
 				3EE441BD2747DB88003E6305 /* ActivitiesByCategory.swift in Sources */,

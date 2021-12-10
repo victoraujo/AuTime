@@ -10,6 +10,7 @@ import Firebase
 
 struct SignUpView: View {
     @ObservedObject var userManager = UserViewModel.shared
+    @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 4)
     @State var email = ""
     @State var password = ""
     @State var parentName = ""
@@ -20,7 +21,6 @@ struct SignUpView: View {
     @State private var showRegisterAlert = false
     @Binding var showThisView: Bool
     @Binding var showSignInView: Bool
-
     init(showThisView: Binding<Bool>, showSignInView: Binding<Bool>){
         self._showThisView = showThisView
         self._showSignInView = showSignInView
@@ -41,22 +41,24 @@ struct SignUpView: View {
                                 .padding([.top, .trailing])
                             Text("Faça seu cadastro para começar")
                                 .foregroundColor(.black74Color)
-                            TextField("Nome do Responsável", text: $parentName)
+                            TextField("Nome do Responsável", text: $parentName, onEditingChanged: { if $0 { self.kGuardian.showField = 0 } })
                             //                                    .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .foregroundColor(.black06Color)
                                 .padding()
                                 .font(Font.system(size: 17, weight: .medium, design: .rounded))
                                 .background(RoundedRectangle(cornerRadius: 9))
                                 .foregroundColor(.black76Color)
+                                .background(GeometryGetter(rect: $kGuardian.rects[0]))
                             //                                    .background(Color.black74Color)
                                 .padding(.top)
-                            TextField("Nome da Criança", text: $childName)
+                            TextField("Nome da Criança", text: $childName, onEditingChanged: { if $0 { self.kGuardian.showField = 1 } })
                                 .foregroundColor(.black06Color)
                                 .padding()
                                 .font(Font.system(size: 17, weight: .medium, design: .rounded))
                                 .background(RoundedRectangle(cornerRadius: 9))
                                 .foregroundColor(.black76Color)
-                            TextField("Email", text: $email)
+                                .background(GeometryGetter(rect: $kGuardian.rects[1]))
+                            TextField("Email", text: $email, onEditingChanged: { if $0 { self.kGuardian.showField = 2 } })
                                 .autocapitalization(.none)
                                 .textContentType(.emailAddress)
                                 .keyboardType(.emailAddress)
@@ -65,6 +67,7 @@ struct SignUpView: View {
                                 .font(Font.system(size: 17, weight: .medium, design: .rounded))
                                 .background(RoundedRectangle(cornerRadius: 9))
                                 .foregroundColor(.black76Color)
+                                .background(GeometryGetter(rect: $kGuardian.rects[2]))
                             SecureField("Senha", text: $password)
                                 .foregroundColor(.black06Color)
                                 .padding()
@@ -72,6 +75,8 @@ struct SignUpView: View {
                                 .background(RoundedRectangle(cornerRadius: 9))
                                 .foregroundColor(.black76Color)
                                 .padding(.bottom)
+                                .background(GeometryGetter(rect: $kGuardian.rects[3]))
+                                .onTapGesture(perform: {self.kGuardian.showField = 3})
                             HStack(alignment: .center){
                                 //Spacer()
                                 Button(action: {
@@ -122,8 +127,10 @@ struct SignUpView: View {
                         }
                     }
                     .frame(width: geometry.size.width * 0.838, height: geometry.size.height * 0.85, alignment: .leading)
+                    .offset(y: kGuardian.slide)
                     Spacer(minLength: geometry.size.width * 0.081)
-                }
+                }.onAppear { self.kGuardian.addObserver() }
+                .onDisappear { self.kGuardian.removeObserver() }
                 Spacer(minLength: geometry.size.height * 0.058)
             }
         }.background(Color.white)

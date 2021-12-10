@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ForgotPasswordView: View {
     @ObservedObject var userManager = UserViewModel.shared
+    @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 1)
     @State var email = ""
     @State var error = ""
     @State var showAlert = false
@@ -37,7 +38,7 @@ struct ForgotPasswordView: View {
                                 .foregroundColor(.black74Color)
                                 .padding(.top)
                             Spacer()
-                            TextField("Email", text: $email)
+                            TextField("Email", text: $email, onEditingChanged: { if $0 { self.kGuardian.showField = 0 } })
                                 .autocapitalization(.none)
                                 .textContentType(.emailAddress)
                                 .keyboardType(.emailAddress)
@@ -47,6 +48,7 @@ struct ForgotPasswordView: View {
                                 .background(RoundedRectangle(cornerRadius: 9))
                                 .foregroundColor(.black76Color)
                                 .padding(.bottom)
+                                .background(GeometryGetter(rect: $kGuardian.rects[0]))
               
                             HStack(alignment: .center){
                                 Button(action: {
@@ -81,11 +83,14 @@ struct ForgotPasswordView: View {
                             }
                         }
                     }
+                    .offset(y: kGuardian.slide)
                     .frame(width: geometry.size.width * 0.838, height: geometry.size.height * 0.85, alignment: .leading)
                     Spacer(minLength: geometry.size.width * 0.081)
                 }
                 Spacer(minLength: geometry.size.height * 0.058)
             }
+            .onAppear { self.kGuardian.addObserver() }
+            .onDisappear { self.kGuardian.removeObserver() }
         }.background(Color.white)
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Tudo certo!"), message: Text("Enviamos um email para\"\(email)\" com sua nova senha"), dismissButton: .default(Text("Fazer login"), action: {
