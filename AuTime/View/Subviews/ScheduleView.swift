@@ -21,10 +21,12 @@ struct ScheduleView: View {
     @State var selectedActivityName: String = ""
     @State var selectedActivity: Activity = Activity()
     @State var activityTime: Date = Date()
-    @State var activityRepeatDays: [Int] = [1,2,3,4,5,6,7]
+    @State var activityRepeatDays: [Int] = []
     
-    @State var showAlert: Bool = false    
+    @State var showAlert: Bool = false
     @State var alertType: AlertType = .none
+    
+    let weekDays = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
     
     public enum ScheduleViewMode: Int {
         case today, week
@@ -47,6 +49,33 @@ struct ScheduleView: View {
         }
         
         return true
+    }
+    
+    func shortWeekDaysName() -> String {
+        var ret = ""
+        
+        activityRepeatDays.sort()
+        
+        if activityRepeatDays == [1, 7] {
+            return "Fim de Semana"
+        }
+        
+        if activityRepeatDays == [2,3,4,5,6] {
+            return "Dias Úteis"
+        }
+        
+        if activityRepeatDays == [1,2,3,4,5,6,7] {
+            return "Todos os Dias"
+        }
+        
+        for i in 0...6 {
+            if activityRepeatDays.contains(i+1) {
+                let day = weekDays[i].prefix(3)
+                ret += day + " "
+            }
+        }
+        
+        return ret
     }
     
     var body: some View {
@@ -170,7 +199,7 @@ struct ScheduleView: View {
                                 Text(selectedActivity.name)
                                     .foregroundColor(.gray)
                             })
-                            .disabled(selectedCategory == "")
+                                .disabled(selectedCategory == "")
                             
                         }
                         
@@ -182,6 +211,47 @@ struct ScheduleView: View {
                                     .labelsHidden()
                                     .environment(\.locale, Locale.init(identifier: "pt-BR"))
                             }
+                            
+                            NavigationLink(destination: {
+                                List {
+                                    let _ = print("repeat: \(activityRepeatDays)")
+                                    
+                                    ForEach(Array(weekDays.enumerated()), id: \.offset) { index, day in
+                                        HStack {
+                                            Text(day)
+                                            Spacer()
+                                            Image(systemName: "checkmark")
+                                                .opacity(activityRepeatDays.contains(index + 1) ? 1 : 0)
+                                                .foregroundColor(env.parentColorTheme)
+                                        }
+                                        .background(Color.white)
+                                        .onTapGesture(perform: {
+                                            if activityRepeatDays.contains(index + 1) {
+                                                activityRepeatDays.removeAll(where: {$0 == index + 1})
+                                            } else {
+                                                activityRepeatDays.append(index + 1)
+                                            }
+                                        })
+                                    }
+                                }
+                                .listStyle(.insetGrouped)
+                                
+                                .toolbar {
+                                    ToolbarItem(placement: .principal) {
+                                        Text("Repetição da Atividade")
+                                            .font(.title2)
+                                            .bold()
+                                    }
+                                }
+                            }, label: {
+                                HStack {
+                                    Text("Repetição")
+                                    Spacer()
+                                    Text(shortWeekDaysName())
+                                        .foregroundColor(.gray)
+                                }
+                            })
+                            
                         }
                     }
                     .toolbar {
@@ -237,7 +307,7 @@ struct ScheduleView: View {
                     }
                     
                     return Alert(title: Text("Erro"), message: Text("Erro."), dismissButton: .default(Text("OK")))
-                                        
+                    
                 }
             }
             
