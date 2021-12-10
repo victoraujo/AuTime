@@ -10,6 +10,7 @@ import SwiftUI
 struct SignInView: View {
     
     @ObservedObject var userManager = UserViewModel.shared
+    @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 2)
     @State var email = ""
     @State var password = ""
     @State var parentName = ""
@@ -45,7 +46,7 @@ struct SignInView: View {
                             Text("Faça seu login para começar")
                                 .foregroundColor(.black74Color)
                                 .padding(.bottom)
-                            TextField("Email", text: $email)
+                            TextField("Email", text: $email, onEditingChanged: { if $0 { self.kGuardian.showField = 0 } })
                                 .autocapitalization(.none)
                                 .textContentType(.emailAddress)
                                 .keyboardType(.emailAddress)
@@ -55,6 +56,7 @@ struct SignInView: View {
                                 .background(RoundedRectangle(cornerRadius: 9))
                                 .foregroundColor(.black76Color)
                                 .padding(.top)
+                                .background(GeometryGetter(rect: $kGuardian.rects[0]))
                             SecureField("Senha", text: $password)
                                 .foregroundColor(.black06Color)
                                 .padding()
@@ -62,6 +64,8 @@ struct SignInView: View {
                                 .background(RoundedRectangle(cornerRadius: 9))
                                 .foregroundColor(.black76Color)
                                 .padding(.bottom)
+                                .background(GeometryGetter(rect: $kGuardian.rects[1]))
+                                .onTapGesture(perform: {self.kGuardian.showField = 1})
                             HStack{
                                 Spacer()
                                 Button(action: {
@@ -115,11 +119,14 @@ struct SignInView: View {
                             }
                         }
                     }
+                    .offset(y: kGuardian.slide)
                     .frame(width: geometry.size.width * 0.838, height: geometry.size.height * 0.85, alignment: .leading)
                     Spacer(minLength: geometry.size.width * 0.081)
                 }
                 Spacer(minLength: geometry.size.height * 0.058)
             }
+            .onAppear { self.kGuardian.addObserver() }
+            .onDisappear { self.kGuardian.removeObserver() }
         }.background(Color.white)
             .alert(isPresented: $showAlert) {
                 if(showConfirmAlert){
