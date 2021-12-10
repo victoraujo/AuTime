@@ -12,7 +12,7 @@ class AppEnvironment: ObservableObject {
         case child, parent
     }
     
-    @Published var profile: ProfileType = .child
+    @Published var profile: ProfileType = .parent
     @Published var isShowingSubActivities: Bool = false
     @Published var isShowingChangeProfile: Bool = false
     @Published var isShowingProfileSettings: Bool = false

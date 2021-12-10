@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyScheduleView: View {
-    @ObservedObject var activitiesManager: ActivityViewModel = ActivityViewModel.shared
+    @ObservedObject var activitiesManager: ActivityViewModel = ActivityViewModel()
     @ObservedObject var env: AppEnvironment
     
     var body: some View {

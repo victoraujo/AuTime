@@ -13,4 +13,5 @@ public enum AlertType {
     case deleteAccount
     case confirmDeleteAccount
     case accessPhotosDenied
+    case activityNotFound
 }

@@ -112,4 +112,8 @@ class UserViewModel: ObservableObject {
           // ...
         }
     }
+    
+    func changePassword(to password: String) {
+        
+    }
 }

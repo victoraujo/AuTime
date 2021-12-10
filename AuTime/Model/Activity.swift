@@ -38,6 +38,28 @@ struct Activity: Identifiable, Codable, Hashable {
     var time: Date
     var stepsCount: Int
     
+    init() {
+        category = ""
+        completions = []
+        generateStar = false
+        name = ""
+        repeatDays = []
+        time = Date(timeIntervalSince1970: 0)
+        stepsCount = 0
+    }
+    
+    init(id: String? = nil, category: String, completions: [Completion], generateStar: Bool, name: String, repeatDays: [Int], time: Date, stepsCount: Int) {        
+        self.id = id
+        self.category = category
+        self.completions = completions
+        self.generateStar = generateStar
+        self.name = name
+        self.repeatDays = repeatDays
+        self.time = time
+        self.stepsCount = stepsCount
+        
+    }
+    
     func lastCompletionDate() -> Date {
         if completions.isEmpty {
             return Date(timeIntervalSince1970: 0)
