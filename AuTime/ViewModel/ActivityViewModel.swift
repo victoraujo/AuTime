@@ -156,7 +156,8 @@ class ActivityViewModel: ObservableObject {
             }
         }
         let todayIndex = getDayOfWeek(Date()) - 1
-        self.todayActivities = self.weekActivities[todayIndex]
+        self.todayActivities = self.weekActivities[todayIndex]        
+        self.objectWillChange.send()
     }
     
     /// Clear activities from local class
