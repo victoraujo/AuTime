@@ -9,14 +9,14 @@ import SwiftUI
 import Firebase
 
 class ActivityViewModel: ObservableObject {
+    public static var shared = ActivityViewModel()
+    
     @ObservedObject var imageManager = ImageViewModel()
     @ObservedObject var userManager = UserViewModel.shared
     
     @Published var activities = [Activity]()
     @Published var todayActivities = [Activity]()
     @Published var weekActivities: [[Activity]] = [[], [], [], [], [], [], []]
-    
-    static var shared = ActivityViewModel()
     
     var db = Firestore.firestore()
     var user = Auth.auth().currentUser
@@ -126,7 +126,7 @@ class ActivityViewModel: ObservableObject {
             let newElement = ["date": completedTime, "feedback": feedback]
             newCompletions.append(newElement)
             
-            updateActivity(activityId: activityId, fields: ["completions": newCompletions])
+            updateActivity(activityId: activityId, fields: ["completions": newCompletions]) {}
             return
         }
         print("Error on get activityId of \(activity.name) on update activity.")
@@ -134,10 +134,11 @@ class ActivityViewModel: ObservableObject {
         
     }
     
-    func updateActivity(activityId: String, fields: [String: Any]) {
+    func updateActivity(activityId: String, fields: [String: Any], completion: @escaping () -> Void) {
         if let docId = self.userManager.session?.email {
             self.db.collection("users").document(docId).collection("activities").document(activityId).updateData(fields, completion: {_ in
                 print("Activity \(activityId) was updated!")
+                completion()
             })
             return
         }
@@ -155,7 +156,8 @@ class ActivityViewModel: ObservableObject {
             }
         }
         let todayIndex = getDayOfWeek(Date()) - 1
-        self.todayActivities = self.weekActivities[todayIndex]
+        self.todayActivities = self.weekActivities[todayIndex]        
+        self.objectWillChange.send()
     }
     
     /// Clear activities from local class

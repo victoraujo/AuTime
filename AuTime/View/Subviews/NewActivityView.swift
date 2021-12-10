@@ -34,8 +34,7 @@ struct NewActivity: View {
     func checkSubActivityFields() -> Bool {            
         if subActivityName == "" {
             return false
-        }
-        
+        }        
         if subActivityImage == UIImage(named: "PlaceholderImage.png") ?? UIImage() {
             return false
         }
@@ -47,11 +46,9 @@ struct NewActivity: View {
         if activityName == "" {
             return false
         }
-        
         if selectedCategory == "" {
             return false
         }
-        
         if activityImage == UIImage(named: "PlaceholderImage.png") ?? UIImage() {
             return false
         }
@@ -106,7 +103,6 @@ struct NewActivity: View {
                             .cornerRadius(8)
                         
                         Section {
-                            
                             Picker("Categoria", selection: $selectedCategory) {
                                 ForEach(env.categories, id: \.self) {
                                     Text($0)
@@ -368,8 +364,8 @@ struct NewActivity: View {
                                 ActivityViewModel.shared.createActivity(category: selectedCategory, completions: [], star: activityStar, name: activityName, days: [], steps: listSubactivities.count, time: Date(), image: activityImage) {
                                     ActivityViewModel.shared.fetchData()
                                     if let activity = ActivityViewModel.shared.activities.first(where: {$0.name == activityName}), let id = activity.id {
-                                        for i in 0...listSubactivities.count-1 {
-                                            let sub = listSubactivities[i]
+                                        
+                                        for (i, sub) in listSubactivities.enumerated() {
                                             let subManager = SubActivityViewModel()
                                             subManager.activityReference = id
                                             subManager.createSubActivity(name: sub.name, order: i, image: sub.image) {}

@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct DailyScheduleView: View {
-    @ObservedObject var activitiesManager: ActivityViewModel = ActivityViewModel.shared
+    @ObservedObject var activitiesManager: ActivityViewModel = ActivityViewModel()
     @ObservedObject var env: AppEnvironment
+    
+    @State var todayActivities: [Activity] = []
     
     var body: some View {
         GeometryReader { geometry in
-            let activities = self.activitiesManager.todayActivities
-            
-            if activities.count == 0 {
+            if todayActivities.count == 0 {
                 VStack {
                     Spacer()
                     HStack {
@@ -40,7 +40,7 @@ struct DailyScheduleView: View {
                 .frame(height: geometry.size.height)
             } else {
                 ScrollView(.vertical, showsIndicators: false) {                
-                    ForEach(activities, id: \.self) { activity in
+                    ForEach(todayActivities, id: \.self) { activity in
                         VStack {
                             DailyActivityView(activity: activity)
                                 .frame(width: geometry.size.width, height: geometry.size.width*0.425, alignment: .center)
@@ -51,5 +51,11 @@ struct DailyScheduleView: View {
                 }
             }
         }
+        .onAppear(perform: {
+            self.todayActivities = self.activitiesManager.todayActivities
+        })
+        .onChange(of: self.activitiesManager.todayActivities, perform: { activities in
+            self.todayActivities = activities            
+        })
     }
 }

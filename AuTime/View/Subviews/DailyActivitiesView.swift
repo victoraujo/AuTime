@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyActivitiesView: View {
-    @ObservedObject var activitiesManager = ActivityViewModel.shared
+    @ObservedObject var activitiesManager = ActivityViewModel()
     @ObservedObject var premiumManager = PremiumViewModel.shared
     @ObservedObject var env: AppEnvironment
     @State var todayActivities: [Activity] = []
@@ -98,18 +98,18 @@ struct DailyActivitiesView: View {
                     }
                 }
                 .frame(width: UIScreen.main.bounds.width, alignment: .center)
-                .onAppear {
-                    self.todayActivities = self.activitiesManager.todayActivities
-                    
-                    let index = self.todayActivities.firstIndex(where: { !DateHelper.datesMatch(Date(), $0.lastCompletionDate()) }) ?? self.todayActivities.count - 1
-                    self.currentActivity = index + 1
-                }
-                .onChange(of: self.activitiesManager.todayActivities, perform: { _ in
-                    self.todayActivities = self.activitiesManager.todayActivities
-                    let index = self.todayActivities.firstIndex(where: { !DateHelper.datesMatch(Date(), $0.lastCompletionDate()) }) ?? self.todayActivities.count - 1
-                    self.currentActivity = index + 1
-                })
             }
         }
+        .onAppear {
+            self.todayActivities = self.activitiesManager.todayActivities
+                                    
+            let index = self.todayActivities.firstIndex(where: { !DateHelper.datesMatch(Date(), $0.lastCompletionDate()) }) ?? self.todayActivities.count - 1
+            self.currentActivity = index + 1
+        }
+        .onChange(of: self.activitiesManager.todayActivities, perform: { _ in
+            self.todayActivities = self.activitiesManager.todayActivities
+            let index = self.todayActivities.firstIndex(where: { !DateHelper.datesMatch(Date(), $0.lastCompletionDate()) }) ?? self.todayActivities.count - 1
+            self.currentActivity = index + 1
+        })
     }
 }

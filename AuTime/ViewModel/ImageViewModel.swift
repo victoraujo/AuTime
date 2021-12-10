@@ -48,7 +48,7 @@ class ImageViewModel: ObservableObject{
             
             self.imageView.sd_setImage(with: photoRef, placeholderImage: UIImage(named: "PlaceholderImage.png") ?? UIImage(), completion: { _ , error , _ , _ in
                 if let error = error {
-                    print(error.localizedDescription)
+                    print("Erro ao setar imagem \(filePath): \(error.localizedDescription)")
                 }
                 
                 self.objectWillChange.send()
