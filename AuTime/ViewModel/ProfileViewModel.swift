@@ -64,7 +64,7 @@ class ProfileViewModel: ObservableObject {
         fields["lastUpdateParentPhoto"] = self.profileInfo.lastUpdateParentPhoto
         fields["lastUpdateChildPhoto"] = self.profileInfo.lastUpdateChildPhoto
                 
-        if let docId = userManager.session?.email {
+        if let docId = userManager.session?.uid {
             if let parentName = parentName {
                 fields["parentName"] = parentName
             }

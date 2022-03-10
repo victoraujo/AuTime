@@ -22,7 +22,7 @@ class PremiumViewModel: ObservableObject {
     }
     
     func fetchPremium(){
-        if let docId = userManager.session?.email {
+        if let docId = userManager.session?.uid {
             db.collection("users").document(docId).collection("premium").document("premium").addSnapshotListener { snapshot, err in
                 guard let document = snapshot else {
                     return
@@ -37,7 +37,7 @@ class PremiumViewModel: ObservableObject {
     }
     
     private func setStarsTo(_ stars: Int){
-        if let docId = userManager.session?.email {
+        if let docId = userManager.session?.uid {
             db.collection("users").document(docId).collection("premium").document("premium").updateData(["count" : stars])
         }
     }

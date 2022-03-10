@@ -24,7 +24,7 @@ class SubActivityViewModel: ObservableObject {
             return
         }
         
-        if let docId = userManager.session?.email, let activityId = self.activityReference {
+        if let docId = userManager.session?.uid, let activityId = self.activityReference {
             
             do {
                 try image.pngData()?.write(to: imageURL)
@@ -50,7 +50,7 @@ class SubActivityViewModel: ObservableObject {
     
     
     func fetchData() {
-        if let docId = userManager.session?.email, let activityId = self.activityReference {
+        if let docId = userManager.session?.uid, let activityId = self.activityReference {
             print("email: \(docId); id: \(activityId)")
             
             db.collection("users").document(docId).collection("activities").document(activityId).collection("subactivities").order(by: "order").addSnapshotListener({(snapshot, error) in

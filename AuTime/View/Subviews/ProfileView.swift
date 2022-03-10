@@ -62,6 +62,7 @@ struct ProfileView: View {
                         VStack {
                             Image(uiImage: parentPhoto)
                                 .resizable()
+                                .aspectRatio(contentMode: .fill)
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
                                 .clipShape(Circle())
                                 .onTapGesture {
@@ -101,6 +102,7 @@ struct ProfileView: View {
                         VStack {
                             Image(uiImage: childPhoto)
                                 .resizable()
+                                .aspectRatio(contentMode: .fill)
                                 .frame(width: UIScreen.main.bounds.width*0.075, height: UIScreen.main.bounds.width*0.075, alignment: .center)
                                 .clipShape(Circle())
                                 .onTapGesture {

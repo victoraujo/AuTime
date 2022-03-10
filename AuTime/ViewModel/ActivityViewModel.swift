@@ -40,7 +40,7 @@ class ActivityViewModel: ObservableObject {
             return
         }
         
-        if let docId = userManager.session?.email {
+        if let docId = userManager.session?.uid {
             do {
                 try image.pngData()?.write(to: imageURL)
                 self.imageManager.uploadImage(urlFile: imageURL, filePath: "users/\(docId)/Activities/\(name.unaccent())", completion: {
@@ -74,7 +74,7 @@ class ActivityViewModel: ObservableObject {
     
     /// Fecth activities data from Firestore Database
     func fetchData() {
-        if let docId = userManager.session?.email {
+        if let docId = userManager.session?.uid {
             db.collection("users").document(docId).collection("activities").addSnapshotListener({(snapshot, error) in
                 guard let documents = snapshot?.documents else {
                     print("No docs returned")
@@ -135,7 +135,7 @@ class ActivityViewModel: ObservableObject {
     }
     
     func updateActivity(activityId: String, fields: [String: Any], completion: @escaping () -> Void) {
-        if let docId = self.userManager.session?.email {
+        if let docId = self.userManager.session?.uid {
             self.db.collection("users").document(docId).collection("activities").document(activityId).updateData(fields, completion: {_ in
                 print("Activity \(activityId) was updated!")
                 completion()
