@@ -40,7 +40,7 @@ class ProfileViewModel: ObservableObject {
     }
     
     func listen() {
-        if let docId = self.session?.email {
+        if let docId = self.session?.uid {
             db.collection("users").document(docId).addSnapshotListener { snapshot, err in
                 guard let document = snapshot else {
                     return
@@ -103,7 +103,7 @@ class ProfileViewModel: ObservableObject {
         do {
             if let email = userManager.session?.email {
                 try photo.pngData()?.write(to: imageURL)
-                let number = endpoint == "child" ? (self.profileInfo.lastUpdateChildPhoto + 1) : (self.profileInfo.lastUpdateParentPhoto + 1)
+                let number = endpoint == "child" ? (self.profileInfo.lastUpdateChildPhoto) : (self.profileInfo.lastUpdateParentPhoto)
                 let imageName = "\(number)" + "-" + endpoint + ".png"
                 ImageViewModel().uploadImage(urlFile: imageURL, filePath: "users/\(email)/Profile/\(imageName)") {
                     if endpoint == "child" {
@@ -111,7 +111,9 @@ class ProfileViewModel: ObservableObject {
                     } else {
                         self.updateProfile(lastUpdateParentPhoto: number)
                     }
-                    completion()
+                    ImageViewModel().clearImagesCache(key: "gs://autime-6f7db.appspot.com/users/\(email)/Profile/\(imageName)") {
+                        completion()
+                    }
                 }
             }
         } catch let error {
